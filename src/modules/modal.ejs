@@ -1,0 +1,56 @@
+<!-- モーダル -->
+<div class="modal js-modal_recipe">
+	<div class="modal-bg js-modal_recipe_close"></div>
+	<div class="modal-recipe_wrapper">
+		<div class="modal-recipe_content">
+			<div class="recipe_list">
+				<img class="recipe_list-image recipe_list-image--modal js-modal_image">
+				<div class="recipe_list-modal_content">
+					<p class="recipe_list-sub_title recipe_list-sub_title--modal js-modal_sub_title">今日のレシピ</p>
+					<p class="recipe_list-title recipe_list-title--modal js-modal_title"></p>
+					<div class="recipe_list-modal_note">
+						<p class="recipe_list-time js-modal_time"></p>
+						<p class="recipe_list-price recipe_list-price--modal js-modal_price"></p>
+					</div>
+					<p class="recipe_list-modal_discription js-modal_text"></p>
+					<table class="table_list">
+						<thead>
+							<tr><th>材料</th></tr>
+						</thead>
+						<tbody class="js-modal_material"></tbody>
+					</table>
+				</div>
+				<div class="modal_button">
+					<a href="" class="modal_button-item modal_button-item--rakuten js-modal_link" target="_blank">
+						楽天レシピで見る
+					</a>
+					<a href="javascript:void(0);" class="modal_button-item modal_button-item--close js-modal_recipe_close">
+						閉じる
+					</a>
+				</div>
+			</div>
+			
+			<span class="modal-close_button js-modal_recipe_close"></span>
+		</div>
+	</div>
+</div>
+
+<!-- メニュー -->
+<div class="modal js-modal_menu">
+	<div class="modal-bg js-modal_menu_close modal-bg--blank"></div>
+	<div class="modal-menu_wrapper">
+		<div class="modal_menu">
+			<ul class="modal_menu-list">
+				<li class="modal_menu-item">
+					<a href="<%= path %>/index.html" class="modal_menu-link modal_menu-link--top">トップ</a>
+				</li>
+				<li class="modal_menu-item">
+					<a href="<%= path %>/buy.html" class="modal_menu-link modal_menu-link--buy">お買い物リスト</a>
+					</li>
+				<li class="modal_menu-item">
+					<a href="<%= path %>/entry.html" class="modal_menu-link modal_menu-link--entry">レシピURL登録</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- /モーダル -->

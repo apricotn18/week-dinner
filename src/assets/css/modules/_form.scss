@@ -1,0 +1,84 @@
+@use 'variable.scss' as var;
+
+.form_text {
+	width: calc(100% - 18px);
+	padding: 5px 8px;
+	font-size: 1.2rem;
+	border: 1px solid #a79f9b;
+	border-radius: 3px;
+
+	&::-moz-placeholder {
+		opacity: .6;
+	}
+	
+	&:-ms-input-placeholder {
+		opacity: .6;
+	}
+	
+	&::placeholder {
+		opacity: .6;
+	}
+}
+
+.form_button {
+	width: 100%;
+	padding: 10px 0 8px;
+	color: var.$white-color;
+	background-color: var.$bg-color;
+	border: none;
+	border-radius: var.$radius;
+}
+
+.form_checkbox {
+	display: flex;
+
+	& > input {
+		display: inline-block;
+		appearance: none;
+		position: relative;
+		width: 20px;
+		height: 12px;
+		margin: 0;
+	}
+	
+	& > input:focus {
+		outline: 0;
+	}
+	
+	& > input::before {
+		display: inline-block;
+		position: absolute;
+		top: 1px;
+		left: 0;
+		content: "";
+		width: 12px;
+		height: 12px;
+		border: 1px solid var.$bg-color;
+		background-color: var.$white-color;
+		border-radius: 3px;
+		transform: translateY(-0.3px);
+	}
+	
+	& > input::after {
+		display: none;
+		position: absolute;
+		top: 1px;
+		left: 0;
+		content: "";
+		width: 12px;
+		height: 12px;
+		background-image: url(#{var.$img-path}/icon_check.png);
+		background-size: 9.5px 8px;
+		background-repeat: no-repeat;
+		background-position: 2px 3px;
+	}
+	
+	& > input:checked::after {
+		display: inline-block;
+	}
+	
+}
+
+.form_line_through:checked + label {
+	text-decoration: line-through;
+}

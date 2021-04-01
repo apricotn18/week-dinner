@@ -1,0 +1,157 @@
+@use 'variable.scss' as var;
+
+.modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: var.$modal-z-index;
+
+	&.is-active {
+		display: block;
+	}
+	
+	.modal-bg {
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, .6);
+		cursor: pointer;
+	}
+	
+	.modal-bg.modal-bg--blank {
+		background-color: inherit;
+		cursor: inherit;
+	}
+	
+	.modal-close_button {
+		position: absolute;
+		top: 7px;
+		right: 5px;
+		width: 36px;
+		height: 36px;
+		background-image: url(#{var.$img-path}/icon_close.png);
+		background-size: 30px;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+	
+	.modal-menu_wrapper {
+		position: fixed;
+		top: var.$header-height;
+		left: 0;
+		width: 100%;
+	}
+	
+	.modal-recipe_wrapper {
+		position: fixed;
+		top: 59px;
+		left: 50%;
+		width: calc(100% - 30px);
+		max-width: 400px;
+		height: calc(100vh - #{var.$header-height} - 30px);
+		transform: translateX(-50%);
+	}
+	
+	.modal-recipe_content {
+		width: 100%;
+		height: 100%;
+		overflow-x: hidden;
+		overflow-y: auto;
+		background-color: var.$white-color;
+		border-radius: var.$radius;
+	}
+}
+
+.modal_button {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	overflow: hidden;
+	width: 100%;
+	background-color: var.$white-color;
+	border-radius: 0 0 var.$radius var.$radius;
+
+	.modal_button-item {
+		display: block;
+		height: 40px;
+		width: 100%;
+		color: var.$white-color;
+		font-weight: bold;
+		line-height: 42px;
+	}
+
+	.modal_button-item {
+		&:first-child {
+			border-right: 1px solid var.$white-color;
+		}
+	
+		&.modal_button-item--rakuten {
+			background-color: var.$gray-color;
+		}
+	
+		&.modal_button-item--close {
+			background-color: var.$yellow-color;
+		}
+	}
+}
+
+
+.modal_menu {
+	background-color: var.$white-color;
+	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .4);
+	overflow: hidden;
+
+	.modal_menu-item {
+		border-bottom: 1px solid #eae5e2;
+
+		&:last-child {
+			border-bottom-color: #ccc;
+		}
+	}
+
+	.modal_menu-link {
+		position: relative;
+		display: block;
+		padding: 14px 10px 11px 46px;
+		text-align: left;
+
+		&::before {
+			position: absolute;
+			top: 10px;
+			display: inline-block;
+			height: 23px;
+			content: "";
+			background-image: url(#{var.$img-path}/icon_menu.png);
+			background-size: 63px 23px;
+			background-repeat: no-repeat;
+			vertical-align: baseline;
+		}
+	
+		&.modal_menu-link--top {
+			&::before {
+				left: 11px;
+				width: 29px;
+				background-position: -19px -1px;
+			}
+		}
+
+		&.modal_menu-link--buy {
+			&::before {
+				left: 16px;
+				width: 20px;
+				background-position: 0 0;
+			}
+		}
+
+		&.modal_menu-link--entry {
+			&::before {
+				left: 16px;
+				width: 19px;
+				background-position: -46px -1px;
+			}
+		}
+	}
+}

@@ -1,0 +1,18 @@
+@use 'variable.scss' as var;
+
+.entry_list {
+	padding-bottom: 3px;
+
+	.entry_list-item {
+		padding-bottom: 15px;
+	}
+
+	.entry_list-title {
+		display: block;
+		margin-bottom: 5px;
+		font-size: 1.1rem;
+		font-weight: bold;
+		color: var.$gray-color;
+		white-space: nowrap;
+	}
+}
