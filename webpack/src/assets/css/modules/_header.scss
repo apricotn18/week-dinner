@@ -1,0 +1,43 @@
+@use 'variable.scss' as var;
+
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: var.$header-height;
+	background-color: var.$yellow-color;
+	z-index: var.$header-z-index;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	.header-wrapper {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
+
+	.header-img {
+		display: inline-block;
+		width: 144px;
+		padding: 10px 10px 6px;
+	}
+
+	.header-menu_button {
+		position: absolute;
+		top: 50%;
+		right: 4px;
+		display: inline-block;
+		width: 36px;
+		height: 30px;
+		background-image: url(#{var.$img-path}/icon_hamburger.png);
+		background-size: 23px;
+		background-repeat: no-repeat;
+		background-position: center;
+		transform: translateY(-50%);
+	}
+}
