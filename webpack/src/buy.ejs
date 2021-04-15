@@ -1,0 +1,139 @@
+<% var path = '.' %>
+<!doctype html>
+<html>
+
+<head>
+	<title>お買い物リスト - week dinner</title>
+	<meta name="Description" content="">
+	<meta name="Keywords" content="">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=yes">
+	<link rel="shortcut icon" type="image/x-icon" href="<%= path %>/assets/img/favicon.ico">
+</head>
+
+<body>
+	<%- include('./modules/header.ejs', {path}) %>
+
+	<section class="wrapper">
+		<div class="contents">
+			<div class="contents-wrapper">
+				<form action="" method="">
+					<div class="contents-head">
+						<h2 class="contents-title">お買い物リスト</h2>
+						<a href="javascript:void(0);" class="contents-link text_link">
+							<span class="icon icon--delete"></span>チェックをまとめて削除
+						</a>
+					</div>
+					<table class="table_list">
+						<tbody>
+							<tr><td>
+								<div class="buy_list">
+									<div class="buy_list-head">
+										<div class="form_checkbox">
+											<input type="checkbox" id="val0" class="form_line_through" />
+											<label for="val0">材料<span class="buy_list-sub">- 今日</span></label>
+										</div>
+										<div class="buy_list-menu">
+											<a href="javascript:void(0);" class="icon icon--menu_write"></a>
+										</div>
+									</div>
+									<div class="buy_list-note">
+										メモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+										メモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモ
+									</div>
+								</div>
+							</td></tr>
+							<tr><td>
+								<div class="buy_list">
+									<div class="buy_list-head">
+										<div class="form_checkbox">
+											<input type="checkbox" id="val1" class="form_line_through" />
+											<label for="val1">材料<span class="buy_list-sub">- 今日</span></label>
+										</div>
+										<div class="buy_list-menu">
+											<a href="javascript:void(0);" class="icon icon--menu_write"></a>
+										</div>
+									</div>
+									<div class="buy_list-note">メモメモ</div>
+								</div>
+							</td></tr>
+							<tr><td>
+								<div class="buy_list">
+									<div class="buy_list-head">
+										<div class="form_checkbox">
+											<input type="checkbox" id="val2" class="form_line_through" />
+											<label for="val2">材料<span class="buy_list-sub">- 今日</span></label>
+										</div>
+										<div class="buy_list-menu">
+											<a href="javascript:void(0);" class="icon icon--menu_write"></a>
+										</div>
+									</div>
+								</div>
+							</td></tr>
+							<tr><td>
+								<div class="buy_list">
+									<div class="buy_list-head">
+										<div class="form_checkbox">
+											<input type="checkbox" id="val3" class="form_line_through" />
+											<label for="val3">材料<span class="buy_list-sub">- 今日</span></label>
+										</div>
+										<div class="buy_list-menu">
+											<a href="javascript:void(0);" class="icon icon--menu_write"></a>
+										</div>
+									</div>
+								</div>
+							</td></tr>
+							<tr><td>
+								<div class="buy_list">
+									<div class="buy_list-head">
+										<div class="form_checkbox">
+											<input type="checkbox" id="val4" class="form_line_through" />
+											<label for="val4">材料<span class="buy_list-sub">- 今日</span></label>
+										</div>
+										<div class="buy_list-menu">
+											<a href="javascript:void(0);" class="icon icon--menu_write"></a>
+										</div>
+									</div>
+								</div>
+							</td></tr>
+							<tr><td>
+								<div class="buy_list">
+									<div class="buy_list-head">
+										<div class="form_checkbox">
+											<input type="checkbox" id="val5" class="form_line_through" />
+											<label for="val5">材料<span class="buy_list-sub">- 今日</span></label>
+										</div>
+										<div class="buy_list-menu">
+											<a href="javascript:void(0);" class="icon icon--menu_write"></a>
+										</div>
+									</div>
+								</div>
+							</td></tr>
+						</tbody>
+					</table>
+					<table class="table_list mt25">
+						<thead>
+							<tr><th>表示するお買い物リスト</th></tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="table_list-date_list">
+									<% for (var i = 0; i < 7; i++) { %>
+										<%- include('./modules/dateList.ejs', {dateNum: i}) %>
+									<% } %>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<a href="<%= path %>/delete.html" class="text_link mt15">削除したお買い物リスト一覧</a>
+				</form>
+			</div>
+		</div>
+
+		<%- include('./modules/footer.ejs') %>
+	</section>
+
+	<%- include('./modules/modal.ejs', {path}) %>
+</body>
+</html>

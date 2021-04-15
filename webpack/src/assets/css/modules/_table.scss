@@ -1,0 +1,41 @@
+@use 'variable.scss' as var;
+
+.table_list {
+	width: 100%;
+
+	th {
+		background-color: var.$bg-color;
+		color: var.$white-color;
+		border-radius: var.$radius var.$radius 0 0;
+		padding: 8px 10px 6px;
+		font-weight: bold;
+	}
+	
+	td {
+		padding: 9px 10px 7px;
+		font-size: 1.2rem;
+	}
+	
+	tr:nth-child(2n-1) {
+		td {
+			background-color: #efeae8;
+		}
+	}
+	
+	&.table_list--no_background {
+		tr td {
+			background-color: var.$white-color;
+		}
+	}
+	
+	.table_list-date_list {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 1px 10px 10px;
+	}
+	
+	.table_list-date_item {
+		width: 25%;
+		padding-top: 10px
+	}
+}
