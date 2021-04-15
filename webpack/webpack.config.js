@@ -83,13 +83,13 @@ module.exports = {
 					}
 				]
 			},
-			// {
-			// 	test: /\.(gif|png|jpe?g|svg|eot|wof|woff|ttf)$/i,
-			// 	loader: 'file-loader',
-			// 	options: {
-			// 		name: './assets/img/[name].[ext]',
-			// 	}
-			// },
+			{
+				test: /\.(png|svg|jpe?g|gif|ico)$/,
+				type: "asset/resource",
+				generator: {
+					filename: "./assets/img/[name][ext]"
+				}
+			},
 		],
 	},
 	plugins: [
