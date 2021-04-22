@@ -72,7 +72,7 @@ a {
 }
 
 a:hover {
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 .text_link {
@@ -175,8 +175,18 @@ a:hover {
   background-repeat: no-repeat;
   background-color: #eee;
 }
+@media (min-width: 680px) {
+  .recipe_list .recipe_list-image {
+    height: 400px;
+  }
+}
 .recipe_list .recipe_list-image.recipe_list-image--min {
-  height: 139px;
+  height: 140px;
+}
+@media (min-width: 680px) {
+  .recipe_list .recipe_list-image.recipe_list-image--min {
+    height: 200px;
+  }
 }
 .recipe_list .recipe_list-image.recipe_list-image--modal {
   height: auto;
@@ -200,6 +210,10 @@ a:hover {
   height: 33px;
   background-image: url(../img/icon_update_min.png);
   background-size: 33px;
+}
+.recipe_list .recipe_list-update.is-disabled {
+  pointer-events: none;
+  opacity: 0.4;
 }
 .recipe_list .recipe_list-link {
   display: block;

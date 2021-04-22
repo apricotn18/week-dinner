@@ -19,3 +19,17 @@ $img-path: '../img';
 
 // border-radius
 $radius: 4px;
+
+
+$pc: 1024px;
+$tab: 680px;
+@mixin pc {
+    @media (min-width: ($pc)) {
+        @content;
+    }
+}
+@mixin tab {
+    @media (min-width: ($tab)) {
+        @content;
+    }
+}

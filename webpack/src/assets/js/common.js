@@ -1,7 +1,7 @@
 import RakutenRecipeAPI from "./modules/_RakutenRecipeAPI.js";
 import Modal from "./modules/_Modal.js";
 
-const rakutenRecepiAPI = new RakutenRecipeAPI({
+const rakutenRecipeAPI = new RakutenRecipeAPI({
 	imageClassName: "js-recipe_image",
 	timeClassName: "js-recipe_time",
 	priceClassName: "js-recipe_price",
@@ -14,29 +14,29 @@ const modal = new Modal({
 });
 
 if ($('.js-recipe').length > 0) {
-	rakutenRecepiAPI.init();
+	rakutenRecipeAPI.init();
 
 	$(document)
 	// レシピ更新ボタン
 	.on('click', '.js-recipe_update_button', (e) => {
 		// ダブルクリック回避
-		$(e.target).css('pointer-events',　'none');
+		$(e.target).addClass('is-disabled');
 
 		const $target = $(e.target).closest('.js-recipe');
-		rakutenRecepiAPI.updateRandomLecipe({
-			dateNumber: $target.attr('data-date-num'),
+		rakutenRecipeAPI.fetchRandomRecipe({
+			dateNumber: Number.parseInt($target.attr('data-date-num')),
 		});
 
 		// 短時間に複数回通信するとエラーとなるので少し時間を空ける
 		setTimeout(() => {
 			// ダブルクリック回避のためのスタイルを削除
-			$(e.target).css('pointer-events',　'inherit');
+			$(e.target).removeClass('is-disabled');
 		}, 1000);
 	})
 	// レシピボタン
 	.on('click', '.js-modal_recipe_button', (e) => {
 		modal.show('recipe');
-		rakutenRecepiAPI.updateModalContents({
+		rakutenRecipeAPI.updateModalContents({
 			$currentTarget: $(e.target),
 			recipeClassName: 'js-recipe',
 		});
