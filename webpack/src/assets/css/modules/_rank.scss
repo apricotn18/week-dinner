@@ -1,13 +1,13 @@
 @use 'variable.scss' as var;
 
-.entry_list {
+.rank_list {
 	padding-bottom: 3px;
 
-	.entry_list-item {
+	.rank_list-item {
 		padding-bottom: 15px;
 	}
 
-	.entry_list-title {
+	.rank_list-title {
 		display: block;
 		margin-bottom: 5px;
 		font-size: 1.1rem;

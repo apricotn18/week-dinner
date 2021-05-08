@@ -6,7 +6,6 @@
 	left: 0;
 	width: 100%;
 	height: var.$header-height;
-	background-color: var.$yellow-color;
 	z-index: var.$header-z-index;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -18,7 +17,11 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		width: 100%;
+		max-width: 800px;
 		height: 100%;
+		margin: auto;
+		background-color: var.$yellow-color;
 	}
 
 	.header-img {

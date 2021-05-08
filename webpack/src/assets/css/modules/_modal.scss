@@ -100,8 +100,9 @@
 
 
 .modal_menu {
-	background-color: var.$white-color;
-	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .4);
+	max-width: 800px;
+	margin: auto;
+	padding-bottom: 30px;
 	overflow: hidden;
 
 	.modal_menu-item {
@@ -110,6 +111,11 @@
 		&:last-child {
 			border-bottom-color: #ccc;
 		}
+	}
+
+	.modal_menu-list {
+		background-color: var.$white-color;
+		box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .4);
 	}
 
 	.modal_menu-link {
@@ -146,7 +152,7 @@
 			}
 		}
 
-		&.modal_menu-link--entry {
+		&.modal_menu-link--rank {
 			&::before {
 				left: 16px;
 				width: 19px;

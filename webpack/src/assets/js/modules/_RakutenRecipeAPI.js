@@ -2,7 +2,7 @@
  * 楽天レシピAPIのデータを取得するクラス
  *
  */
-class RakutenRecepiAPI {
+class RakutenRecipeAPI {
 	constructor (options) {
 		this.data = JSON.parse(localStorage.getItem('week-dinner')) || {};
 		// カテゴリID一覧
@@ -12,10 +12,15 @@ class RakutenRecepiAPI {
 		// エラー回数
 		this.errorNum = 0;
 
-		this.$image = $('.' + options.imageClassName);
-		this.$time = $('.' + options.timeClassName);
-		this.$price = $('.' + options.priceClassName);
-		this.$title = $('.' + options.titleClassName);
+		this.recipeClassName = options.recipeClassName
+		this.imageClassName = options.imageClassName;
+		this.$image = $(this.imageClassName);
+		this.timeClassName = options.timeClassName;
+		this.$time = $(this.timeClassName);
+		this.priceClassName = options.priceClassName;
+		this.$price = $(this.priceClassName);
+		this.titleClassName = options.titleClassName;
+		this.$title = $(this.titleClassName);
 	}
 	/**
 	 * 初期表示
@@ -25,7 +30,8 @@ class RakutenRecepiAPI {
 	init () {
 		if ((this.data[0] !== undefined)) {
 			// 日にちの差分から新しく取得するレシピ数を取得
-			this.createNum = this.getDateDifference() > 7 ? 7 : this.getDateDifference();
+			const date = this.getDateDifference();
+			this.createNum = date > 7 ? 7 : date;
 		}
 
 		if (this.createNum > 0) {
@@ -42,7 +48,7 @@ class RakutenRecepiAPI {
 	*/
 	getDateDifference () {
 		const CALC_DATE = 1000 * 60 * 60 * 24;
-		const newDate = new Date(2021,4,23);
+		const newDate = new Date();
 		newDate.setHours(0);
 		newDate.setMinutes(0);
 
@@ -70,10 +76,12 @@ class RakutenRecepiAPI {
 					$.getJSON(this.setURL({isSetId: true}), (result2) => {
 						if (!result2) this.displayErrorMessage();
 
+						// resultデータの統合
 						const recipeData = this.integratedAcquiredData({
 							sourceData: result.result,
 							integrateData: result2.result
 						});
+
 						this.setLocalStorage(recipeData);
 						this.updateCassetteContents();
 						resolve();
@@ -100,9 +108,9 @@ class RakutenRecepiAPI {
 			// セットする日付に更新
 			newDate.setDate(newDate.getDate() + 1);
 
-			if (i + num < 6) {
+			if (i + num < 7) {
 				// 差分が6未満なら、データを移行
-				this.data[i] = this.data[i + num + 1];
+				this.data[i] = this.data[i + num];
 			} else {
 				// 差分が6以上なら、新しくデータをセット
 				this.data[i] = {
@@ -115,36 +123,6 @@ class RakutenRecepiAPI {
 				}
 			}
 		}
-		localStorage.setItem('week-dinner', JSON.stringify(this.data));
-	}
-	/**
-	 * 非同期でランダムなレシピを1つ取得
-	 *
-	 * @param {Number} 日にち区分
-	 * @return {Promise}
-	*/
-	fetchRandomRecipe ({dateNumber}) {
-		return new Promise(() => {
-			// カテゴリIDをセットしてJSON取得
-			$.getJSON(this.setURL({isSetId: true}), (result) => {
-				// 日にち区分を指定してローカルストレージに保存
-				this.updateLocalStorageSpecifiedDate({
-					data: result.result[this.setRandomNum(4)],
-					dateNumber,
-				});
-				this.updateCassetteContents();
-			}).catch(() => {
-				alert('通信エラーが発生しました。再度お試しください。');
-			});
-		});
-	}
-	/**
-	 * 日にち区分を指定してローカルストレージに保存
-	 *
-	 * @return {void}
-	*/
-	updateLocalStorageSpecifiedDate ({data, dateNumber}) {
-		this.data[dateNumber]['recipe'] = data;
 		localStorage.setItem('week-dinner', JSON.stringify(this.data));
 	}
 	/**
@@ -178,7 +156,47 @@ class RakutenRecepiAPI {
 		return sourceData;
 	}
 	/**
-	 * URLを生成
+	 * 非同期でランダムなレシピを1つ取得（更新ボタンclick）
+	 *
+	 * @param {Number} 日にち区分
+	 * @return {Promise}
+	*/
+	fetchRandomRecipe ({dateNumber}) {
+		return new Promise(() => {
+			// カテゴリIDをセットしてJSON取得
+			$.getJSON(this.setURL({isSetId: true}), (result) => {
+				// 日にち区分を指定してローカルストレージに保存
+				this.updateLocalStorageSpecifiedDate({
+					data: result.result[this.getRandomNum(4)],
+					dateNumber,
+				});
+				this.updateCassetteContents();
+			}).catch(() => {
+				alert('通信エラーが発生しました。再度お試しください。');
+			});
+		});
+	}
+	/**
+	 * 日にち区分を指定してローカルストレージに保存（更新ボタンclick）
+	 *
+	 * @return {void}
+	*/
+	updateLocalStorageSpecifiedDate ({data, dateNumber}) {
+		this.data[dateNumber]['recipe'] = data;
+		localStorage.setItem('week-dinner', JSON.stringify(this.data));
+	}
+	/**
+	* 非同期でURL登録（URL登録ボタンclick）
+	*
+	* @param {Number} 日にち区分
+	* @return {Promise}
+	*/
+	fetchURLRank () {
+		console.log('ランキング');
+	}
+
+	/**
+	 * API取得用のURLを生成
 	 *
 	 * @param {boolean} isSetId カテゴリIDをセットするか
 	 * @return {string} URL
@@ -205,7 +223,7 @@ class RakutenRecepiAPI {
 	 * @return {Number} カテゴリID
 	*/
 	setRandomCategoryId () {
-		return this.categoryIdList[this.setRandomNum(this.categoryIdList.length)];
+		return this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
 	}
 	/**
 	 * 最大値のうちランダムな整数を返す
@@ -213,7 +231,7 @@ class RakutenRecepiAPI {
 	 * @param {Number} maxNumber 最大値
 	 * @return {Number} ランダム数字
 	*/
-	setRandomNum (maxNumber) {
+	getRandomNum (maxNumber) {
 		return Math.floor(Math.random() * maxNumber);
 	}
 	/**
@@ -224,56 +242,70 @@ class RakutenRecepiAPI {
 	updateCassetteContents () {
 		for (let i = 0; i < 7; i++) {
 			const recipeData = this.data[i].recipe;
-			const $target = $(`.js-recipe[data-date-num="${i}"]`);
+			const $target = $(`${this.recipeClassName}[data-date-num="${i}"]`);
 
 			// 画像
-			$target.find('.js-recipe_image').attr('style', `background-image:url(${recipeData.foodImageUrl});`);
+			$target.find(this.imageClassName).attr('style', `background-image:url(${recipeData.foodImageUrl});`);
 			// 時間
-			$target.find('.js-recipe_time').text(recipeData.recipeIndication);
+			$target.find(this.timeClassName).text(recipeData.recipeIndication);
 			// 金額
-			$target.find('.js-recipe_price').text(recipeData.recipeCost);
+			$target.find(this.priceClassName).text(recipeData.recipeCost);
 			// タイトル
-			$target.find('.js-recipe_title').text(recipeData.recipeTitle);
+			$target.find(this.titleClassName).text(recipeData.recipeTitle);
+		}
+
+		// カセットの高さを合わせる
+		var $title = $(this.titleClassName);
+		for (let i = 1; i < $title.length; i++) {
+			const $obj1 = $title.eq(i);
+			const $obj2 = $title.eq(++i);
+			if ($obj1.height() !== $obj2.height()) {
+				const num = Math.max($obj1.height(), $obj2.height());
+				$obj1.css('height', num + 'px');
+				$obj2.css('height', num + 'px');
+			}
 		}
 	}
 	/**
 	 * モーダルのデータを更新
 	 *
-	 * @param {object} $currentTarget $(e.target)
-	 * @param {void} recipeClassName 'js-recipe'
+	 * @param {number} num
+	 * @param {object} $modalSubTitle
+	 * @param {object} $modalImage
+	 * @param {object} $modalTime
+	 * @param {object} $modalPrice
+	 * @param {object} $modalTitle
+	 * @param {object} $modalText
+	 * @param {object} $modalLink
+	 * @param {object} $modalMaterial
 	 * @return {void}
 	*/
-	updateModalContents ({$currentTarget, recipeClassName}) {
-		// 日にち区分の数字を取得
-		const num = $currentTarget.closest('.' + recipeClassName).data('date-num');
-
+	updateModalContents ({num, $modalSubTitle, $modalImage, $modalTime, $modalPrice, $modalTitle, $modalText, $modalLink, $modalMaterial}) {
 		const recipeData = this.data[num].recipe;
-		const $target = $('.js-modal_recipe');
 		const division = ['今日', '明日', '明後日', '3日後', '4日後', '5日後', '6日後'];
 
 		// 日にち区分
-		$('.js-modal_sub_title').text(`${division[num]}のレシピ`);
+		$modalSubTitle.text(`${division[num]}のレシピ`);
 		// 画像
-		$target.find('.js-modal_image').attr('src', recipeData.foodImageUrl).attr('alt', recipeData.recipeTitle);
+		$modalImage.attr('src', recipeData.foodImageUrl).attr('alt', recipeData.recipeTitle);
 		// 時間
-		$target.find('.js-modal_time').text(recipeData.recipeIndication);
+		$modalTime.text(recipeData.recipeIndication);
 		// 金額
-		$target.find('.js-modal_price').text(recipeData.recipeCost);
+		$modalPrice.text(recipeData.recipeCost);
 		// タイトル
-		$target.find('.js-modal_title').text(recipeData.recipeTitle);
+		$modalTitle.text(recipeData.recipeTitle);
 		// 説明
-		$target.find('.js-modal_text').text(recipeData.recipeDescription);
+		$modalText.text(recipeData.recipeDescription);
 		// リンク
-		$target.find('.js-modal_link').attr('href', recipeData.recipeUrl);
+		$modalLink.attr('href', recipeData.recipeUrl);
 		// 材料
-		const $material = $target.find('.js-modal_material');
 		for (var i = 0; i < recipeData.recipeMaterial.length; i++) {
 			const insertHtml = `
 				<tr><td>${recipeData.recipeMaterial[i]}</td></tr>
 			`;
-			$material.append(insertHtml);
+			$modalMaterial.append(insertHtml);
 		}
 	}
 }
 
-export default RakutenRecepiAPI;
+export default RakutenRecipeAPI;

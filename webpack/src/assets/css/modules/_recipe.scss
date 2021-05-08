@@ -6,7 +6,7 @@
 
 	.recipe_list-item {
 		width: calc(50% - 1px);
-
+	
 		&:first-child {
 			width: 100%;
 		}
@@ -73,15 +73,10 @@
 		display: block;
 		padding: 12px 18px 10px 10px;
 		text-align: left;
-		background-color: var.$white-color;
 		background-image: url(#{var.$img-path}/icon_arrow.png);
 		background-repeat: no-repeat;
 		background-size: 8px 13px;
-		background-position: right 4px center;
-
-		&.recipe_list-link--min {
-			height: calc(100% - 160px);
-		}
+		background-position: right 3px center;
 	}
 
 	.recipe_list-head {

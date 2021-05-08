@@ -124,8 +124,8 @@ module.exports = {
 			template : './src/delete.ejs',
 		}),
 		new HtmlWebpackPlugin({
-			filename: 'entry.html',
-			template : './src/entry.ejs',
+			filename: 'rank.html',
+			template : './src/rank.ejs',
 		}),
 		new webpack.ProvidePlugin({
 			$: 'jquery'
