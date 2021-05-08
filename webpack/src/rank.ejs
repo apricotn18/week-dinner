@@ -23,13 +23,13 @@
 						<a href="https://recipe.rakuten.co.jp/" class="text_link" target="_blank">楽天レシピ</a>のURLを貼ることで、レシピ登録ができます。<br>登録したい日にちの欄にURLを入力してください。
 						<span class="contents-title_note">※ 空白の場合、更新されません</span>
 					</p>
-					<ul class="entry_list">
+					<ul class="rank_list">
 						<% for (var i = 0; i < 7; i++) { %>
-							<%- include('./modules/entryList.ejs', {dateNum: i}) %>
+							<%- include('./modules/rankList.ejs', {dateNum: i}) %>
 						<% } %>
 					</ul>
 					
-					<input type="submit" class="form_button" value="登録" />
+					<input type="submit" class="form_button js-rank_button" value="登録" />
 				</form>
 			</div>
 		</div>
