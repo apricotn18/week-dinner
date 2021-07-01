@@ -16,18 +16,21 @@
 		<div class="contents">
 			<ul class="recipe_list">
 				<li class="recipe_list-item js-recipe" data-date-num="0">
-					<div class="recipe_list-image js-recipe_image">
-						<a href="javascript:void(0);" class="recipe_list-update js-recipe_update_button"></a>
-					</div>
-					<a href="javascript:void(0);" class="recipe_list-link js-modal_recipe_button">
-						<div class="recipe_list-head">
-							<p class="recipe_list-sub_title">今日のレシピ</p>
-							<p class="recipe_list-time js-recipe_time"></p>
-							<p class="recipe_list-price js-recipe_price"></p>
+					<a href="javascript:void(0);" class="js-modal_recipe_button">
+						<div class="recipe_list-image js-recipe_image"></div>
+						<div class="recipe_list-link">
+							<div class="recipe_list-head">
+								<p class="recipe_list-sub_title">今日のレシピ</p>
+								<p class="recipe_list-time js-recipe_time"></p>
+								<p class="recipe_list-price js-recipe_price"></p>
+							</div>
+							<p class="recipe_list-title js-recipe_title"></p>
 						</div>
-						<p class="recipe_list-title js-recipe_title"></p>
 					</a>
-				</li>
+					<div class="recipe_list-update">
+						<a href="javascript:void(0);" class="recipe_list-update_image js-recipe_update_button"></a>
+					</div>
+								</li>
 				<% for (var i = 1; i < 7; i++) { %>
 					<%- include('./modules/recipeList.ejs', {dateNum: i}) %>
 				<% } %>

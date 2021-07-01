@@ -6,11 +6,13 @@ class RakutenRecipeAPI {
 	constructor (options) {
 		this.data = JSON.parse(localStorage.getItem('week-dinner')) || {};
 		// カテゴリID一覧
-		this.categoryIdList = [31, 32, 33, 14, 15, 16, 17, 23, 10, 11, 38, 39, 41, 42, 43, 44, 25, 46];
+		this.categoryIdList = [30, 31, 32, 14, 15, 16, 23, 41, 42, 43, 44, 25, 46, 47, 48];
 		// 新しく取得するレシピ数
 		this.createNum = 7;
 		// エラー回数
 		this.errorNum = 0;
+		// 取得したレシピデータを一時格納
+		this.recipeData = [];
 
 		this.recipeClassName = options.recipeClassName
 		this.imageClassName = options.imageClassName;
@@ -35,7 +37,22 @@ class RakutenRecipeAPI {
 		}
 
 		if (this.createNum > 0) {
-			this.fetchAllRecipe();
+			// レシピを取得してページ更新
+			this.ajaxRecipe().then((data1) => {
+				this.recipeData.push(...data1);
+				// 短時間に複数回通信するとエラーとなるので少し時間を空ける
+				setTimeout(() => {
+					this.ajaxRecipe().then((data2) => {
+						this.recipeData.push(...data2);
+						// 更新
+						this.setLocalStorage(this.recipeData);
+						this.updateCassetteContents();
+					});
+				}, 1000);
+			})
+			.catch(() => {
+				this.displayErrorMessage();
+			});
 		} else {
 			// 書き出し
 			this.updateCassetteContents();
@@ -60,35 +77,16 @@ class RakutenRecipeAPI {
 		return dateDifference;
 	}
 	/**
-	 * 非同期でレシピを7つ取得（ページ読み込み時）
+	 * 非同期でレシピを取得
 	 *
 	 * @return {Promise}
 	*/
-	fetchAllRecipe () {
-		return new Promise((resolve, _reject) => {
+	ajaxRecipe () {
+		return new Promise((resolve) => {
 			// ランダムなカテゴリIDをセットしてJSON取得
 			$.getJSON(this.setURL({isSetId: true}), (result) => {
 				if (!result) this.displayErrorMessage();
-
-				// レシピが1度に4つまでしか取得できないため、2回目のajax通信を行う
-				// 短時間に複数回通信するとエラーとなるので少し時間を空ける
-				setTimeout(() => {
-					$.getJSON(this.setURL({isSetId: true}), (result2) => {
-						if (!result2) this.displayErrorMessage();
-
-						// resultデータの統合
-						const recipeData = this.integratedAcquiredData({
-							sourceData: result.result,
-							integrateData: result2.result
-						});
-
-						this.setLocalStorage(recipeData);
-						this.updateCassetteContents();
-						resolve();
-					});
-				}, 1000);
-			}).catch(() => {
-				this.displayErrorMessage();
+				resolve(result.result);
 			});
 		});
 	}
@@ -137,23 +135,10 @@ class RakutenRecipeAPI {
 		} else if (confirm('読み込みに失敗しました。再試行しますか？')) {
 			// 短時間に複数回通信するとエラーとなるので少し時間を空ける
 			setTimeout(() => {
-				this.fetchAllRecipe();
+				this.ajaxRecipe();
 				this.errorNum++;
 			}, 1000);
 		}
-	}
-	/**
-	 * 1回目に取得したデータに、2回目に取得したデータを統合する
-	 *
-	 * @param {object} sourceData 1回目に取得したデータ
-	 * @param {object} integrateData 2回目に取得したデータ
-	 * @return {object} レシピ一覧
-	*/
-	integratedAcquiredData ({sourceData, integrateData}) {
-		sourceData[4] = integrateData[0];
-		sourceData[5] = integrateData[1];
-		sourceData[6] = integrateData[2];
-		return sourceData;
 	}
 	/**
 	 * 非同期でランダムなレシピを1つ取得（更新ボタンclick）
@@ -164,10 +149,10 @@ class RakutenRecipeAPI {
 	fetchRandomRecipe ({dateNumber}) {
 		return new Promise(() => {
 			// カテゴリIDをセットしてJSON取得
-			$.getJSON(this.setURL({isSetId: true}), (result) => {
+			this.ajaxRecipe().then((data) => {
 				// 日にち区分を指定してローカルストレージに保存
 				this.updateLocalStorageSpecifiedDate({
-					data: result.result[this.getRandomNum(4)],
+					data: data[this.getRandomNum(4)],
 					dateNumber,
 				});
 				this.updateCassetteContents();
@@ -194,6 +179,22 @@ class RakutenRecipeAPI {
 	fetchURLRank () {
 		console.log('ランキング');
 	}
+	/**
+	 * 非同期でランキング一覧を取得（ランキングページ）
+	 *
+	 * @param {Number} レシピID
+	 * @return {Promise}
+	*/
+	fetchRecipeRanking ({id}) {
+		return new Promise((resolve) => {
+			// カテゴリIDをセットしてJSON取得
+			$.getJSON(this.setURL({isSetId: true, id}), (result) => {
+				resolve(result.result);
+			}).catch(() => {
+				alert('通信エラーが発生しました。再度お試しください。');
+			});
+		});
+	}
 
 	/**
 	 * API取得用のURLを生成
@@ -201,12 +202,12 @@ class RakutenRecipeAPI {
 	 * @param {boolean} isSetId カテゴリIDをセットするか
 	 * @return {string} URL
 	*/
-	setURL ({isSetId}) {
+	setURL ({isSetId, id}) {
 		let url = 'https://app.rakuten.co.jp/services/api/Recipe/CategoryRanking/20170426?';
 		// カテゴリIDが必要だったらセット
 		const params = {
 			format: 'json',
-			categoryId: isSetId ? this.setRandomCategoryId() : null,
+			categoryId: isSetId ? (id ? id : this.setRandomCategoryId()) : null,
 			applicationId: '1099641121016352250',
 		}
 
@@ -304,6 +305,31 @@ class RakutenRecipeAPI {
 				<tr><td>${recipeData.recipeMaterial[i]}</td></tr>
 			`;
 			$modalMaterial.append(insertHtml);
+		}
+	}
+	/**
+	 * ランキングモーダルのデータを更新
+	 *
+	 * @return {void}
+	*/
+	updateModalRanking({data, title, $modalRankTitle, $modalItem, modalTitleClassName, modalImageClassName, modalTimeClassName, modalPriceClassName, modalLinkClassName}) {
+		// ランキングタイトル
+		$modalRankTitle.text(title + 'のランキング');
+
+		for (let i = 0; i < data.length; i++) {
+			const rankingData = data[i];
+			const $item = $modalItem.eq(i);
+
+			// タイトル
+			$item.find(modalTitleClassName).text(rankingData.recipeTitle);
+			// 画像
+			$item.find(modalImageClassName).attr('src', rankingData.foodImageUrl).attr('alt', rankingData.recipeTitle);
+			// 時間
+			$item.find(modalTimeClassName).text(rankingData.recipeIndication);
+			// 金額
+			$item.find(modalPriceClassName).text(rankingData.recipeCost);
+			// リンク
+			$item.find(modalLinkClassName).attr('href', rankingData.recipeUrl);
 		}
 	}
 }

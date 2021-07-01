@@ -1,0 +1,22 @@
+<li class="ranking-item js-ranking">
+	<img class="ranking-image js-ranking_image">
+	<p class="ranking-title js-ranking_title"></p>
+	<p class="ranking-time js-ranking_time"></p>
+	<p class="ranking-price js-ranking_price"></p>
+	<p class=""></p>
+	<a href="" class="ranking-button js-ranking_link" target="_blank">
+		詳細を楽天レシピで見る
+	</a>
+	<div>
+		<select name="update">
+			<% for (var i = 1; i < 7; i++) { %>
+				<option value=<%- i %>>
+					<%- include('./dateDivision.ejs', {dateNum: i}) %>
+				</option>
+			<% } %>
+		</select>
+		<a href="javascript:void(0);" class="ranking-button js-ranking_update" target="_blank">
+			のレシピに登録する
+		</a>
+	</div>
+</li>
