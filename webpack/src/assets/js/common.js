@@ -8,10 +8,14 @@ const rakutenRecipeAPI = new RakutenRecipeAPI({
 	priceClassName: '.js-recipe_price',
 	titleClassName: '.js-recipe_title',
 });
-const modal = new Modal({
-	$modal: $('.js-modal'),
-	$modalRecipe: $('.js-modal_recipe'),
-	$modalMenu: $('.js-modal_menu'),
+const recipeModal = new Modal({
+	modalClassName: '.js-modal_recipe',
+});
+const menuModal = new Modal({
+	modalClassName:'.js-modal_menu',
+});
+const rankModal = new Modal({
+	modalClassName:'.js-modal_rank',
 });
 
 // トップ画面
@@ -37,7 +41,7 @@ if ($('.js-recipe').length > 0) {
 		})
 		// レシピボタン
 		.on('click', '.js-modal_recipe_button', (e) => {
-			modal.show('recipe');
+			recipeModal.show();
 			rakutenRecipeAPI.updateModalContents({
 				num: $(e.target).closest('.js-recipe').data('date-num'),
 				$modalSubTitle: $('.js-modal_sub_title'),
@@ -53,21 +57,45 @@ if ($('.js-recipe').length > 0) {
 }
 
 // ランキング画面
-if ($('.js-rank_button').length > 0) {
-	console.log('ランキング');
+if ($('.js-rank').length > 0) {
+	$(document)
+		// ランクボタン
+		.on('click', '.js-modal_rank_button', (e) => {
+			rakutenRecipeAPI.fetchRecipeRanking({
+				id: $(e.target).attr('data-id'),
+			}).then((data) => {
+				// モーダルを書き替えてオープン
+				rakutenRecipeAPI.updateModalRanking({
+					data,
+					title: $(e.target).text(),
+					$modalRankTitle: $('.js-modal_rank_title'),
+					$modalItem: $('.js-ranking'),
+					modalTitleClassName: '.js-ranking_title',
+					modalImageClassName: '.js-ranking_image',
+					modalTimeClassName: '.js-ranking_time',
+					modalPriceClassName: '.js-ranking_price',
+					modalLinkClassName: '.js-ranking_link',
+				});
+				rankModal.show();
+			});
+		});
 }
 
 // モーダル
 $(document)
-	// メニューボタン
-	.on('click', '.js-modal_menu_button', (e) => {
-		modal.show('menu');
-	})
 	// レシピクローズボタン
 	.on('click', '.js-modal_recipe_close', (e) => {
-		modal.hide('recipe');
+		recipeModal.hide();
+	})
+	// ランククローズボタン
+	.on('click', '.js-modal_rank_close', (e) => {
+		rankModal.hide();
+	})
+	// メニューボタン
+	.on('click', '.js-modal_menu_button', (e) => {
+		menuModal.show();
 	})
 	// メニュークローズボタン
 	.on('click', '.js-modal_menu_close', (e) => {
-		modal.hide('menu');
+		menuModal.hide();
 	});

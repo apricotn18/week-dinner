@@ -5,6 +5,7 @@
 	flex-wrap: wrap;
 
 	.recipe_list-item {
+		position: relative;
 		width: calc(50% - 1px);
 	
 		&:first-child {
@@ -17,7 +18,6 @@
 	}
 
 	.recipe_list-image {
-		position: relative;
 		width: 100%;
 		height: 280px;
 		background-position: center;
@@ -29,14 +29,6 @@
 			height: 400px;
 		}
 
-		&.recipe_list-image--min {
-			height: 140px;
-
-			@include var.tab {
-				height: 200px;
-			}
-		}
-
 		&.recipe_list-image--modal {
 			height: auto;
 		}
@@ -46,22 +38,7 @@
 		position: absolute;
 		top: 6px;
 		right: 4px;
-		width: 40px;
-		height: 40px;
-		background-image: url(#{var.$img-path}/icon_update.png);
-		background-size: 40px;
-		background-repeat: no-repeat;
-		background-position: 0 0;
 		overflow: hidden;
-
-		&.recipe_list-update--min {
-			top: 5px;
-			right: 3px;
-			width: 33px;
-			height: 33px;
-			background-image: url(#{var.$img-path}/icon_update_min.png);
-			background-size: 33px;
-		}
 
 		&.is-disabled {
 			pointer-events: none;
@@ -69,11 +46,20 @@
 		}
 	}
 
+	.recipe_list-update_image {
+		display: block;
+		width: 40px;
+		height: 40px;
+		background-image: url(#{var.$img-path}/icon_update.png);
+		background-size: 40px;
+		background-repeat: no-repeat;
+		background-position: 0 0;
+	}
+
 	.recipe_list-link {
 		display: block;
-		padding: 12px 18px 10px 10px;
+		padding: 12px 10px 11px;
 		text-align: left;
-		background-image: url(#{var.$img-path}/icon_arrow.png);
 		background-repeat: no-repeat;
 		background-size: 8px 13px;
 		background-position: right 3px center;
@@ -117,9 +103,6 @@
 			vertical-align: text-top;
 		}
 
-		&.recipe_list-time--min {
-			font-size: 1.1rem;
-		}
 	}
 
 	.recipe_list-price {
@@ -143,10 +126,6 @@
 			vertical-align: text-top;
 		}
 
-		&.recipe_list-price--min {
-			font-size: 1.1rem;
-		}
-
 		&.recipe_list-price--modal {
 			margin-left: 12px;
 		}
@@ -160,11 +139,6 @@
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
 
-		&.recipe_list-title--min {
-			margin-top: -1px;
-			font-size: 1.2rem;
-		}
-
 		&.recipe_list-title--modal {
 			padding: 8px 0 10px;
 			font-size: 1.6rem;
@@ -173,7 +147,7 @@
 
 	.recipe_list-modal_content {
 		width: 100%;
-		padding: 15px 15px 63px;
+		padding: 15px 15px 20px;
 		text-align: left;
 	}
 
@@ -184,5 +158,41 @@
 
 	.recipe_list-modal_discription {
 		padding: 12px 0 15px;
+	}
+
+	// min
+	.recipe_list-item--min {
+		.recipe_list-image {
+			height: 140px;
+
+			@include var.tab {
+				height: 200px;
+			}
+		}
+
+		.recipe_list-update {
+			top: 5px;
+			right: 3px;
+		}
+
+		.recipe_list-update_image {
+			width: 33px;
+			height: 33px;
+			background-image: url(#{var.$img-path}/icon_update_min.png);
+			background-size: 33px;
+		}
+
+		.recipe_list-price {
+			font-size: 1.1rem;
+		}
+
+		.recipe_list-time {
+			font-size: 1.1rem;
+		}
+
+		.recipe_list-title {
+			margin-top: -1px;
+			font-size: 1.2rem;
+		}
 	}
 }

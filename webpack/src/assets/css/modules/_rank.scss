@@ -1,18 +1,32 @@
 @use 'variable.scss' as var;
 
 .rank_list {
-	padding-bottom: 3px;
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
 
 	.rank_list-item {
-		padding-bottom: 15px;
+		width: 50%;
+		background-color: #f9f6f5;
+		border-top: 1px solid #fff;
+
+		&:nth-child(2n) {
+			width: calc(50% - 1px);
+			border-left: 1px solid #fff;
+		}
+		&:nth-child(1),
+		&:nth-child(2) {
+			border-top: none;
+		}
 	}
 
-	.rank_list-title {
+	.rank_list-link {
 		display: block;
-		margin-bottom: 5px;
-		font-size: 1.1rem;
-		font-weight: bold;
-		color: var.$gray-color;
-		white-space: nowrap;
+		padding: 12px 10px;
+		font-size: 1.2rem;
+		background-image: url(../img/icon_arrow.png);
+		background-repeat: no-repeat;
+		background-size: 5px 8px;
+		background-position: right 6px center;
 	}
 }
