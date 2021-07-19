@@ -39,11 +39,6 @@
 		top: 6px;
 		right: 4px;
 		overflow: hidden;
-
-		&.is-disabled {
-			pointer-events: none;
-			opacity: .4;
-		}
 	}
 
 	.recipe_list-update_image {
@@ -54,6 +49,11 @@
 		background-size: 40px;
 		background-repeat: no-repeat;
 		background-position: 0 0;
+
+		&.is-disabled {
+			pointer-events: none;
+			opacity: .4;
+		}
 	}
 
 	.recipe_list-link {

@@ -197,10 +197,6 @@ a:hover {
   right: 4px;
   overflow: hidden;
 }
-.recipe_list .recipe_list-update.is-disabled {
-  pointer-events: none;
-  opacity: 0.4;
-}
 .recipe_list .recipe_list-update_image {
   display: block;
   width: 40px;
@@ -209,6 +205,10 @@ a:hover {
   background-size: 40px;
   background-repeat: no-repeat;
   background-position: 0 0;
+}
+.recipe_list .recipe_list-update_image.is-disabled {
+  pointer-events: none;
+  opacity: 0.4;
 }
 .recipe_list .recipe_list-link {
   display: block;
