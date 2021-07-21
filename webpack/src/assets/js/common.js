@@ -36,6 +36,9 @@ if ($('.js-recipe').length > 0) {
 
 	// レシピボタン
 	$('.js-modal_recipe_button').on('click', (e) => {
+		// モーダルを開く度にトップに戻す
+		$('.js-modal_recipe_content').scrollTop(0);
+
 		rakutenRecipeAPI.updateModalContents({
 			num: $(e.target).closest('.js-recipe').data('date-num'),
 			trrigerSelecter: 'js-modal',

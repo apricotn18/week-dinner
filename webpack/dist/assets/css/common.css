@@ -314,16 +314,16 @@ a:hover {
   margin-top: -1px;
   font-size: 1.2rem;
 }
-.recipe_list .recipe_list-item--modal .recipe_list-image {
+.recipe_list.recipe_list--modal .recipe_list-image {
   height: auto;
 }
-.recipe_list .recipe_list-item--modal.recipe_list-sub_title {
+.recipe_list.recipe_list--modal .recipe_list-sub_title {
   font-size: 1.2rem;
 }
-.recipe_list .recipe_list-item--modal.recipe_list-price {
+.recipe_list.recipe_list--modal .recipe_list-price {
   margin-left: 12px;
 }
-.recipe_list .recipe_list-item--modal.recipe_list-title {
+.recipe_list.recipe_list--modal .recipe_list-title {
   padding: 8px 0 10px;
   font-size: 1.6rem;
 }
