@@ -3,9 +3,10 @@ https://week-dinner.herokuapp.com/
 
 ```
 $ cd webpack
-$ npm i (初回のみ)
 $ npm run build
 ```
 
-- webpack/dist/　本番環境
-- webpack/src/　ソース
+- node v14.8.0
+- ファイル構成
+  - webpack/dist/　...本番環境
+  - webpack/src/　 ...ソース
