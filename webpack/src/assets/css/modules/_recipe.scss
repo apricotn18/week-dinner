@@ -7,7 +7,7 @@
 	.recipe_list-item {
 		position: relative;
 		width: calc(50% - 1px);
-	
+
 		&:first-child {
 			width: 100%;
 		}
@@ -27,10 +27,6 @@
 
 		@include var.tab {
 			height: 400px;
-		}
-
-		&.recipe_list-image--modal {
-			height: auto;
 		}
 	}
 
@@ -76,10 +72,6 @@
 		font-weight: bold;
 		color: var.$gray-color;
 		white-space: nowrap;
-
-		&.recipe_list-sub_title--modal {
-			font-size: 1.2rem;
-		}
 	}
 
 	.recipe_list-time {
@@ -125,10 +117,6 @@
 			overflow: hidden;
 			vertical-align: text-top;
 		}
-
-		&.recipe_list-price--modal {
-			margin-left: 12px;
-		}
 	}
 
 	.recipe_list-title {
@@ -138,11 +126,6 @@
 		font-size: 1.4rem;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
-
-		&.recipe_list-title--modal {
-			padding: 8px 0 10px;
-			font-size: 1.6rem;
-		}
 	}
 
 	.recipe_list-modal_content {
@@ -193,6 +176,26 @@
 		.recipe_list-title {
 			margin-top: -1px;
 			font-size: 1.2rem;
+		}
+	}
+
+	// modal
+	.recipe_list-item--modal {
+		.recipe_list-image {
+			height: auto;
+		}
+
+		&.recipe_list-sub_title {
+			font-size: 1.2rem;
+		}
+
+		&.recipe_list-price {
+			margin-left: 12px;
+		}
+
+		&.recipe_list-title {
+			padding: 8px 0 10px;
+			font-size: 1.6rem;
 		}
 	}
 }
