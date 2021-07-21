@@ -1,27 +1,24 @@
 /**
  * 楽天レシピAPIのデータを取得するクラス
  *
+ * @param {string} options.trrigerSelecter
  */
 class RakutenRecipeAPI {
 	constructor (options) {
 		this.data = JSON.parse(localStorage.getItem('week-dinner')) || {};
 		// カテゴリID一覧
 		this.categoryIdList = [30, 31, 32, 14, 15, 16, 23, 41, 42, 43, 44, 25, 46, 47, 48];
-		// 新しく取得するレシピ数
-		this.createNum = 7;
-		// エラー回数
-		this.errorNum = 0;
-		// 取得したレシピデータを一時格納
-		this.recipeData = [];
+		// 初期表示のエラー回数
+		this.initErrorNum = 0;
 
-		this.recipeClassName = options.recipeClassName
-		this.imageClassName = options.imageClassName;
+		this.recipeClassName = '.' + options.trrigerSelecter;
+		this.imageClassName = '.' + options.trrigerSelecter + '_image';
 		this.$image = $(this.imageClassName);
-		this.timeClassName = options.timeClassName;
+		this.timeClassName = '.' + options.trrigerSelecter + '_time'
 		this.$time = $(this.timeClassName);
-		this.priceClassName = options.priceClassName;
+		this.priceClassName = '.' + options.trrigerSelecter + '_price'
 		this.$price = $(this.priceClassName);
-		this.titleClassName = options.titleClassName;
+		this.titleClassName = '.' + options.trrigerSelecter + '_title'
 		this.$title = $(this.titleClassName);
 	}
 	/**
@@ -30,130 +27,168 @@ class RakutenRecipeAPI {
 	 * @return
 	*/
 	init () {
-		if ((this.data[0] !== undefined)) {
-			// 日にちの差分から新しく取得するレシピ数を取得
-			const date = this.getDateDifference();
-			this.createNum = date > 7 ? 7 : date;
+		/**
+		 * 日にちの差分を取得
+		 *
+		 * @return {number} 日にちの差分
+		*/
+		const getDateDifference = () => {
+			const CALC_DATE = 1000 * 60 * 60 * 24;
+			const newDate = new Date();
+			newDate.setHours(0);
+			newDate.setMinutes(0);
+
+			// ローカルストレージの[0]のデータから日付を生成
+			const getData = this.data[0]['date'];
+			const originalDate = new Date(getData['year'], getData['month'], getData['date']);
+			// セットされていた日付と今日の差分を求める
+			const dateDifference = Math.floor((newDate - originalDate) / CALC_DATE);
+			return dateDifference;
 		}
 
-		if (this.createNum > 0) {
-			// レシピを取得してページ更新
-			this.ajaxRecipe().then((data1) => {
-				this.recipeData.push(...data1);
-				// 短時間に複数回通信するとエラーとなるので少し時間を空ける
-				setTimeout(() => {
-					this.ajaxRecipe().then((data2) => {
-						this.recipeData.push(...data2);
-						// 更新
-						this.setLocalStorage(this.recipeData);
-						this.updateCassetteContents();
-					});
-				}, 1000);
-			})
-			.catch(() => {
-				this.displayErrorMessage();
-			});
+		// 取得したいレシピ数
+		let getNum = 7;
+		if ((this.data[0] !== undefined)) {
+			// 日にちの差分
+			const date = getDateDifference();
+			getNum = date > 7 ? 7 : date;
+		}
+
+		if (getNum > 0) {
+			// レシピ取得
+			this.getRecipe(getNum);
 		} else {
 			// 書き出し
 			this.updateCassetteContents();
 		}
 	}
 	/**
-	 * 日にちの差分を取得
+	 * レシピを取得して書き出し
 	 *
-	 * @return {Number} 日にちの差分
+	 * @param {number} getNum 取得したいレシピ数
+	 * @return {Promise}
 	*/
-	getDateDifference () {
-		const CALC_DATE = 1000 * 60 * 60 * 24;
-		const newDate = new Date();
-		newDate.setHours(0);
-		newDate.setMinutes(0);
+	getRecipe (getNum) {
+		/**
+		 * ローカルストレージにデータをセット
+		 *
+		 * @param {Array} options.dataList 取得したレシピリスト
+		 * @param {string} options.getNum 取得したいレシピ数
+		 * @return {void}
+		*/
+		const setLocalStorage = (options) => {
+			let newDate = new Date();
+			// 1日前の日付に変更（あとで1日ずつ足していくため）
+			newDate.setDate(newDate.getDate() - 1);
 
-		// ローカルストレージの[0]のデータから日付を生成
-		const getData = this.data[0]['date'];
-		const originalDate = new Date(getData['year'], getData['month'], getData['date']);
-		// セットされていた日付と今日の差分を求める
-		const dateDifference = Math.floor((newDate - originalDate) / CALC_DATE);
-		return dateDifference;
+			for (let i = 0; i < options.dataList.length; i++) {
+				// セットする日付に更新
+				newDate.setDate(newDate.getDate() + 1);
+
+				if (i + options.getNum < 7) {
+					// 差分が6未満なら、データを移行
+					this.data[i] = this.data[i + options.getNum];
+				} else {
+					// 差分が6以上なら、新しくデータをセット
+					this.data[i] = {
+						recipe: options.dataList[i],
+						date: {
+							year: newDate.getFullYear(),
+							month: newDate.getMonth(),
+							date: newDate.getDate(),
+						}
+					}
+				}
+			}
+			localStorage.setItem('week-dinner', JSON.stringify(this.data));
+		}
+		/**
+		 * エラーメッセージを出す
+		 *
+		 * @return {void}
+		*/
+		const displayErrorMessage = () => {
+			if (this.initErrorNum > 2) {
+				// エラー3回以上でアラート
+				alert('通信状況を確認してください。');
+				this.initErrorNum = 0;
+			} else if (confirm('読み込みに失敗しました。再試行しますか？')) {
+				// 短時間に複数回通信するとエラーとなるので少し時間を空ける
+				setTimeout(() => {
+					this.getRecipe();
+					this.initErrorNum++;
+				}, 1000);
+			}
+		}
+
+		const dataList = [];
+		this.ajaxRecipe().then((data1) => {
+			dataList.push(...data1);
+			// 1回の通信で4つのレシピしか取得できない
+			// 短時間に複数回通信するとエラーとなるので少し時間を空ける
+			setTimeout(() => {
+				this.ajaxRecipe().then((data2) => {
+					dataList.push(...data2);
+					// データ更新
+					setLocalStorage({dataList, getNum});
+					// 書き出し
+					this.updateCassetteContents();
+				})
+				.catch(() => {
+					displayErrorMessage();
+				});
+			}, 1000);
+		})
+		.catch(() => {
+			displayErrorMessage();
+		});
 	}
 	/**
-	 * 非同期でレシピを取得
+	 * レシピ非同期通信
 	 *
 	 * @return {Promise}
 	*/
 	ajaxRecipe () {
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 			// ランダムなカテゴリIDをセットしてJSON取得
 			$.getJSON(this.setURL({isSetId: true}), (result) => {
-				if (!result) this.displayErrorMessage();
-				resolve(result.result);
+				if (result) {
+					resolve(result.result);
+				} else {
+					reject();
+				}
+			}).catch(() => {
+				reject();
 			});
 		});
 	}
 	/**
-	 * ローカルストレージにデータをセット
+	 * 非同期でランダムなレシピを1つ取得
+	 * 更新ボタンclick
 	 *
-	 * @param {Array} dataList 取得したレシピリスト
-	 * @return
-	*/
-	setLocalStorage (dataList) {
-		let num = this.createNum;
-		let newDate = new Date();
-		// 1日前の日付に変更（あとで1日ずつ足していくため）
-		newDate.setDate(newDate.getDate() - 1);
-
-		for (let i = 0; i < dataList.length; i++) {
-			// セットする日付に更新
-			newDate.setDate(newDate.getDate() + 1);
-
-			if (i + num < 7) {
-				// 差分が6未満なら、データを移行
-				this.data[i] = this.data[i + num];
-			} else {
-				// 差分が6以上なら、新しくデータをセット
-				this.data[i] = {
-					recipe: dataList[i],
-					date: {
-						year: newDate.getFullYear(),
-						month: newDate.getMonth(),
-						date: newDate.getDate(),
-					}
-				}
-			}
-		}
-		localStorage.setItem('week-dinner', JSON.stringify(this.data));
-	}
-	/**
-	 * エラーメッセージを出す（3回以上でアラート）
-	 *
-	 * @return {object}
-	*/
-	displayErrorMessage () {
-		if (this.errorNum > 2) {
-			alert('通信状況を確認してください。');
-			this.errorNum = 0;
-		} else if (confirm('読み込みに失敗しました。再試行しますか？')) {
-			// 短時間に複数回通信するとエラーとなるので少し時間を空ける
-			setTimeout(() => {
-				this.ajaxRecipe();
-				this.errorNum++;
-			}, 1000);
-		}
-	}
-	/**
-	 * 非同期でランダムなレシピを1つ取得（更新ボタンclick）
-	 *
-	 * @param {Number} 日にち区分
+	 * @param {number} 日にち区分
 	 * @return {Promise}
 	*/
-	fetchRandomRecipe ({dateNumber}) {
+	fetchRandomRecipe (options) {
+		/**
+		 * 日にち区分を指定してローカルストレージに保存
+		 *
+		 * @param {Object} options.data レシピ
+		 * @param {number} options.dateNumber 日にち区分
+		 * @return {void}
+		*/
+		const updateLocalStorageSpecifiedDate = (options) => {
+			this.data[options.dateNumber]['recipe'] = options.data;
+			localStorage.setItem('week-dinner', JSON.stringify(this.data));
+		}
+
 		return new Promise(() => {
 			// カテゴリIDをセットしてJSON取得
 			this.ajaxRecipe().then((data) => {
 				// 日にち区分を指定してローカルストレージに保存
-				this.updateLocalStorageSpecifiedDate({
+				updateLocalStorageSpecifiedDate({
 					data: data[this.getRandomNum(4)],
-					dateNumber,
+					dateNumber: options.dateNumber,
 				});
 				this.updateCassetteContents();
 			}).catch(() => {
@@ -162,55 +197,29 @@ class RakutenRecipeAPI {
 		});
 	}
 	/**
-	 * 日にち区分を指定してローカルストレージに保存（更新ボタンclick）
-	 *
-	 * @return {void}
-	*/
-	updateLocalStorageSpecifiedDate ({data, dateNumber}) {
-		this.data[dateNumber]['recipe'] = data;
-		localStorage.setItem('week-dinner', JSON.stringify(this.data));
-	}
-	/**
-	* 非同期でURL登録（URL登録ボタンclick）
-	*
-	* @param {Number} 日にち区分
-	* @return {Promise}
-	*/
-	fetchURLRank () {
-		console.log('ランキング');
-	}
-	/**
-	 * 非同期でランキング一覧を取得（ランキングページ）
-	 *
-	 * @param {Number} レシピID
-	 * @return {Promise}
-	*/
-	fetchRecipeRanking ({id}) {
-		return new Promise((resolve) => {
-			// カテゴリIDをセットしてJSON取得
-			$.getJSON(this.setURL({isSetId: true, id}), (result) => {
-				resolve(result.result);
-			}).catch(() => {
-				alert('通信エラーが発生しました。再度お試しください。');
-			});
-		});
-	}
-
-	/**
 	 * API取得用のURLを生成
 	 *
-	 * @param {boolean} isSetId カテゴリIDをセットするか
+	 * @param {boolean} options.isSetId カテゴリIDをセットするか
+	 * @param {number} options.id id
 	 * @return {string} URL
 	*/
-	setURL ({isSetId, id}) {
+	setURL (options) {
+		/**
+		 * ランダムのカテゴリIDを返却
+		 *
+		 * @return {number} カテゴリID
+		*/
+		const setRandomCategoryId = () => {
+			return this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
+		}
+
 		let url = 'https://app.rakuten.co.jp/services/api/Recipe/CategoryRanking/20170426?';
 		// カテゴリIDが必要だったらセット
 		const params = {
 			format: 'json',
-			categoryId: isSetId ? (id ? id : this.setRandomCategoryId()) : null,
+			categoryId: options.isSetId ? (options.id ? options.id : setRandomCategoryId()) : null,
 			applicationId: '1099641121016352250',
 		}
-
 		// URL生成
 		for (const param in params) {
 			const str = param !== null ? `${param}=${params[param]}&` : '';
@@ -219,18 +228,10 @@ class RakutenRecipeAPI {
 		return url;
 	}
 	/**
-	 * ランダムのカテゴリIDを返却
-	 *
-	 * @return {Number} カテゴリID
-	*/
-	setRandomCategoryId () {
-		return this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
-	}
-	/**
 	 * 最大値のうちランダムな整数を返す
 	 *
-	 * @param {Number} maxNumber 最大値
-	 * @return {Number} ランダム数字
+	 * @param {number} maxNumber 最大値
+	 * @return {number} ランダム数字
 	*/
 	getRandomNum (maxNumber) {
 		return Math.floor(Math.random() * maxNumber);
@@ -254,39 +255,28 @@ class RakutenRecipeAPI {
 			// タイトル
 			$target.find(this.titleClassName).text(recipeData.recipeTitle);
 		}
-
-		// カセットの高さを合わせる
-		var $title = $(this.titleClassName);
-		for (let i = 1; i < $title.length; i++) {
-			const $obj1 = $title.eq(i);
-			const $obj2 = $title.eq(++i);
-			if ($obj1.height() !== $obj2.height()) {
-				const num = Math.max($obj1.height(), $obj2.height());
-				$obj1.css('height', num + 'px');
-				$obj2.css('height', num + 'px');
-			}
-		}
 	}
 	/**
 	 * モーダルのデータを更新
 	 *
-	 * @param {number} num
-	 * @param {object} $modalSubTitle
-	 * @param {object} $modalImage
-	 * @param {object} $modalTime
-	 * @param {object} $modalPrice
-	 * @param {object} $modalTitle
-	 * @param {object} $modalText
-	 * @param {object} $modalLink
-	 * @param {object} $modalMaterial
+	 * @param {number} options.num
+	 * @param {syting} options.trrigerSelecter
 	 * @return {void}
 	*/
-	updateModalContents ({num, $modalSubTitle, $modalImage, $modalTime, $modalPrice, $modalTitle, $modalText, $modalLink, $modalMaterial}) {
-		const recipeData = this.data[num].recipe;
+	updateModalContents (options) {
+		const $modalSubTitle = $('.' +  options.trrigerSelecter + '_sub_title');
+		const $modalImage = $('.' +  options.trrigerSelecter + '_image');
+		const $modalTime = $('.' +  options.trrigerSelecter + '_time');
+		const $modalPrice = $('.' +  options.trrigerSelecter + '_price');
+		const $modalTitle = $('.' +  options.trrigerSelecter + '_title');
+		const $modalText = $('.' +  options.trrigerSelecter + '_text');
+		const $modalLink = $('.' +  options.trrigerSelecter + '_link');
+		const $modalMaterial = $('.' +  options.trrigerSelecter + '_material');
+		const recipeData = this.data[options.num].recipe;
 		const division = ['今日', '明日', '明後日', '3日後', '4日後', '5日後', '6日後'];
 
 		// 日にち区分
-		$modalSubTitle.text(`${division[num]}のレシピ`);
+		$modalSubTitle.text(`${division[options.num]}のレシピ`);
 		// 画像
 		$modalImage.attr('src', recipeData.foodImageUrl).attr('alt', recipeData.recipeTitle);
 		// 時間
@@ -305,31 +295,6 @@ class RakutenRecipeAPI {
 				<tr><td>${recipeData.recipeMaterial[i]}</td></tr>
 			`;
 			$modalMaterial.append(insertHtml);
-		}
-	}
-	/**
-	 * ランキングモーダルのデータを更新
-	 *
-	 * @return {void}
-	*/
-	updateModalRanking({data, title, $modalRankTitle, $modalItem, modalTitleClassName, modalImageClassName, modalTimeClassName, modalPriceClassName, modalLinkClassName}) {
-		// ランキングタイトル
-		$modalRankTitle.text(title + 'のランキング');
-
-		for (let i = 0; i < data.length; i++) {
-			const rankingData = data[i];
-			const $item = $modalItem.eq(i);
-
-			// タイトル
-			$item.find(modalTitleClassName).text(rankingData.recipeTitle);
-			// 画像
-			$item.find(modalImageClassName).attr('src', rankingData.foodImageUrl).attr('alt', rankingData.recipeTitle);
-			// 時間
-			$item.find(modalTimeClassName).text(rankingData.recipeIndication);
-			// 金額
-			$item.find(modalPriceClassName).text(rankingData.recipeCost);
-			// リンク
-			$item.find(modalLinkClassName).attr('href', rankingData.recipeUrl);
 		}
 	}
 }
