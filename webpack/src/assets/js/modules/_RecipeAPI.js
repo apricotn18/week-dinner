@@ -1,7 +1,7 @@
 /**
  * 楽天レシピAPIのデータを取得するクラス
  *
- * @param {string} options.trrigerSelecter
+ * @param {string} options.triggerSelector
  */
 class RakutenRecipeAPI {
 	constructor (options) {
@@ -11,14 +11,14 @@ class RakutenRecipeAPI {
 		// 初期表示のエラー回数
 		this.initErrorNum = 0;
 
-		this.recipeClassName = '.' + options.trrigerSelecter;
-		this.imageClassName = '.' + options.trrigerSelecter + '_image';
+		this.recipeClassName = '.' + options.triggerSelector;
+		this.imageClassName = '.' + options.triggerSelector + '_image';
 		this.$image = $(this.imageClassName);
-		this.timeClassName = '.' + options.trrigerSelecter + '_time'
+		this.timeClassName = '.' + options.triggerSelector + '_time'
 		this.$time = $(this.timeClassName);
-		this.priceClassName = '.' + options.trrigerSelecter + '_price'
+		this.priceClassName = '.' + options.triggerSelector + '_price'
 		this.$price = $(this.priceClassName);
-		this.titleClassName = '.' + options.trrigerSelecter + '_title'
+		this.titleClassName = '.' + options.triggerSelector + '_title'
 		this.$title = $(this.titleClassName);
 	}
 	/**
@@ -146,12 +146,13 @@ class RakutenRecipeAPI {
 	/**
 	 * レシピ非同期通信
 	 *
+	 * @param {string} id
 	 * @return {Promise}
 	*/
-	ajaxRecipe () {
+	ajaxRecipe (id) {
 		return new Promise((resolve, reject) => {
 			// ランダムなカテゴリIDをセットしてJSON取得
-			$.getJSON(this.setURL({isSetId: true}), (result) => {
+			$.getJSON(this.setURL(id), (result) => {
 				if (result) {
 					resolve(result.result);
 				} else {
@@ -199,11 +200,10 @@ class RakutenRecipeAPI {
 	/**
 	 * API取得用のURLを生成
 	 *
-	 * @param {boolean} options.isSetId カテゴリIDをセットするか
-	 * @param {number} options.id id
+	 * @param {string} id
 	 * @return {string} URL
 	*/
-	setURL (options) {
+	setURL (id) {
 		/**
 		 * ランダムのカテゴリIDを返却
 		 *
@@ -212,12 +212,11 @@ class RakutenRecipeAPI {
 		const setRandomCategoryId = () => {
 			return this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
 		}
-
 		let url = 'https://app.rakuten.co.jp/services/api/Recipe/CategoryRanking/20170426?';
 		// カテゴリIDが必要だったらセット
 		const params = {
 			format: 'json',
-			categoryId: options.isSetId ? (options.id ? options.id : setRandomCategoryId()) : null,
+			categoryId: id ? id : setRandomCategoryId(),
 			applicationId: '1099641121016352250',
 		}
 		// URL生成
@@ -257,45 +256,12 @@ class RakutenRecipeAPI {
 		}
 	}
 	/**
-	 * モーダルのデータを更新
+	 * レシピのデータを取得
 	 *
-	 * @param {number} options.num
-	 * @param {syting} options.trrigerSelecter
-	 * @return {void}
+	 * @return {object} レシピデータ
 	*/
-	updateModalContents (options) {
-		const $modalSubTitle = $('.' +  options.trrigerSelecter + '_sub_title');
-		const $modalImage = $('.' +  options.trrigerSelecter + '_image');
-		const $modalTime = $('.' +  options.trrigerSelecter + '_time');
-		const $modalPrice = $('.' +  options.trrigerSelecter + '_price');
-		const $modalTitle = $('.' +  options.trrigerSelecter + '_title');
-		const $modalText = $('.' +  options.trrigerSelecter + '_text');
-		const $modalLink = $('.' +  options.trrigerSelecter + '_link');
-		const $modalMaterial = $('.' +  options.trrigerSelecter + '_material');
-		const recipeData = this.data[options.num].recipe;
-		const division = ['今日', '明日', '明後日', '3日後', '4日後', '5日後', '6日後'];
-
-		// 日にち区分
-		$modalSubTitle.text(`${division[options.num]}のレシピ`);
-		// 画像
-		$modalImage.attr('src', recipeData.foodImageUrl).attr('alt', recipeData.recipeTitle);
-		// 時間
-		$modalTime.text(recipeData.recipeIndication);
-		// 金額
-		$modalPrice.text(recipeData.recipeCost);
-		// タイトル
-		$modalTitle.text(recipeData.recipeTitle);
-		// 説明
-		$modalText.text(recipeData.recipeDescription);
-		// リンク
-		$modalLink.attr('href', recipeData.recipeUrl);
-		// 材料
-		for (var i = 0; i < recipeData.recipeMaterial.length; i++) {
-			const insertHtml = `
-				<tr><td>${recipeData.recipeMaterial[i]}</td></tr>
-			`;
-			$modalMaterial.append(insertHtml);
-		}
+	getData (num) {
+		return this.data[num].recipe;
 	}
 }
 

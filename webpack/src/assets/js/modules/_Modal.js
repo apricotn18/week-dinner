@@ -6,22 +6,42 @@ const ACTIVE_CLASS = 'is-active';
  */
 class Modal {
 	constructor (options) {
-		this.$modal = $('.' + options.trrigerSelecter);
-		this.$button = $('.' + options.trrigerSelecter + '_button');
-		this.$close = $('.' + options.trrigerSelecter + '_close');
+		this.$modal = $('.' + options.triggerSelector);
+		this.$close = $('.' + options.triggerSelector + '_close');
 	}
 	/**
-	 * イベント
+	 * 初期表示
 	 *
 	 * @return {void}
 	*/
-	bind () {
-		this.$button.on('click', () => {
-			this.$modal.toggleClass(ACTIVE_CLASS);
-		});
+	init () {
 		this.$close.on('click', () => {
-			this.$modal.removeClass(ACTIVE_CLASS);
+			this.close();
 		});
+	}
+	/**
+	 * モーダルを表示
+	 *
+	 * @return {void}
+	*/
+	toggle () {
+		this.$modal.toggleClass(ACTIVE_CLASS);
+	}
+	/**
+	 * モーダル開く
+	 *
+	 * @return {void}
+	*/
+	open () {
+		this.$modal.addClass(ACTIVE_CLASS);
+	}
+	/**
+	 * モーダルを閉じる
+	 *
+	 * @return {void}
+	*/
+	close () {
+		this.$modal.removeClass(ACTIVE_CLASS);
 	}
 }
 

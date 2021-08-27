@@ -89,3 +89,7 @@
 .ml90 { margin-left: 90px; }
 .ml95 { margin-left: 95px; }
 .ml100 { margin-left: 100px; }
+
+a:active {
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+}
