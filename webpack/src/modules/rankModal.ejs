@@ -2,12 +2,11 @@
 <div class="modal js-modal_rank">
 	<div class="modal-bg js-modal_rank_close"></div>
 	<div class="modal-rank_wrapper">
-		<div class="modal-rank_content">
-			<p class="rank_modal-title js-modal_rank_title"></p>
-
+		<div class="modal-rank_content js-modal_rank_content">
+			<p class="modal-rank_title"><span class="js-modal_rank_title"></span>のランキング</p>
 			<ul class="ranking">
 				<% for (var i = 1; i <= 4; i++) { %>
-					<%- include('./rankItem.ejs') %>
+					<%- include('./rankItem.ejs', {index: i}) %>
 				<% } %>
 			</ul>
 			<div class="modal_button">
@@ -15,8 +14,7 @@
 					閉じる
 				</a>
 			</div>
-			
-		<a href="javascript:void(0);" class="modal-close_button modal-close_button--black js-modal_rank_close"></a>
+			<a href="javascript:void(0);" class="modal-close_button js-modal_rank_close"></a>
 		</div>
 	</div>
 </div>
