@@ -130,7 +130,7 @@
 
 	.recipe_list-modal_content {
 		width: 100%;
-		padding: 15px 15px 20px;
+		padding: 18px 15px 25px;
 		text-align: left;
 	}
 
@@ -185,16 +185,12 @@
 			height: auto;
 		}
 
-		.recipe_list-sub_title {
-			font-size: 1.2rem;
-		}
-
 		.recipe_list-price {
 			margin-left: 12px;
 		}
 
 		.recipe_list-title {
-			padding: 8px 0 10px;
+			padding-bottom: 10px;
 			font-size: 1.6rem;
 		}
 	}

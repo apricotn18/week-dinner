@@ -6,7 +6,7 @@
 	left: 0;
 	width: 100%;
 	height: var.$header-height;
-	z-index: var.$header-z-index;
+	z-index: 99;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;

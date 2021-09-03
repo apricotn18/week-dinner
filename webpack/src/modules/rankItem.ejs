@@ -3,27 +3,21 @@
 		<p class="ranking-rank"><%= index %></p>
 		<p class="ranking-title js-ranking_title"></p>
 	</div>
-	<img class="ranking-image js-ranking_image">
-	<p class="ranking-time js-ranking_time"></p>
-	<p class="ranking-price js-ranking_price"></p>
-	<a href="" class="ranking-button js-ranking_link" target="_blank">
-		詳しいレシピを見る
+	<a href="" class="js-ranking_link" target="_blank">
+		<img class="ranking_image js-ranking_image">
 	</a>
-
-
-
-
-	
-	<!-- <div>
-		<select name="update">
-			<% for (var i = 1; i < 7; i++) { %>
-				<option value=<%- i %>>
-					<%- include('./dateDivision.ejs', {dateNum: i}) %>
-				</option>
-			<% } %>
-		</select>
-		<a href="javascript:void(0);" class="ranking-button js-ranking_update" target="_blank">
-			のレシピに登録する
-		</a>
-	</div> -->
+	<div class="ranking-note">
+		<p class="ranking-time js-ranking_time"></p>
+		<p class="ranking-price js-ranking_price"></p>
+		<div class="ranking-link_wrapper">
+			<a href="" class="ranking-link js-ranking_link" target="_blank">
+				詳しいレシピを見る
+			</a>
+		</div>
+	</div>
+	<p class="ranking-text js-ranking_text"></p>
+	<a href="javascript:void(0);" class="ranking-button js-ranking_entry">
+		レシピ登録
+	</a>
+	<input type="hidden" value="" class="js-ranking_data" style="display: none;">
 </li>

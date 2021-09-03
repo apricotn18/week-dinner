@@ -171,23 +171,11 @@ class RakutenRecipeAPI {
 	 * @return {Promise}
 	*/
 	fetchRandomRecipe (options) {
-		/**
-		 * 日にち区分を指定してローカルストレージに保存
-		 *
-		 * @param {Object} options.data レシピ
-		 * @param {number} options.dateNumber 日にち区分
-		 * @return {void}
-		*/
-		const updateLocalStorageSpecifiedDate = (options) => {
-			this.data[options.dateNumber]['recipe'] = options.data;
-			localStorage.setItem('week-dinner', JSON.stringify(this.data));
-		}
-
 		return new Promise(() => {
 			// カテゴリIDをセットしてJSON取得
 			this.ajaxRecipe().then((data) => {
 				// 日にち区分を指定してローカルストレージに保存
-				updateLocalStorageSpecifiedDate({
+				this.updateLocalStorageSpecifiedDate({
 					data: data[this.getRandomNum(4)],
 					dateNumber: options.dateNumber,
 				});
@@ -196,6 +184,17 @@ class RakutenRecipeAPI {
 				alert('通信エラーが発生しました。再度お試しください。');
 			});
 		});
+	}
+	/**
+	 * 日にち区分を指定してローカルストレージに保存
+	 *
+	 * @param {Object} options.data レシピ
+	 * @param {number} options.dateNumber 日にち区分
+	 * @return {void}
+	*/
+	updateLocalStorageSpecifiedDate (options) {
+		this.data[options.dateNumber]['recipe'] = options.data;
+		localStorage.setItem('week-dinner', JSON.stringify(this.data));
 	}
 	/**
 	 * API取得用のURLを生成
