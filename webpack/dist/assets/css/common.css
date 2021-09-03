@@ -88,7 +88,14 @@ a:hover {
   min-height: calc(100vh - 44px - 25px);
   margin: auto;
   background-color: #fff;
-  box-shadow: 5px 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+@media (min-width: 830px) {
+  .wrapper {
+    margin-top: 59px;
+    margin-bottom: 15px;
+    padding: 0;
+    box-shadow: 5px 0 10px 0 rgba(0, 0, 0, 0.1);
+  }
 }
 
 .contents .contents-wrapper {
@@ -137,7 +144,6 @@ a:hover {
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 800px;
   height: 100%;
   margin: auto;
   background-color: #f9ca4b;

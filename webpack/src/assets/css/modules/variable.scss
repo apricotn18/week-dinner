@@ -17,15 +17,15 @@ $img-path: '../img';
 $radius: 4px;
 
 
-$pc: 1024px;
+$pc: 830px;
 $tab: 680px;
 @mixin pc {
-    @media (min-width: ($pc)) {
-        @content;
-    }
+	@media (min-width: ($pc)) {
+		@content;
+	}
 }
 @mixin tab {
-    @media (min-width: ($tab)) {
-        @content;
-    }
+	@media (min-width: ($tab)) {
+		@content;
+	}
 }
