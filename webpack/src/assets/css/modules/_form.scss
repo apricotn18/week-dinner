@@ -38,6 +38,7 @@
 		appearance: none;
 		position: relative;
 		width: 20px;
+		min-width: 20px;
 		height: 12px;
 		margin: 0;
 	}
@@ -81,5 +82,5 @@
 }
 
 .form_line_through:checked + label {
-	text-decoration: line-through;
+	opacity: .5;
 }
