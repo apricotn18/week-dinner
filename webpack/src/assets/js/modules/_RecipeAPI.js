@@ -81,7 +81,7 @@ class RakutenRecipeAPI {
 			// 1日前の日付に変更（あとで1日ずつ足していくため）
 			newDate.setDate(newDate.getDate() - 1);
 
-			for (let i = 0; i < options.dataList.length; i++) {
+			for (let i = 0; i < options.dataList.length - 1; i++) {
 				// セットする日付に更新
 				newDate.setDate(newDate.getDate() + 1);
 

@@ -1,4 +1,5 @@
 import RecipeAPI from "./modules/_RecipeAPI.js";
+import MaterialAPI from "./modules/_MaterialAPI.js";
 import Modal from "./modules/_Modal.js";
 
 const ACTIVE_CLASS = 'is-active';
@@ -65,6 +66,7 @@ const updateModal = (options) => {
 	// 材料
 	if (!!options.writeMaterial) {
 		const $modalMaterial = $target.find(options.triggerSelector + '_material');
+		$modalMaterial.text('');
 		for (var i = 0; i < data.recipeMaterial.length; i++) {
 			const insertHtml = `
 				<tr><td>${data.recipeMaterial[i]}</td></tr>
@@ -72,9 +74,30 @@ const updateModal = (options) => {
 			$modalMaterial.append(insertHtml);
 		}
 	}
-}
+};
+/**
+ * レシピモーダルを開く
+ *
+ * @param {number} num 日にち
+ * @return {void}
+*/
+const openRecipeModal = (num) => {
+	// モーダルを開く度にトップに戻す
+	$('.js-modal_recipe_content').animate({scrollTop: 0});
+	// モーダルのデータ更新
+	updateModal({
+		$target: $('.js-modal_recipe_content'),
+		triggerSelector: '.js-modal',
+		recipeData: recipeAPI.getData(num),
+		writeMaterial: true,
+	});
+	// モーダルを開く
+	recipeModal.open();
+};
 
 // controller ===========================
+
+recipeAPI.init();
 
 $('.js-modal_menu_button').on('click', () => {
 	menuModal.toggle();
@@ -82,8 +105,6 @@ $('.js-modal_menu_button').on('click', () => {
 
 // トップ画面
 if ($('.js-recipe').length > 0) {
-	recipeAPI.init();
-
 	// レシピ更新ボタンclick
 	$('.js-recipe_update_button').on('click', (e) => {
 		// ダブルクリック回避
@@ -103,18 +124,59 @@ if ($('.js-recipe').length > 0) {
 
 	// レシピカセットclick
 	$('.js-modal_recipe_button').on('click', (e) => {
-		// モーダルを開く度にトップに戻す
-		$('.js-modal_recipe_content').animate({scrollTop: 0});
-		// モーダルのデータ更新
 		const num = $(e.target).closest('.js-recipe').data('date-num');
-		updateModal({
-			$target: $('.js-modal_recipe_content'),
-			triggerSelector: '.js-modal',
-			recipeData: recipeAPI.getData(num),
-			writeMaterial: true,
-		});
-		// モーダルを開く
-		recipeModal.open();
+		openRecipeModal(num);
+	});
+}
+
+// お買い物リスト
+if ($('.js-material_table').length > 0) {
+	// 材料API
+	const materialAPI = new MaterialAPI({
+		triggerSelector: '.js-material',
+		buyListSetting: 'true',
+	});
+	materialAPI.init();
+	
+	// レシピタイトルclick
+	$('.js-material_title').on('click', (e) => {
+		const num = $(e.target).data('date-num');
+		openRecipeModal(num);
+	});
+
+	// 材料のチェックボックス切り替え
+	$('.js-material_checkbox').on('change', (e) => {
+		const recipeNum = $(e.target).data('recipe');
+		const materialNum = $(e.target).data('material');
+		materialAPI.toggleMaterial(recipeNum, materialNum);
+	});
+
+	// 日にちのチェックボックス切り替え
+	$('.js-material_date_checkbox').on('change', () => {
+		materialAPI.updateTableContents();
+	});
+}
+
+// 削除したお買い物リスト
+if ($('.js-delete_table').length > 0) {
+	// 材料API
+	const materialAPI = new MaterialAPI({
+		triggerSelector: '.js-material',
+		buyListSetting: 'false',
+	});
+	materialAPI.updateTableContents();
+
+	// レシピタイトルclick
+	$('.js-material_title').on('click', (e) => {
+		const num = $(e.target).data('date-num');
+		openRecipeModal(num);
+	});
+
+	// 材料のチェックボックス切り替え
+	$('.js-material_checkbox').on('change', (e) => {
+		const recipeNum = $(e.target).data('recipe');
+		const materialNum = $(e.target).data('material');
+		materialAPI.toggleMaterial(recipeNum, materialNum);
 	});
 }
 

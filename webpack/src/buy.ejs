@@ -18,100 +18,12 @@
 		<div class="contents">
 			<div class="contents-wrapper">
 				<form action="" method="">
-					<div class="contents-head">
-						<h2 class="contents-title">お買い物リスト</h2>
-						<a href="javascript:void(0);" class="contents-link text_link">
-							<span class="icon icon--delete"></span>チェックをまとめて削除
-						</a>
-					</div>
+					<h2 class="contents-title">お買い物リスト</h2>
+					<p class="contents-title_discription">
+						チェックを入れるとお買い物リストから非表示になります
+					</p>
+					<table class="table_list js-material_table mb25"></table>
 					<table class="table_list">
-						<tbody>
-							<tr><td>
-								<div class="buy_list">
-									<div class="buy_list-head">
-										<div class="form_checkbox">
-											<input type="checkbox" id="val0" class="form_line_through" />
-											<label for="val0">材料<span class="buy_list-sub">- 今日</span></label>
-										</div>
-										<div class="buy_list-menu">
-											<a href="javascript:void(0);" class="icon icon--menu_write"></a>
-										</div>
-									</div>
-									<div class="buy_list-note">
-										メモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモ
-										メモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモメモ
-									</div>
-								</div>
-							</td></tr>
-							<tr><td>
-								<div class="buy_list">
-									<div class="buy_list-head">
-										<div class="form_checkbox">
-											<input type="checkbox" id="val1" class="form_line_through" />
-											<label for="val1">材料<span class="buy_list-sub">- 今日</span></label>
-										</div>
-										<div class="buy_list-menu">
-											<a href="javascript:void(0);" class="icon icon--menu_write"></a>
-										</div>
-									</div>
-									<div class="buy_list-note">メモメモ</div>
-								</div>
-							</td></tr>
-							<tr><td>
-								<div class="buy_list">
-									<div class="buy_list-head">
-										<div class="form_checkbox">
-											<input type="checkbox" id="val2" class="form_line_through" />
-											<label for="val2">材料<span class="buy_list-sub">- 今日</span></label>
-										</div>
-										<div class="buy_list-menu">
-											<a href="javascript:void(0);" class="icon icon--menu_write"></a>
-										</div>
-									</div>
-								</div>
-							</td></tr>
-							<tr><td>
-								<div class="buy_list">
-									<div class="buy_list-head">
-										<div class="form_checkbox">
-											<input type="checkbox" id="val3" class="form_line_through" />
-											<label for="val3">材料<span class="buy_list-sub">- 今日</span></label>
-										</div>
-										<div class="buy_list-menu">
-											<a href="javascript:void(0);" class="icon icon--menu_write"></a>
-										</div>
-									</div>
-								</div>
-							</td></tr>
-							<tr><td>
-								<div class="buy_list">
-									<div class="buy_list-head">
-										<div class="form_checkbox">
-											<input type="checkbox" id="val4" class="form_line_through" />
-											<label for="val4">材料<span class="buy_list-sub">- 今日</span></label>
-										</div>
-										<div class="buy_list-menu">
-											<a href="javascript:void(0);" class="icon icon--menu_write"></a>
-										</div>
-									</div>
-								</div>
-							</td></tr>
-							<tr><td>
-								<div class="buy_list">
-									<div class="buy_list-head">
-										<div class="form_checkbox">
-											<input type="checkbox" id="val5" class="form_line_through" />
-											<label for="val5">材料<span class="buy_list-sub">- 今日</span></label>
-										</div>
-										<div class="buy_list-menu">
-											<a href="javascript:void(0);" class="icon icon--menu_write"></a>
-										</div>
-									</div>
-								</div>
-							</td></tr>
-						</tbody>
-					</table>
-					<table class="table_list mt25">
 						<thead>
 							<tr><th>表示するお買い物リスト</th></tr>
 						</thead>
@@ -126,7 +38,7 @@
 						</tbody>
 					</table>
 					
-					<a href="<%= path %>/delete.html" class="text_link mt15">削除したお買い物リスト一覧</a>
+					<a href="<%= path %>/delete.html" class="text_link mt15">非表示にしたお買い物リスト一覧</a>
 				</form>
 			</div>
 		</div>
