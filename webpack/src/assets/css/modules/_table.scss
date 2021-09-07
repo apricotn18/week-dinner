@@ -50,8 +50,8 @@
 			&.is-fixed {
 				position: fixed;
 				top: 44px;
+				right: 15px;
 				left: 15px;
-				width: calc(100% - 61px);
 				background-color: var.$bg-color;
 				z-index: 1;
 			}
@@ -76,24 +76,15 @@
 		}
 
 		th.recipe_link {
-			color: var.$main-color;
-			background-color: #dad5d3;
-
-			&::before,
-			&::after {
-				background-color: var.$main-color;
+			.recipe_link-item {
+				color: var.$main-color;
+				background-color: #dad5d3;
+	
+				&::before,
+				&::after {
+					background-color: var.$main-color;
+				}
 			}
 		}
-	}
-	
-	.table_list-date_list {
-		display: flex;
-		flex-wrap: wrap;
-		padding: 1px 10px 10px;
-	}
-	
-	.table_list-date_item {
-		width: 25%;
-		padding-top: 10px
 	}
 }

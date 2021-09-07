@@ -134,6 +134,7 @@ if ($('.js-material_table').length > 0) {
 	// 材料API
 	const materialAPI = new MaterialAPI({
 		triggerSelector: '.js-material',
+		$table: $('.js-material_table'),
 		buyListSetting: 'true',
 	});
 	materialAPI.init();
@@ -148,12 +149,7 @@ if ($('.js-material_table').length > 0) {
 	$('.js-material_checkbox').on('change', (e) => {
 		const recipeNum = $(e.target).data('recipe');
 		const materialNum = $(e.target).data('material');
-		materialAPI.toggleMaterial(recipeNum, materialNum);
-	});
-
-	// 日にちのチェックボックス切り替え
-	$('.js-material_date_checkbox').on('change', () => {
-		materialAPI.updateTableContents();
+		materialAPI.toggleIndex(recipeNum, materialNum);
 	});
 }
 
@@ -162,6 +158,7 @@ if ($('.js-delete_table').length > 0) {
 	// 材料API
 	const materialAPI = new MaterialAPI({
 		triggerSelector: '.js-material',
+		$table: $('.js-delete_table'),
 		buyListSetting: 'false',
 	});
 	materialAPI.updateTableContents();
@@ -176,7 +173,7 @@ if ($('.js-delete_table').length > 0) {
 	$('.js-material_checkbox').on('change', (e) => {
 		const recipeNum = $(e.target).data('recipe');
 		const materialNum = $(e.target).data('material');
-		materialAPI.toggleMaterial(recipeNum, materialNum);
+		materialAPI.toggleIndex(recipeNum, materialNum);
 	});
 }
 
