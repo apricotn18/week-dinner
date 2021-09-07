@@ -18,22 +18,15 @@
 		<div class="contents">
 			<div class="contents-wrapper">
 				<form action="" method="">
-					<h2 class="contents-title">削除したお買い物リスト</h2>
+					<h2 class="contents-title">非表示にしたお買い物リスト</h2>
 					<p class="contents-title_discription">
-						チェックを入れるとお買い物リストに再表示されます
+						チェックを入れて更新すると、お買い物リストに表示されます
 					</p>
 					<table class="table_list table_list--no_background js-delete_table"></table>
-					<a href="<%= path %>/buy.html" class="text_link mt20">お買い物リスト一覧に戻る</a>
+					<a href="<%= path %>/buy.html" class="text_link mt20">お買い物リストに戻る</a>
 				</form>
-
-				<div style="display: none;">
-					<% for (var i = 0; i < 7; i++) { %>
-						<%- include('./modules/dateList.ejs', {dateNum: i}) %>
-					<% } %>
-				</div>
 			</div>
 		</div>
-
 		<%- include('./modules/footer.ejs') %>
 	</section>
 

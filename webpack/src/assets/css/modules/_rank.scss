@@ -67,6 +67,11 @@
 		font-weight: bold;
 	}
 
+	.ranking-image {
+		max-height: 280px;
+		object-fit: cover;
+	}
+
 	.ranking-note {
 		display: flex;
 		align-items: baseline;

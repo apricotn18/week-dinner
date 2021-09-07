@@ -20,25 +20,10 @@
 				<form action="" method="">
 					<h2 class="contents-title">お買い物リスト</h2>
 					<p class="contents-title_discription">
-						チェックを入れるとお買い物リストから非表示になります
+						チェックを入れて更新すると、お買い物リストから非表示になります
 					</p>
-					<table class="table_list js-material_table mb25"></table>
-					<table class="table_list">
-						<thead>
-							<tr><th>表示するお買い物リスト</th></tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="table_list-date_list">
-									<% for (var i = 0; i < 7; i++) { %>
-										<%- include('./modules/dateList.ejs', {dateNum: i}) %>
-									<% } %>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					
-					<a href="<%= path %>/delete.html" class="text_link mt15">非表示にしたお買い物リスト一覧</a>
+					<table class="table_list js-material_table"></table>
+					<a href="<%= path %>/delete.html" class="text_link mt20">非表示にしたお買い物リスト</a>
 				</form>
 			</div>
 		</div>
