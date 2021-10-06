@@ -171,18 +171,16 @@ class RakutenRecipeAPI {
 	 * @return {Promise}
 	*/
 	fetchRandomRecipe (options) {
-		return new Promise(() => {
-			// カテゴリIDをセットしてJSON取得
-			this.ajaxRecipe().then((data) => {
-				// 日にち区分を指定してローカルストレージに保存
-				this.updateLocalStorageSpecifiedDate({
-					data: data[this.getRandomNum(4)],
-					dateNumber: options.dateNumber,
-				});
-				this.updateCassetteContents();
-			}).catch(() => {
-				alert('通信エラーが発生しました。再度お試しください。');
+		// カテゴリIDをセットしてJSON取得
+		this.ajaxRecipe().then((data) => {
+			// 日にち区分を指定してローカルストレージに保存
+			this.updateLocalStorageSpecifiedDate({
+				data: data[this.getRandomNum(4)],
+				dateNumber: options.dateNumber,
 			});
+			this.updateCassetteContents();
+		}).catch(() => {
+			alert('通信エラーが発生しました。再度お試しください。');
 		});
 	}
 	/**
