@@ -217,11 +217,10 @@ class RakutenRecipeAPI {
 			applicationId: '1099641121016352250',
 		}
 		// URL生成
-		for (const param in params) {
-			const str = param !== null ? `${param}=${params[param]}&` : '';
-			url += str;
-		}
-		return url;
+		const query = Object.entries(params).map(([key, value]) => {
+			return `${key}=${value}`;
+		}).join('&');
+		return url + query;
 	}
 	/**
 	 * 最大値のうちランダムな整数を返す
