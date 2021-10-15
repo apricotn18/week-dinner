@@ -32,6 +32,7 @@
 
 .form_checkbox {
 	display: flex;
+	width: 100%;
 
 	& > input {
 		display: inline-block;
@@ -81,6 +82,9 @@
 	
 }
 
+.form_line_through + label {
+	width: 100%;
+}
 .form_line_through:checked + label {
 	opacity: .5;
 }
