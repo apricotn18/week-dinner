@@ -1,41 +1,24 @@
+const webpack = require('webpack');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const enabledSourceMap = process.env.NODE_ENV !== 'production';
-const webpack = require('webpack');
 
 module.exports = {
-	mode: 'development',
-	watch: true,
-	entry: './src/app.js',
-	// 出力の設定
+	mode: 'production',
+	entry: './src/App.tsx',
 	output: {
-		// 出力するファイル名
-		filename: 'app.js',
-		// 出力先のパス（絶対パスを指定する必要がある）
+		filename: '_app.js',
 		path: path.join(__dirname, 'dist/'),
 	},
 	devServer: {
+		static: {
+			directory: path.join(__dirname, 'dist'),
+		}
 	},
 	module: {
 		rules: [
-			{
-				test: /\.ejs$/,
-				use: [
-					{
-						loader: 'html-loader',
-						options: {
-							minimize: false
-						},
-					},
-					{
-						loader: 'ejs-plain-loader'
-					}
-				]
-			},
 			{
 				test: /\.scss$/,
 				use: [
@@ -72,17 +55,18 @@ module.exports = {
 				],
 			},
 			{
-				test: /\.js$/,
-				exclude: /node_modules/,
+				test: /\.(ts|tsx|js)$/,
 				use: [
 					{
-						loader: 'babel-loader',
-						options: {
-							presets: [
-								'@babel/preset-env',
-							]
-						}
-					}
+					loader: 'babel-loader',
+					options: { presets: ['@babel/preset-env', '@babel/react'] },
+					},
+					{
+					loader: 'ts-loader',
+					options: {
+						configFile: path.resolve(__dirname, 'tsconfig.json'),
+					},
+					},
 				]
 			},
 			{
@@ -95,14 +79,17 @@ module.exports = {
 		],
 	},
 	plugins: [
-		new CleanWebpackPlugin({
-			cleanStaleWebpackAssets: false,
-		}),
 		new CopyPlugin({
-			patterns: [{
-				from: __dirname + '/src/assets/img',
-				to: __dirname + '/dist/assets/img'
-			}],
+			patterns: [
+				{
+					from: __dirname + '/src/assets/img',
+					to: __dirname + '/dist/assets/img'
+				},
+				{
+					from: __dirname + '/src/html',
+					to: __dirname + '/dist'
+				}
+			],
 		}),
 		new ImageminPlugin({
 			disable: process.env.NODE_ENV !== 'production',
@@ -113,22 +100,6 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: './assets/css/common.css',
 		}),
-		new HtmlWebpackPlugin({
-			filename: 'index.html',
-			template : './src/index.ejs',
-		}),
-		new HtmlWebpackPlugin({
-			filename: 'buy.html',
-			template : './src/buy.ejs',
-		}),
-		new HtmlWebpackPlugin({
-			filename: 'delete.html',
-			template : './src/delete.ejs',
-		}),
-		new HtmlWebpackPlugin({
-			filename: 'rank.html',
-			template : './src/rank.ejs',
-		}),
 		new webpack.ProvidePlugin({
 			$: 'jquery'
 		})
@@ -136,4 +107,9 @@ module.exports = {
 	watchOptions: {
 		ignored: /node_modules/
 	},
+	performance: { 
+		maxEntrypointSize: 400000,
+		maxAssetSize: 400000,
+	},
+	target: 'web',
 };
