@@ -1,0 +1,18 @@
+<li class="recipe_list-item recipe_list-item--min js-recipe" data-date-num="<%= dateNum %>">
+	<a href="javascript:void(0);" class="js-modal_recipe_button">
+		<div class="recipe_list-image recipe_list-image js-recipe_image"></div>
+		<div class="recipe_list-link">
+			<div class="recipe_list-head">
+				<p class="recipe_list-sub_title"><%- include('./dateDivision.ejs', {dateNum}) %></p>
+				<p class="recipe_list-time js-recipe_time"></p>
+				<p class="recipe_list-price js-recipe_price"></p>
+			</div>
+			<div>
+				<p class="recipe_list-title js-recipe_title"></p>
+			</div>
+		</div>
+	</a>
+	<div class="recipe_list-update">
+		<a href="javascript:void(0);" class="recipe_list-update_image js-recipe_update_button"></a>
+	</div>
+</li>

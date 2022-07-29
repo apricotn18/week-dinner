@@ -1,0 +1,148 @@
+@use 'variable.scss' as var;
+
+.recipe_list {
+	.recipe_list-item {
+		position: relative;
+		width: 100%;
+	}
+
+	.recipe_list-button {
+		width: 100%;
+	}
+
+	.recipe_list-image {
+		width: 100%;
+		height: 300px;
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-color: #eee;
+
+		@include var.tab {
+			height: 400px;
+		}
+	}
+
+	.recipe_list-update {
+		position: absolute;
+		top: 6px;
+		right: 4px;
+		overflow: hidden;
+	}
+
+	.recipe_list-update_image {
+		display: block;
+		width: 40px;
+		height: 40px;
+		background-image: url(#{var.$img-path}/icon_update.png);
+		background-size: 40px;
+		background-repeat: no-repeat;
+		background-position: 0 0;
+
+		&.is-disabled {
+			pointer-events: none;
+			opacity: .4;
+		}
+	}
+
+	.recipe_info {
+		display: block;
+		padding: 12px 10px 11px;
+		text-align: left;
+	}
+
+	.recipe_list-head {
+		display: flex;
+		padding-bottom: 7px;
+		color: var.$gray-color;
+		font-size: 12px;
+		align-items: center;
+	}
+
+	.recipe_list-division {
+		font-weight: bold;
+		white-space: nowrap;
+	}
+
+	.recipe_list-time {
+		margin-left: 10px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+
+		&::before {
+			display: inline-block;
+			width: 11px;
+			height: 11px;
+			margin-right: 3px;
+			content: "";
+			background-image: url(#{var.$img-path}/icon_recipe.png);
+			background-size: 22px;
+			background-repeat: no-repeat;
+			background-position: 0 0;
+			overflow: hidden;
+			transform: translateY(1px);
+		}
+	}
+
+	.recipe_list-price {
+		margin-left: 8px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+
+		&::before {
+			display: inline-block;
+			width: 11px;
+			height: 11px;
+			margin-right: 3px;
+			content: "";
+			background-image: url(#{var.$img-path}/icon_recipe.png);
+			background-size: 22px;
+			background-repeat: no-repeat;
+			background-position: -11px 0;
+			overflow: hidden;
+			transform: translateY(1px);
+		}
+	}
+
+	.recipe_list-title {
+		font-weight: bold;
+		display: -webkit-box;
+		overflow: hidden;
+		font-size: 14px;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+
+	// modal
+	&.recipe_list--modal {
+		.recipe_list-wrapper {
+			padding: 18px 15px 25px;
+			text-align: left;
+		}
+
+		.recipe_list-modal_info {
+			display: flex;
+			justify-content: flex-end;
+		}
+
+		.recipe_list-description {
+			padding: 12px 0 15px;
+		}
+
+		.recipe_list-image {
+			height: auto;
+		}
+
+		.recipe_list-price {
+			margin-left: 12px;
+		}
+
+		.recipe_list-title {
+			display: block;
+			padding-bottom: 10px;
+			font-size: 16px;
+		}
+	}
+}

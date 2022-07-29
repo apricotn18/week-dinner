@@ -1,0 +1,45 @@
+<% var path = '.' %>
+<!doctype html>
+<html>
+<head>
+	<title>week dinner - 1週間の夜ご飯のレシピを登録できるアプリ</title>
+	<meta name="Description" content="">
+	<meta name="Keywords" content="">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=yes">
+	<link rel="shortcut icon" type="image/x-icon" href="<%= path %>/assets/img/favicon.ico">
+</head>
+<body>
+	<%- include('./modules/header.ejs', {path}) %>
+
+	<section class="wrapper">
+		<div class="contents">
+			<ul class="recipe_list">
+				<li class="recipe_list-item js-recipe" data-date-num="0">
+					<a href="javascript:void(0);" class="js-modal_recipe_button">
+						<div class="recipe_list-image js-recipe_image"></div>
+						<div class="recipe_list-link">
+							<div class="recipe_list-head">
+								<p class="recipe_list-sub_title">今日のレシピ</p>
+								<p class="recipe_list-time js-recipe_time"></p>
+								<p class="recipe_list-price js-recipe_price"></p>
+							</div>
+							<p class="recipe_list-title js-recipe_title"></p>
+						</div>
+					</a>
+					<div class="recipe_list-update">
+						<a href="javascript:void(0);" class="recipe_list-update_image js-recipe_update_button"></a>
+					</div>
+								</li>
+				<% for (var i = 1; i < 7; i++) { %>
+					<%- include('./modules/recipeList.ejs', {dateNum: i}) %>
+				<% } %>
+			</ul>
+		</div>
+
+		<%- include('./modules/footer.ejs') %>
+	</section>
+
+	<%- include('./modules/modal.ejs', {path}) %>
+</body>
+</html>
