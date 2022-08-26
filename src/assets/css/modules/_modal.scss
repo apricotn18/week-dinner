@@ -1,4 +1,4 @@
-@use 'variable.scss' as var;
+@use 'variable' as var;
 
 .modal {
 	display: none;
@@ -16,7 +16,7 @@
 	.modal-bg {
 		width: 100%;
 		height: 100%;
-		background-color: rgba(0, 0, 0, .6);
+		background-color: rgba(0, 0, 0, .7);
 		cursor: pointer;
 
 		&.modal-bg--blank {
@@ -49,14 +49,9 @@
 		max-height: 100%;
 		overflow-x: hidden;
 		overflow-y: auto;
-		background-color: var.$white-color;
 		border-radius: var.$radius;
 		scrollbar-width: none;
 		-ms-overflow-style: none;
-
-		&::-webkit-scrollbar {
-			display: none;
-		}
 	}
 
 	.modal-rank_title {
@@ -105,15 +100,14 @@
 
 .modal_close_button {
 	position: absolute;
-	top: -12px;
-	right: -11px;
+	top: 0;
+	right: 0;
 
 	.modal_close_button-item {
 		position: relative;
 		display: block;
-		width: 32px;
-		height: 32px;
-		background-color: rgb(0,0,0,.7);
+		width: 45px;
+		height: 45px;
 		border-radius: 50%;
 
 		&::before, &::after {
@@ -122,8 +116,8 @@
 			top: 50%;
 			left: 50%;
 			display: block;
-			width: 3px;
-			height: 20px;
+			width: 4px;
+			height: 27px;
 			background-color: #fff;
 			border-radius: 2px;
 		}
@@ -163,21 +157,16 @@
 		&::before {
 			position: absolute;
 			top: 10px;
+			left: 11px;
 			display: inline-block;
+			width: 29px;
 			height: 23px;
 			content: "";
 			background-image: url(#{var.$img-path}/icon_menu.png);
+			background-position: -19px -1px;
 			background-size: 63px 23px;
 			background-repeat: no-repeat;
 			vertical-align: baseline;
-		}
-
-		&.modal_menu-link--top {
-			&::before {
-				left: 11px;
-				width: 29px;
-				background-position: -19px -1px;
-			}
 		}
 
 		&.modal_menu-link--buy {
@@ -193,6 +182,15 @@
 				left: 16px;
 				width: 19px;
 				background-position: -46px -1px;
+			}
+		}
+
+		&.is-current {
+			background-color: #f8f4e9;
+
+			&:hover {
+				opacity: 1;
+				cursor: auto;
 			}
 		}
 	}

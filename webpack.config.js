@@ -15,7 +15,8 @@ module.exports = {
 	devServer: {
 		static: {
 			directory: path.join(__dirname, 'dist'),
-		}
+		},
+		historyApiFallback: true,
 	},
 	module: {
 		rules: [
@@ -107,9 +108,9 @@ module.exports = {
 	watchOptions: {
 		ignored: /node_modules/
 	},
-	performance: { 
-		maxEntrypointSize: 400000,
-		maxAssetSize: 400000,
+	performance: {
+		maxEntrypointSize: 500000,
+		maxAssetSize: 500000,
 	},
 	target: 'web',
 };

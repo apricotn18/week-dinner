@@ -1,6 +1,8 @@
-@use 'variable.scss' as var;
+@use 'variable' as var;
 
 .recipe_list {
+	position: relative;
+
 	.recipe_list-item {
 		position: relative;
 		width: 100%;
@@ -47,13 +49,13 @@
 
 	.recipe_info {
 		display: block;
-		padding: 12px 10px 11px;
+		padding: 13px 13px 12px;
 		text-align: left;
 	}
 
 	.recipe_list-head {
 		display: flex;
-		padding-bottom: 7px;
+		padding-bottom: 5px;
 		color: var.$gray-color;
 		font-size: 12px;
 		align-items: center;
@@ -120,6 +122,7 @@
 		.recipe_list-wrapper {
 			padding: 18px 15px 25px;
 			text-align: left;
+			background-color: var.$white-color;
 		}
 
 		.recipe_list-modal_info {

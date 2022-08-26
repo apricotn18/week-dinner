@@ -8,7 +8,7 @@ export default function BuyList () {
 			<Header />
 			<section className="wrapper">
 				<div className="contents">
-					お買い物リスト
+					ランキングからレシピ登録
 				</div>
 			</section>
 		</div>
