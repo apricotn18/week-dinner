@@ -36,3 +36,11 @@ a {
 	text-decoration: none;
 	color: inherit;
 }
+body,div {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+body::-webkit-scrollbar,
+div::-webkit-scrollbar {
+	display:none;
+}

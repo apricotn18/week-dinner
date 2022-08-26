@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const ACTIVE_CLASS = 'is-active';
 
@@ -15,13 +16,13 @@ export default function MenuModal (props) {
 				<div className="modal_menu">
 					<ul className="modal_menu-list">
 						<li className="modal_menu-item">
-							<a href="/" className="modal_menu-link modal_menu-link--top">トップ</a>
+							<Link to="/" className="modal_menu-link">トップ</Link>
 						</li>
 						<li className="modal_menu-item">
-							<a href="" className="modal_menu-link modal_menu-link--buy">お買い物リスト</a>
+							<Link to="/list" className="modal_menu-link modal_menu-link--buy">お買い物リスト</Link>
 						</li>
 						<li className="modal_menu-item">
-							<a href="" className="modal_menu-link modal_menu-link--rank">ランキングからレシピ登録</a>
+							<Link to="/rank" className="modal_menu-link modal_menu-link--rank">ランキングからレシピ登録</Link>
 						</li>
 					</ul>
 				</div>
