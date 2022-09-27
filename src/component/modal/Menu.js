@@ -5,8 +5,8 @@ const ACTIVE_CLASS = 'is-active';
 
 export default function MenuModal (props) {
 	const closeModal = () => {
-		$('body').css('overflow', '');
-		$('.' + props.modalClass).removeClass(ACTIVE_CLASS);
+		document.querySelectorAll('body')[0].style.overflow = '';
+		document.querySelectorAll('.' + props.modalClass)[0].classList.remove(ACTIVE_CLASS);
 	}
 
 	return (

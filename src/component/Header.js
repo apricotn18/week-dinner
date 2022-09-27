@@ -6,8 +6,8 @@ const MENU_MODAL_CLASS = 'js-modal_menu';
 
 export default function Header () {
 	const clickMenu = () => {
-		$('body').css('overflow', 'hidden');
-		$('.' + MENU_MODAL_CLASS).addClass(ACTIVE_CLASS);
+		document.querySelectorAll('body')[0].style.overflow = 'hidden';
+		document.querySelectorAll('.' + MENU_MODAL_CLASS)[0].classList.add(ACTIVE_CLASS);
 	};
 
 	return (
