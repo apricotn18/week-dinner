@@ -101,9 +101,6 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: './assets/css/common.css',
 		}),
-		new webpack.ProvidePlugin({
-			$: 'jquery'
-		})
 	],
 	watchOptions: {
 		ignored: /node_modules/
