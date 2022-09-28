@@ -87,7 +87,7 @@ module.exports = {
 					to: __dirname + '/dist/assets/img'
 				},
 				{
-					from: __dirname + '/src/html',
+					from: __dirname + '/src',
 					to: __dirname + '/dist'
 				}
 			],
