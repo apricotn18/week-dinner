@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Index from "./Index";
-import BuyList from "./BuyList";
-import Ranking from "./Ranking";
-import "./assets/css/common.scss";
+import Index from './component/index/Index';
+import BuyList from './component/buyList/BuyList';
+import Ranking from './component/ranking/Ranking';
+import './assets/css/common.scss';
 
 function App () {
 	return (
