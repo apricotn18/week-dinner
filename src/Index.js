@@ -3,25 +3,20 @@ import Header from "./component/Header";
 import Footer from "./component/Footer";
 import RecipeAPI from "./assets/js/modules/_RecipeAPI.js";
 
-const localstorageData = JSON.parse(localStorage.getItem('week-dinner')) || {};
-const recipeAPI = new RecipeAPI({
-	data: localstorageData,
-});
 
 const ACTIVE_CLASS = 'is-active';
 const RECIPE_MODAL_CLASS = 'js-modal_recipe';
 
 export default function Index () {
+	const recipeAPI = new RecipeAPI();
 	const division = ["今日","明日","明後日","3日後","4日後","5日後","6日後"];
-	let index = 0;
-
-	const [data, setData] = useState([{},{},{},{},{},{},{}]);
-	const [modalData, setModalData] = useState(data[index]);
+	const [recipe, setRecipe] = useState([{},{},{},{},{},{},{}]);
+	const [modalRecipe, setModalRecipe] = useState(recipe[0]);
 
 	// レシピ更新
 	useEffect(() => {
 		recipeAPI.initFetch().then((result) => {
-			setData(result);
+			setRecipe(result);
 		});
 	}, []);
 
@@ -32,7 +27,7 @@ export default function Index () {
 	const openRecipeModal = (e) => {
 		// レシピ書き換え
 		const index = e.currentTarget.dataset.dateNum;
-		setModalData(data[index]);
+		setModalRecipe(recipe[index]);
 		// open
 		document.querySelectorAll('body')[0].style.overflow = 'hidden';
 		document.querySelectorAll('.' + RECIPE_MODAL_CLASS)[0].classList.add(ACTIVE_CLASS);
@@ -48,13 +43,24 @@ export default function Index () {
 		document.querySelectorAll('.' + RECIPE_MODAL_CLASS)[0].classList.remove(ACTIVE_CLASS);
 	}
 
+	/**
+	 * レシピを変更
+	 * @return {void}
+	*/
+	const changeRecipe = (e) => {
+		const index = e.currentTarget.dataset.dateNum;
+		recipeAPI.fetch(index).then((result) => {
+			setRecipe(result);
+		});
+	}
+
 	return (
 		<div>
 			<Header />
 			<section className="wrapper">
 				<div className="contents">
 					<ul className="recipe_list">
-						{data.map((item, i) => {
+						{recipe.map((item, i) => {
 							return (
 								<li className="recipe_list-item">
 									<button type="button" className="recipe_list-button" data-date-num={i} onClick={openRecipeModal}>
@@ -68,9 +74,11 @@ export default function Index () {
 											<p className="recipe_list-title">{item.recipeTitle||''}</p>
 										</div>
 									</button>
+									{!item.foodImageUrl ? "" :
 									<div className="recipe_list-update">
-										<a href="javascript:void(0);" className="recipe_list-update_image js-recipe_update_button"></a>
+										<button type="button" className="recipe_list-update_image" data-date-num={i} onClick={changeRecipe}></button>
 									</div>
+									}
 								</li>
 							)
 						})}
@@ -88,27 +96,27 @@ export default function Index () {
 							<button type="button" className="modal_close_button" onClick={closeRecipeModal}>
 								<span className="modal_close_button-item"></span>
 							</button>
-							<img className="recipe_list-image" src={modalData.foodImageUrl||''} />
+							<img className="recipe_list-image" src={modalRecipe.foodImageUrl||''} />
 							<div className="recipe_list-wrapper">
-								<p className="recipe_list-title">{modalData.recipeTitle||''}</p>
+								<p className="recipe_list-title">{modalRecipe.recipeTitle||''}</p>
 								<div className="recipe_list-modal_info">
-									<p className="recipe_list-time">{modalData.recipeIndication||''}</p>
-									<p className="recipe_list-price">{modalData.recipeCost||''}</p>
+									<p className="recipe_list-time">{modalRecipe.recipeIndication||''}</p>
+									<p className="recipe_list-price">{modalRecipe.recipeCost||''}</p>
 								</div>
-								<p className="recipe_list-description">{modalData.recipeDescription||''}</p>
+								<p className="recipe_list-description">{modalRecipe.recipeDescription||''}</p>
 								<table className="table_list">
 									<thead>
 										<tr><th>材料</th></tr>
 									</thead>
 									<tbody>
-										{modalData.recipeMaterial ? modalData.recipeMaterial.map((item) => {
+										{modalRecipe.recipeMaterial ? modalRecipe.recipeMaterial.map((item) => {
 											return <tr><td>{item}</td></tr>
 										}) : ''}
 									</tbody>
 								</table>
 							</div>
 							<div className="modal_button">
-								<a href={modalData.recipeUrl||''} className="modal_button-item modal_button-item--rakuten" target="_blank">
+								<a href={modalRecipe.recipeUrl||''} className="modal_button-item modal_button-item--rakuten" target="_blank">
 									詳しいレシピを見る
 								</a>
 								<button type="button" className="modal_button-item modal_button-item--close" onClick={closeRecipeModal}>

@@ -4,14 +4,10 @@
  * @param {object} options.data
  */
 class RakutenRecipeAPI {
-	constructor (options) {
-		this.data = options.data || [];
-		const today = new Date();
-		this.today = [today.getFullYear(), today.getMonth(), today.getDate()];
+	constructor () {
+		this.data = JSON.parse(localStorage.getItem('week-dinner')) || {};
 		// カテゴリID一覧
 		this.categoryIdList = [30, 31, 32, 14, 15, 16, 23, 41, 42, 43, 44, 25, 46, 47, 48];
-		// 初期表示のエラー回数
-		this.initErrorNum = 0;
 	}
 	/**
 	 * 初期表示
@@ -19,72 +15,59 @@ class RakutenRecipeAPI {
 	 * @return {Promise}
 	*/
 	initFetch () {
+		const date = new Date();
+		const today = [date.getFullYear(), date.getMonth(), date.getDate()];
+		let numberOfRecipes = 7;
+		let newRecipe = [];
+
+		// 取得したいレシピ数を計算
+		if (this.data.date) {
+			const CALC_DATE = 1000 * 60 * 60 * 24;
+			const originalDate = new Date(...(this.data.date)); // ローカルストレージから日付を生成
+			const newDate = new Date(...today); // 今日
+			// 取得したいレシピ数を更新
+			const dateDifference = Math.floor((newDate - originalDate) / CALC_DATE);
+			numberOfRecipes = dateDifference > 7 ? 7 : dateDifference;
+			// 日にちが過ぎて不要になったレシピを削除
+			newRecipe = this.data.recipe.slice(numberOfRecipes);
+		}
+
+		// レシピ取得
 		return new Promise((resolve, reject) => {
-			let numberOfRecipes = 7; // 取得したいレシピ数
-			if (this.data.length > 0) {
-				const CALC_DATE = 1000 * 60 * 60 * 24;
-				const originalDate = new Date(...(this.data[0].date)); // ローカルストレージから今日の日付を生成
-				const newDate = new Date(...this.today); // 今日
-
-				// 取得したいレシピ数を更新
-				const dateDifference = Math.floor((newDate - originalDate) / CALC_DATE);
-				numberOfRecipes = dateDifference > 7 ? 7 : dateDifference;
-
-				// 不要になったデータを削除
-				this.data = this.data.slice(numberOfRecipes);
+			// 取得したいレシピ数0の場合、処理終了
+			if (numberOfRecipes === 0) {
+				resolve(newRecipe);
+				return;
 			}
 
-			// レシピ取得
-			return this.ajaxRecipe().then((res1) => {
+			this.ajaxRecipe().then((res1) => {
 				// 短時間に複数回通信するとエラーとなるので少し時間を空ける
 				setTimeout(() => {
 					this.ajaxRecipe().then((res2) => {
-						let array = res1.concat(res2);
-						// TODO: 見直す　ここから↓
-						array = array.filter((_, i) => i < numberOfRecipes);
-
 						// 新しいレシピデータを作成
-						const originalRecipe = this.data.length > 0 ? this.data.map(item => item.recipe) : [];
-						const newRecipe = originalRecipe.concat(array);
+						let array = res1.concat(res2);
+						array.map((item) => {
+							if (newRecipe.length > 6) return false;
+							newRecipe.push(item);
+						})
 
-						// ローカルストレージに保存
-						const today = new Date(...this.today);
-						localStorage.setItem('week-dinner', JSON.stringify(
-							newRecipe.map((item, index) => {
-								return {
-									date: [today.getFullYear(), today.getMonth(), today.getDate() + index],
-									recipe: item,
-								};
-							})
-						));
-						// TODO: 見直す　ここまで↑
+						// 保存
+						const newData = {
+							date: today,
+							recipe: newRecipe,
+						}
+						localStorage.setItem('week-dinner', JSON.stringify(newData));
+						this.data = newData;
 
 						resolve(newRecipe);
 					});
 				}, 1000);
 			}).catch(() => {
 				console.log('失敗');
+				// TODO: エラーメッセージを出す
+				reject();
 			});
 		});
-	}
-	/**
-	 * エラーメッセージを出す
-	 * TODO: 直す
-	 *
-	 * @return {void}
-	*/
-	displayErrorMessage () {
-		if (this.initErrorNum > 2) {
-			// エラー3回以上でアラート
-			alert('通信状況を確認してください。');
-			this.initErrorNum = 0;
-		} else if (confirm('読み込みに失敗しました。再試行しますか？')) {
-			// 短時間に複数回通信するとエラーとなるので少し時間を空ける
-			setTimeout(() => {
-				this.getRecipe();
-				this.initErrorNum++;
-			}, 1000);
-		}
 	}
 	/**
 	 * レシピ非同期通信
@@ -121,32 +104,27 @@ class RakutenRecipeAPI {
 	 * 更新ボタンclick
 	 * TODO: 直す
 	 *
-	 * @param {number} 日にち区分
+	 * @param {number} index 日にち区分
 	 * @return {Promise}
 	*/
-	fetchRandomRecipe (options) {
-		// カテゴリIDをセットしてJSON取得
-		this.ajaxRecipe().then((data) => {
-			// 日にち区分を指定してローカルストレージに保存
-			this.updateLocalStorageSpecifiedDate({
-				data: data[this.getRandomNum(4)],
-				dateNumber: options.dateNumber,
+	fetch (index) {
+		return new Promise((resolve, reject) => {
+			this.ajaxRecipe().then((res) => {
+				// 新しいレシピデータを作成
+				const newRecipe = this.data.recipe;
+				newRecipe[index] = res[this.getRandomNum(4)];
+
+				// 保存
+				this.data.recipe = newRecipe;
+				localStorage.setItem('week-dinner', JSON.stringify(this.data));
+
+				resolve(newRecipe);
+			}).catch(() => {
+				console.log('失敗');
+				// TODO: エラーメッセージを出す
+				reject();
 			});
-			this.updateCassetteContents();
-		}).catch(() => {
-			alert('通信エラーが発生しました。再度お試しください。');
 		});
-	}
-	/**
-	 * 日にち区分を指定してローカルストレージに保存
-	 *
-	 * @param {Object} options.data レシピ
-	 * @param {number} options.dateNumber 日にち区分
-	 * @return {void}
-	*/
-	updateLocalStorageSpecifiedDate (options) {
-		this.recipe[options.dateNumber]['recipe'] = options.data;
-		localStorage.setItem('week-dinner', JSON.stringify(this.recipe));
 	}
 	/**
 	 * 最大値のうちランダムな整数を返す
