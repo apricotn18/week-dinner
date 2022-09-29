@@ -1,4 +1,4 @@
-@use '../../assets/css/variable.scss' as var;
+@use '../assets/css/variable.scss' as var;
 
 .recipe_list {
 	position: relative;
@@ -146,6 +146,63 @@
 			display: block;
 			padding-bottom: 10px;
 			font-size: 16px;
+		}
+	}
+}
+
+.modal {
+	.modal-menu_wrapper {
+		position: fixed;
+		top: var.$header-height;
+		left: 0;
+		width: 100%;
+	}
+
+	.modal-recipe_wrapper {
+		position: fixed;
+		top: 60px;
+		left: 50%;
+		width: calc(100% - 30px);
+		max-width: 400px;
+		height: calc(100vh - #{var.$header-height} - 30px);
+		transform: translateX(-50%);
+	}
+
+	.modal-recipe_content {
+		width: 100%;
+		max-height: 100%;
+		overflow-x: hidden;
+		overflow-y: auto;
+		border-radius: var.$radius;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+}
+
+.modal_button {
+	display: flex;
+	overflow: hidden;
+	width: 100%;
+	background-color: var.$white-color;
+
+	.modal_button-item {
+		display: block;
+		height: 43px;
+		width: 100%;
+		color: var.$white-color;
+		font-weight: bold;
+		line-height: 45px;
+
+		&:nth-child(n+2) {
+			border-left: 1px solid var.$white-color;
+		}
+
+		&.modal_button-item--rakuten {
+			background-color: var.$gray-color;
+		}
+
+		&.modal_button-item--close {
+			background-color: var.$yellow-color;
 		}
 	}
 }
