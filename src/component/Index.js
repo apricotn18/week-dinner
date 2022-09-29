@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from "./modules/Header";
 import Footer from "./modules/Footer";
-import RecipeAPI from "../aip/_RecipeAPI";
+import RecipeAPI from "../api/_RecipeAPI";
 import "./index.scss";
 
 const ACTIVE_CLASS = 'is-active';
@@ -48,10 +48,18 @@ export default function Index () {
 	 * @return {void}
 	*/
 	const changeRecipe = (e) => {
-		const index = e.currentTarget.dataset.dateNum;
+		const target = e.currentTarget;
+		// ボタンを非活性にする（時間に複数回通信するとエラーとなるため）
+		target.classList.add('is-disabled');
+		// レシピ書き換え
+		const index = target.dataset.dateNum;
 		recipeAPI.fetch(index).then((result) => {
 			setRecipe(result);
 		});
+		// ボタンを活性に戻す
+		setTimeout(() => {
+			target.classList.remove('is-disabled');
+		}, 1500);
 	}
 
 	return (
