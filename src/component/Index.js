@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import "./recipe.scss";
+import Header from "./modules/Header";
+import Footer from "./modules/Footer";
+import RecipeAPI from "../aip/_RecipeAPI";
+import "./index.scss";
 
 const ACTIVE_CLASS = 'is-active';
 const RECIPE_MODAL_CLASS = 'js-modal_recipe';

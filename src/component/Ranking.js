@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Header from "../Header";
+import Header from "./modules/Header";
+import Footer from "./modules/Footer";
 
 export default function BuyList () {
 	return (

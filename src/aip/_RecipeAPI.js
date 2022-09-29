@@ -11,7 +11,6 @@ class RakutenRecipeAPI {
 	}
 	/**
 	 * 初期表示
-	 *
 	 * @return {Promise}
 	*/
 	initFetch () {
@@ -71,7 +70,6 @@ class RakutenRecipeAPI {
 	}
 	/**
 	 * レシピ非同期通信
-	 *
 	 * @param {string|undefined} id
 	 * @return {Promise}
 	*/
@@ -102,9 +100,7 @@ class RakutenRecipeAPI {
 	/**
 	 * 非同期でランダムなレシピを1つ取得
 	 * 更新ボタンclick
-	 * TODO: 直す
-	 *
-	 * @param {number} index 日にち区分
+	 * @param {number} index
 	 * @return {Promise}
 	*/
 	fetch (index) {
@@ -128,7 +124,6 @@ class RakutenRecipeAPI {
 	}
 	/**
 	 * 最大値のうちランダムな整数を返す
-	 *
 	 * @param {number} maxNumber 最大値
 	 * @return {number} ランダム数字
 	*/
