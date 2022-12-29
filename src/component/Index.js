@@ -4,14 +4,12 @@ import Footer from "./modules/Footer";
 import RecipeAPI from "../api/_RecipeAPI";
 import "./index.scss";
 
-const ACTIVE_CLASS = 'is-active';
-const RECIPE_MODAL_CLASS = 'js-modal_recipe';
-
 export default function Index () {
 	const recipeAPI = new RecipeAPI();
 	const division = ["今日","明日","明後日","3日後","4日後","5日後","6日後"];
 	const [recipe, setRecipe] = useState([{},{},{},{},{},{},{}]);
 	const [modalRecipe, setModalRecipe] = useState(recipe[0]);
+	const [modalShow, setModalShow] = useState(false);
 
 	// レシピ更新
 	useEffect(() => {
@@ -28,9 +26,7 @@ export default function Index () {
 		// レシピ書き換え
 		const index = e.currentTarget.dataset.dateNum;
 		setModalRecipe(recipe[index]);
-		// open
-		document.querySelectorAll('body')[0].style.overflow = 'hidden';
-		document.querySelectorAll('.' + RECIPE_MODAL_CLASS)[0].classList.add(ACTIVE_CLASS);
+		setModalShow(true);
 	};
 
 	/**
@@ -38,9 +34,8 @@ export default function Index () {
 	 * @return {void}
 	*/
 	const closeRecipeModal = () => {
-		document.querySelectorAll('body')[0].style.overflow = '';
-		document.querySelectorAll('.' + RECIPE_MODAL_CLASS + '_content')[0].scrollTop = 0;
-		document.querySelectorAll('.' + RECIPE_MODAL_CLASS)[0].classList.remove(ACTIVE_CLASS);
+		document.querySelectorAll('.js-modal_recipe_content')[0].scrollTop = 0;
+		setModalShow(false);
 	}
 
 	/**
@@ -96,10 +91,10 @@ export default function Index () {
 			</section>
 
 			{/* レシピモーダル */}
-			<div className={'modal ' + RECIPE_MODAL_CLASS}>
+			<div className="modal" style={{display: modalShow ? 'block' : ''}}>
 				<div className="modal-bg" onClick={closeRecipeModal}></div>
 				<div className="modal-recipe_wrapper">
-					<div className={'modal-recipe_content ' + RECIPE_MODAL_CLASS + '_content'}>
+					<div className={'modal-recipe_content js-modal_recipe_content'}>
 						<div className="recipe_list recipe_list--modal">
 							<button type="button" className="modal_close_button" onClick={closeRecipeModal}>
 								<span className="modal_close_button-item"></span>

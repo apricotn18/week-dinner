@@ -1,18 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import "./header.scss";
 
-const ACTIVE_CLASS = 'is-active';
-
 export default function Header () {
+	const [modalShow, setModalShow] = useState(false);
+
 	const openModal = () => {
-		document.querySelectorAll('body')[0].style.overflow = 'hidden';
-		document.querySelectorAll('.js-modal_menu')[0].classList.add(ACTIVE_CLASS);
+		setModalShow(true);
 	};
 
 	const closeModal = () => {
-		document.querySelectorAll('body')[0].style.overflow = '';
-		document.querySelectorAll('.js-modal_menu')[0].classList.remove(ACTIVE_CLASS);
+		setModalShow(false);
 	}
 
 	return (
@@ -24,7 +22,7 @@ export default function Header () {
 				<button className="header-menu_button" onClick={openModal}></button>
 			</div>
 
-			<div className="modal js-modal_menu">
+			<div className="modal" style={{display: modalShow ? 'block' : ''}}>
 				<div className="modal-bg js-modal_menu_close modal-bg--blank" onClick={closeModal}></div>
 				<div className="modal-menu_wrapper">
 					<div className="modal_menu">
