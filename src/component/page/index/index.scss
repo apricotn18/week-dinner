@@ -1,4 +1,5 @@
-@use '../assets/css/variable.scss' as var;
+@use '../../../assets/css/variable.scss' as var;
+@import "../../../assets/css/common.scss";
 
 .recipe_list {
 	position: relative;

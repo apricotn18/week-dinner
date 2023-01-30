@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Header from "./modules/Header";
-import Footer from "./modules/Footer";
-import RecipeAPI from "../api/_RecipeAPI";
+import Header from "../../common/header/Header";
+import Footer from "../../common/footer/Footer";
+import RecipeAPI from "../../../assets/api/_RecipeAPI";
 import "./index.scss";
 
 export default function Index () {
@@ -42,7 +42,7 @@ export default function Index () {
 	 * レシピを変更
 	 * @return {void}
 	*/
-	const changeRecipe = (e) => {
+	const updateSingleRecipe = (e) => {
 		const target = e.currentTarget;
 		// ボタンを非活性にする（時間に複数回通信するとエラーとなるため）
 		target.classList.add('is-disabled');
@@ -64,6 +64,7 @@ export default function Index () {
 				<div className="contents">
 					<ul className="recipe_list">
 						{recipe.map((item, i) => {
+							{if (i >= 7) return}
 							return (
 								<li className="recipe_list-item">
 									<button type="button" className="recipe_list-button" data-date-num={i} onClick={openRecipeModal}>
@@ -79,7 +80,7 @@ export default function Index () {
 									</button>
 									{!item.foodImageUrl ? "" :
 									<div className="recipe_list-update">
-										<button type="button" className="recipe_list-update_image" data-date-num={i} onClick={changeRecipe}></button>
+										<button type="button" className="recipe_list-update_image" data-date-num={i} onClick={updateSingleRecipe}></button>
 									</div>
 									}
 								</li>
