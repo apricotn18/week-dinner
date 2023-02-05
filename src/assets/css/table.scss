@@ -1,0 +1,90 @@
+@use "variable" as var;
+
+.table {
+	table-layout: fixed;
+	width: 100%;
+
+	th {
+		padding: 9px 10px 7px;
+		color: var.$white-color;
+		font-weight: bold;
+		background-color: var.$bg-color;
+		border-radius: var.$radius var.$radius 0 0;
+	}
+
+	// th.recipe_link {
+	// 	height: 25px;
+	// 	padding: 0;
+	// 	border-radius: 0;
+
+	// 	.recipe_link-item {
+	// 		position: relative;
+	// 		display: block;
+	// 		height: 25px;
+	// 		padding: 0 10px 0 21px;
+	// 		font-size: 11px;
+	// 		line-height: 25px;
+	// 		font-weight: normal;
+	// 		overflow: hidden;
+	// 		text-overflow: ellipsis;
+	// 		white-space: nowrap;
+
+	// 		&::before,
+	// 		&::after {
+	// 			position: absolute;
+	// 			top: 50%;
+	// 			left: 10px;
+	// 			content: "";
+	// 			background-color: #fff;
+	// 			width: 5px;
+	// 			height: 1px;
+	// 			border-radius: 5px;
+	// 		}
+	// 		&::before{
+	// 			transform: rotate(-45deg) translateY(2px);
+	// 		}
+	// 		&::after {
+	// 			transform: rotate(45deg) translateY(-2px);
+	// 		}
+
+	// 		&.is-fixed {
+	// 			position: fixed;
+	// 			top: 44px;
+	// 			right: 15px;
+	// 			left: 15px;
+	// 			background-color: var.$bg-color;
+	// 			z-index: 1;
+	// 		}
+	// 	}
+	// }
+
+	td {
+		padding: 10px;
+		font-size: 1.2rem;
+		background-color: #f9f6f5;
+	}
+
+	tr:nth-child(2n-1) {
+		td {
+			background-color: #efeae8;
+		}
+	}
+
+	&.table--no_background {
+		tr td {
+			background-color: #f5f5f5;
+		}
+
+		th.recipe_link {
+			.recipe_link-item {
+				color: var.$main-color;
+				background-color: #dad5d3;
+
+				&::before,
+				&::after {
+					background-color: var.$main-color;
+				}
+			}
+		}
+	}
+}

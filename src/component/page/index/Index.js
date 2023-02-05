@@ -22,7 +22,7 @@ export default function Index () {
 	 * レシピモーダルを開く
 	 * @return {void}
 	*/
-	const openRecipeModal = (e) => {
+	const openModal = (e) => {
 		// レシピ書き換え
 		const index = e.currentTarget.dataset.dateNum;
 		setModalRecipe(recipe[index]);
@@ -33,8 +33,8 @@ export default function Index () {
 	 * レシピモーダルを閉じる
 	 * @return {void}
 	*/
-	const closeRecipeModal = () => {
-		document.querySelectorAll('.js-modal_recipe_content')[0].scrollTop = 0;
+	const closeModal = () => {
+		document.querySelectorAll('.js-recipe_modal_content')[0].scrollTop = 0;
 		setModalShow(false);
 	}
 
@@ -62,25 +62,25 @@ export default function Index () {
 			<Header />
 			<section className="wrapper">
 				<div className="contents">
-					<ul className="recipe_list">
+					<ul className="recipe">
 						{recipe.map((item, i) => {
 							{if (i >= 7) return}
 							return (
-								<li className="recipe_list-item">
-									<button type="button" className="recipe_list-button" data-date-num={i} onClick={openRecipeModal}>
-										<div className="recipe_list-image" style={{backgroundImage: `url(${item.foodImageUrl||''})`}}></div>
-										<div className="recipe_info">
-											<div className="recipe_list-head">
-												<p className="recipe_list-division">{division[i]}のレシピ</p>
-												<p className="recipe_list-time">{item.recipeIndication||''}</p>
-												<p className="recipe_list-price">{item.recipeCost||''}</p>
+								<li className="recipe">
+									<button type="button" className="recipe-button" data-date-num={i} onClick={openModal}>
+										<div className="recipe-image" style={{backgroundImage: `url(${item.foodImageUrl||''})`}}></div>
+										<div className="recipe-info">
+											<div className="recipe-head">
+												<p className="recipe-division">{division[i]}のレシピ</p>
+												<p className="recipe-time">{item.recipeIndication||''}</p>
+												<p className="recipe-price">{item.recipeCost||''}</p>
 											</div>
-											<p className="recipe_list-title">{item.recipeTitle||''}</p>
+											<p className="recipe-title">{item.recipeTitle||''}</p>
 										</div>
 									</button>
 									{!item.foodImageUrl ? "" :
-									<div className="recipe_list-update">
-										<button type="button" className="recipe_list-update_image" data-date-num={i} onClick={updateSingleRecipe}></button>
+									<div className="recipe-update">
+										<button type="button" data-date-num={i} onClick={updateSingleRecipe}></button>
 									</div>
 									}
 								</li>
@@ -92,40 +92,34 @@ export default function Index () {
 			</section>
 
 			{/* レシピモーダル */}
-			<div className="modal" style={{display: modalShow ? 'block' : ''}}>
-				<div className="modal-bg" onClick={closeRecipeModal}></div>
-				<div className="modal-recipe_wrapper">
-					<div className={'modal-recipe_content js-modal_recipe_content'}>
-						<div className="recipe_list recipe_list--modal">
-							<button type="button" className="modal_close_button" onClick={closeRecipeModal}>
-								<span className="modal_close_button-item"></span>
-							</button>
-							<img className="recipe_list-image" src={modalRecipe.foodImageUrl||''} />
-							<div className="recipe_list-wrapper">
-								<p className="recipe_list-title">{modalRecipe.recipeTitle||''}</p>
-								<div className="recipe_list-modal_info">
-									<p className="recipe_list-time">{modalRecipe.recipeIndication||''}</p>
-									<p className="recipe_list-price">{modalRecipe.recipeCost||''}</p>
-								</div>
-								<p className="recipe_list-description">{modalRecipe.recipeDescription||''}</p>
-								<table className="table_list">
-									<thead>
-										<tr><th>材料</th></tr>
-									</thead>
-									<tbody>
-										{modalRecipe.recipeMaterial ? modalRecipe.recipeMaterial.map((item) => {
-											return <tr><td>{item}</td></tr>
-										}) : ''}
-									</tbody>
-								</table>
+			<div className={modalShow ? 'recipe_modal is-open' : 'recipe_modal'}>
+				<div className="recipe_modal-wrapper">
+					<div className="recipe_modal-content js-recipe_modal_content">
+						<div className="recipe_modal-head">
+							<p className="recipe_modal-title">{modalRecipe.recipeTitle||''}</p>
+							<div className="recipe_modal-close" onClick={closeModal}></div>
+						</div>
+						<img className="recipe_modal-image" src={modalRecipe.foodImageUrl||''} />
+						<div className="recipe_modal-info">
+							<div className="recipe_modal-info_head">
+								<p className="recipe_modal-time">{modalRecipe.recipeIndication||''}</p>
+								<p className="recipe_modal-price">{modalRecipe.recipeCost||''}</p>
 							</div>
-							<div className="modal_button">
-								<a href={modalRecipe.recipeUrl||''} className="modal_button-item modal_button-item--rakuten" target="_blank">
+							<p className="recipe_modal-description">{modalRecipe.recipeDescription||''}</p>
+							<table className="table">
+								<thead>
+									<tr><th>材料</th></tr>
+								</thead>
+								<tbody>
+									{modalRecipe.recipeMaterial ? modalRecipe.recipeMaterial.map((item) => {
+										return <tr><td>{item}</td></tr>
+									}) : ''}
+								</tbody>
+							</table>
+							<div>
+								<a href={modalRecipe.recipeUrl||''} className="recipe_modal-button" target="_blank">
 									詳しいレシピを見る
 								</a>
-								<button type="button" className="modal_button-item modal_button-item--close" onClick={closeRecipeModal}>
-									閉じる
-								</button>
 							</div>
 						</div>
 					</div>
