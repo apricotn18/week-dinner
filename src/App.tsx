@@ -2,16 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Index from './component/page/index/Index';
-import BuyList from './component/page/buyList/BuyList';
+import List from './component/page/list/List';
 import Ranking from './component/page/ranking/Ranking';
-import './assets/css/common.scss';
 
 function App () {
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route path='/' element={<Index />} />
-				<Route path='/list' element={<BuyList />} />
+				<Route path='/list' element={<List />} />
 				<Route path='/rank' element={<Ranking />} />
 			</Routes>
 		</BrowserRouter>
