@@ -2,5 +2,5 @@
 https://week-dinner.herokuapp.com/
 
 ```
-$ npm run build
+$ npm run dev
 ```
