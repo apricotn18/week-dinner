@@ -14,7 +14,7 @@ module.exports = {
 	},
 	devServer: {
 		static: {
-			directory: path.join(__dirname, 'docs'),
+			directory: path.join(__dirname, 'dist'),
 		},
 		historyApiFallback: true,
 	},
@@ -84,11 +84,11 @@ module.exports = {
 			patterns: [
 				{
 					from: __dirname + '/src/assets/img',
-					to: __dirname + '/docs/assets/img'
+					to: __dirname + '/dist/assets/img'
 				},
 				{
 					from: __dirname + '/src/assets/html',
-					to: __dirname + '/docs'
+					to: __dirname + '/dist'
 				}
 			],
 		}),
