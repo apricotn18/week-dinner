@@ -14,7 +14,7 @@ class RakutenRecipeAPI {
 	 * 初期表示
 	 * @return {Promise}
 	*/
-	initFetch() {
+	initFetch () {
 		const date = new Date();
 		const today = [date.getFullYear(), date.getMonth(), date.getDate()];
 		let newRecipe = [];
@@ -29,34 +29,37 @@ class RakutenRecipeAPI {
 		}
 
 		// 新しいレシピを取得
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 			if (newRecipe.length > 6) {
 				return resolve(newRecipe);
 			}
 
 			let array = [];
-			this.ajaxRecipe().then((res) => {
-				array = res;
-				// 短時間に複数回通信するとエラーとなるので少し時間を空ける
-				return this.sleep(1000);
-			}).then(() => {
-				return this.ajaxRecipe();
-			}).then((res) => {
-				array = array.concat(res);
-				array.map((item) => {
-					if (newRecipe.length > 6) return false;
-					newRecipe.push(item);
+			this.ajaxRecipe()
+				.then((res) => {
+					array = res;
+					// 短時間に複数回通信するとエラーとなるので少し時間を空ける
+					return this.sleep(1000);
+				}).then(() => {
+					return this.ajaxRecipe();
+				}).then((res) => {
+					array = array.concat(res);
+					array.map((item) => {
+						if (newRecipe.length > 6) return false;
+						newRecipe.push(item);
+					});
+
+					const newData = {
+						date: today,
+						recipe: newRecipe,
+					}
+					localStorage.setItem('week-dinner', JSON.stringify(newData));
+					this.data = newData;
+
+					resolve(newRecipe);
+				}).catch(() => {
+					reject(this.data.recipe);
 				});
-
-				const newData = {
-					date: today,
-					recipe: newRecipe,
-				}
-				localStorage.setItem('week-dinner', JSON.stringify(newData));
-				this.data = newData;
-
-				resolve(newRecipe);
-			});
 		});
 	}
 
@@ -65,7 +68,7 @@ class RakutenRecipeAPI {
 	 * @param {string|undefined} id
 	 * @return {Promise}
 	*/
-	ajaxRecipe(id) {
+	ajaxRecipe (id) {
 		const param = {
 			format: 'json',
 			// idがない場合、ランダムなカテゴリIDを返却
@@ -84,7 +87,6 @@ class RakutenRecipeAPI {
 					resolve(JSON.parse(xhr.response).result);
 				}
 				if (xhr.status !== 200) {
-					// TODO: エラーメッセージを出す
 					reject();
 				}
 			};
@@ -97,23 +99,20 @@ class RakutenRecipeAPI {
 	 * @param {number} index
 	 * @return {Promise}
 	*/
-	fetch(index) {
+	fetch (index) {
 		return new Promise((resolve, reject) => {
-			this.ajaxRecipe().then((res) => {
-				// 新しいレシピデータを作成
-				const newRecipe = this.data.recipe;
-				newRecipe[index] = res[this.getRandomNum(4)];
+			this.ajaxRecipe()
+				.then((res) => {
+					const newRecipe = this.data.recipe;
+					newRecipe[index] = res[this.getRandomNum(4)];
 
-				// 保存
-				this.data.recipe = newRecipe;
-				localStorage.setItem('week-dinner', JSON.stringify(this.data));
+					this.data.recipe = newRecipe;
+					localStorage.setItem('week-dinner', JSON.stringify(this.data));
 
-				resolve(newRecipe);
-			}).catch(() => {
-				console.log('失敗');
-				// TODO: エラーメッセージを出す
-				reject();
-			});
+					resolve(newRecipe);
+				}).catch(() => {
+					reject(this.data.recipe);
+				});
 		});
 	}
 
@@ -122,7 +121,7 @@ class RakutenRecipeAPI {
 	 * @param {number} maxNumber 最大値
 	 * @return {number} ランダム数字
 	*/
-	getRandomNum(maxNumber) {
+	getRandomNum (maxNumber) {
 		return Math.floor(Math.random() * maxNumber);
 	}
 
@@ -131,7 +130,7 @@ class RakutenRecipeAPI {
 	 * @param {number} ms 待つ時間
 	 * @return {Promise}
 	*/
-	sleep(ms) {
+	sleep (ms) {
 		return new Promise((resolve) => {
 			setTimeout(() => {
 				resolve();

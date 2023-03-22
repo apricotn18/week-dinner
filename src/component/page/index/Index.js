@@ -13,9 +13,13 @@ export default function Index () {
 
 	// レシピ更新
 	useEffect(() => {
-		recipeAPI.initFetch().then((result) => {
-			setRecipe(result);
-		});
+		recipeAPI.initFetch()
+			.then((result) => {
+				setRecipe(result);
+			}).catch((result) => {
+				setRecipe(result);
+				alert('読み込みに失敗しました。通信状況を確認してください');
+			});
 	}, []);
 
 	/**
@@ -46,11 +50,15 @@ export default function Index () {
 		const target = e.currentTarget;
 		// ボタンを非活性にする（時間に複数回通信するとエラーとなるため）
 		target.classList.add('is-disabled');
-		// レシピ書き換え
+		// レシピ更新
 		const index = target.dataset.dateNum;
-		recipeAPI.fetch(index).then((result) => {
-			setRecipe(result);
-		});
+		recipeAPI.fetch(index)
+			.then((result) => {
+				setRecipe(result);
+			}).catch((result) => {
+				setRecipe(result);
+				alert('読み込みに失敗しました。通信状況を確認してください');
+			});
 		// ボタンを活性に戻す
 		setTimeout(() => {
 			target.classList.remove('is-disabled');
