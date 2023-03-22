@@ -131,12 +131,6 @@
 		top: var.$header-height;
 	}
 
-	.recipe_modal-wrapper {
-		overflow: hidden;
-		border-radius: 10px 10px 0 0;
-		box-shadow: 0 -10px 40px 30px rgb(0,0,0,.3);
-	}
-
 	.recipe_modal-content {
 		width: 100%;
 		max-height: calc(100vh - var.$header-height + 1px);
