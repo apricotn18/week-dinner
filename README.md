@@ -4,5 +4,5 @@
 herokuの無料プランが終了してしまったので、新しい有料プランを探しています
 
 ```
-$ npm run dev
+$ npm run start
 ```
