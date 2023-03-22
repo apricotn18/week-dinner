@@ -1,7 +1,8 @@
 # week-dinner
 ~~https://week-dinner.herokuapp.com/~~
 
-herokuの無料プランが終了してしまったので、新しい有料プランを探しています
+http://localhost:8000/
+herokuの無料プランが終了してしまったので、新しいサーバーを探しています
 
 ```
 $ npm run start
