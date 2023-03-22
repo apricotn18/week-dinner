@@ -45,11 +45,11 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "webpack serve",
 		"build": "webpack --mode production",
-		"start": "npm run build & node ./server.js"
+		"start": "npm run build && gh-pages -d dist"
 	},
 	"author": "",
 	"license": "ISC",
 	"keywords": [],
 	"description": "",
-	"homepage": "https://apricotn18-org.github.io/week-dinner"
+	"homepage": "https://apricotn18.github.io/week-dinner"
 }

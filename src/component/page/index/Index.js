@@ -101,7 +101,7 @@ export default function Index () {
 
 			{/* レシピモーダル */}
 			<div className={modalShow ? 'recipe_modal is-open' : 'recipe_modal'}>
-				<div className="recipe_modal-wrapper">
+				<div>
 					<div className="recipe_modal-content js-recipe_modal_content">
 						<div className="recipe_modal-head">
 							<p className="recipe_modal-title">{modalRecipe.recipeTitle||''}</p>
