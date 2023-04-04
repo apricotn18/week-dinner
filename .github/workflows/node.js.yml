@@ -24,6 +24,10 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
+        destination_dir: ./docs
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm run start
+    - run: npm ci
+           npm run start
