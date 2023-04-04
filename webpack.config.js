@@ -10,11 +10,11 @@ module.exports = {
 	entry: './src/App.tsx',
 	output: {
 		filename: '_app.js',
-		path: path.join(__dirname, 'dist/'),
+		path: path.join(__dirname, 'docs/'),
 	},
 	devServer: {
 		static: {
-			directory: path.join(__dirname, 'dist'),
+			directory: path.join(__dirname, 'docs'),
 		},
 		historyApiFallback: true,
 	},
@@ -84,11 +84,11 @@ module.exports = {
 			patterns: [
 				{
 					from: __dirname + '/src/assets/img',
-					to: __dirname + '/dist/assets/img'
+					to: __dirname + '/docs/assets/img'
 				},
 				{
 					from: __dirname + '/src/assets/html',
-					to: __dirname + '/dist'
+					to: __dirname + '/docs'
 				}
 			],
 		}),
