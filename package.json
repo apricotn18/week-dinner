@@ -6,6 +6,7 @@
 		"@types/react": "^18.0.9",
 		"@types/react-dom": "^18.0.4",
 		"express": "^4.18.1",
+		"gh-pages": "^5.0.0",
 		"react": "^18.1.0",
 		"react-dom": "^18.1.0",
 		"react-router-dom": "^6.3.0"
@@ -45,7 +46,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "webpack serve",
 		"build": "webpack --mode production",
-		"start": "npm run build && gh-pages -d docs"
+		"start": "npm run build && node ./docs/server.js"
 	},
 	"author": "",
 	"license": "ISC",
