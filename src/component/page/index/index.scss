@@ -123,22 +123,24 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	z-index: 90;
+	z-index: 100;
 	overflow: hidden;
 	transition: .3s;
 
 	&.is-open {
-		top: var.$header-height;
+		top: 0;
 	}
 
 	.recipe_modal-content {
+		margin-top: 5px;
 		width: 100%;
-		max-height: calc(100vh - var.$header-height + 1px);
+		max-height: calc(100vh - 5px);
 		overflow-x: hidden;
 		overflow-y: auto;
 		scrollbar-width: none;
 		-ms-overflow-style: none;
 		background-color: var.$white-color;
+		border-radius: 8px 8px 0 0;
 	}
 
 	.recipe_modal-head {
@@ -156,7 +158,7 @@
 		min-width: 44px;
 		height: 50px;
 		margin: 0 0 0 auto;
-		margin-top: 2px;
+		margin-top: 1px;
 		border-radius: 50%;
 
 		&::before,
@@ -166,8 +168,8 @@
 			top: 50%;
 			left: 50%;
 			display: block;
-			width: 3px;
-			height: 21px;
+			width: 2px;
+			height: 18px;
 			background-color: var.$main-color;
 			border-radius: 2px;
 		}
