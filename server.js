@@ -1,12 +1,8 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
+const app = express();
+app.listen(process.env.PORT || 8000);
+app.use(express.static(__dirname + '/dist'));
 
-const server = http.createServer((req, res) => {
-	fs.readFile('./dist/index.html', 'UTF-8', (err, data) => {
-		res.writeHead(200, {'Content-Type': 'text/html'});
-		res.write(data);
-		res.end();
-	});
+app.use((req, res, next) => {
+	res.sendFile(__dirname + '/dist/index.html');
 });
-
-server.listen(process.env.PORT || 8000);
