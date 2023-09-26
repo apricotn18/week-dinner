@@ -1,14 +1,8 @@
-import React from "react";
+import React from 'react';
+import Page from './component/ranking/ranking';
 
 export default function Ranking() {
 	return (
-		<div>
-			Ranking<br />
-			Ranking<br />
-			Ranking<br />
-			Ranking<br />
-			Ranking<br />
-			Ranking<br />
-		</div>
+		<Page></Page>
 	);
 }
