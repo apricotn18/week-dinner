@@ -1,14 +1,8 @@
-import React from "react";
+import React from 'react';
+import Page from './component/list/list';
 
 export default function List() {
 	return (
-		<div>
-			List<br />
-			List<br />
-			List<br />
-			List<br />
-			List<br />
-			List<br />
-		</div>
+		<Page></Page>
 	);
 }
