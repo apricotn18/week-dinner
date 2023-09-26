@@ -1,0 +1,21 @@
+/* color */
+$main-color: #5d483e;
+$sub-color: #958680;
+$bg-color: #94857e;
+$gray-color: #867872;
+$yellow-color: #f9ca4b;
+$white-color: #fff;
+
+/* height */
+$header-height: 44px;
+$footer-height: 25px;
+
+/* border-radius */
+$radius: 4px;
+
+$tab: 680px;
+@mixin tab {
+	@media (min-width: ($tab)) {
+		@content;
+	}
+}
