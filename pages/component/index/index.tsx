@@ -1,34 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import RakutenRecipeAPI from "../../../assets/js/RakutenRecipeAPI";
+import { Recipe } from "../../../assets/js/type";
+import { division, RakutenRecipeAPI } from "../../../assets/js/common";
+import Error from "../error/error";
 import style from "./index.module.scss";
 
-type Recipe = {
-	recipeTitle?: string;
-	recipeCost?: string;
-	recipeDescription?: string;
-	recipeIndication?: string;
-	recipeUrl?: string;
-	foodImageUrl?: string;
-	recipeMaterial?: string[];
-}
 type ModalStyle = {
 	top: '44px'|'100%';
 }
 
 export default function Page() {
-	const rakutenRecipeAPI = new RakutenRecipeAPI();
-	const division = ["今日","明日","明後日","3日後","4日後","5日後","6日後"];
 	const [recipe, setRecipe] = useState<Recipe[]>([{},{},{},{},{},{},{}]);
 	const [modalRecipe, setModalRecipe] = useState<Recipe>(recipe[0]);
 	const [modalStyle, setModalStyle] = useState<ModalStyle>({top: '100%'});
+	const [isError, setError] = useState<boolean>(false);
+
+	const rakutenRecipeAPI = new RakutenRecipeAPI();
 
 	// レシピ更新
 	useEffect(() => {
-		rakutenRecipeAPI.initFetch()
+		if (!rakutenRecipeAPI) {
+			setError(true);
+			return;
+		}
+
+		rakutenRecipeAPI.init()
 			.then((result) => {
-				setRecipe(result);
+				if (result) {
+					setRecipe(result);
+					return;
+				}
+				setError(true);
 			}).catch(() => {
-				alert('読み込みに失敗しました。通信状況を確認してください');
+				setError(true);
 			});
 	}, []);
 
@@ -68,7 +71,7 @@ export default function Page() {
 			.then((result) => {
 				setRecipe(result);
 			}).catch(() => {
-				alert('読み込みに失敗しました。通信状況を確認してください');
+				setError(true);
 			});
 		// ボタンを活性に戻す
 		setTimeout(() => {
@@ -114,7 +117,7 @@ export default function Page() {
 					<div className={style.modal_content}>
 						<div className={style.modal_head}>
 							<p className={style.modal_title}>{modalRecipe.recipeTitle}</p>
-							<div className={style.modal_close} onClick={handleModal.close}></div>
+							<button className={style.modal_close} onClick={handleModal.close}></button>
 						</div>
 						<div>
 							<img className={style.modal_image} src={modalRecipe.foodImageUrl||''} alt="レシピ画像" />
@@ -145,5 +148,7 @@ export default function Page() {
 				</div>
 			</div>
 			{/* レシピモーダル */}
+
+			<Error isError={isError}></Error>
 		</>
 	)}
