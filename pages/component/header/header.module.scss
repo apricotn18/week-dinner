@@ -12,7 +12,7 @@
 	-ms-user-select: none;
 	user-select: none;
 
-	.header-wrapper {
+	.header_wrapper {
 		position: relative;
 		display: flex;
 		justify-content: center;
@@ -23,13 +23,12 @@
 		background-color: var.$yellow-color;
 	}
 
-	.header-img {
+	.header_img {
 		display: inline-block;
-		width: 144px;
 		padding: 10px 10px 6px;
 	}
 
-	.header-menu_button {
+	.header_menuButton {
 		position: absolute;
 		top: 50%;
 		right: 4px;
@@ -47,7 +46,7 @@
 	}
 }
 
-.menu_modal {
+.modal {
 	display: none;
 	position: fixed;
 	top: 0;
@@ -56,57 +55,49 @@
 	height: 100%;
 	z-index: 90;
 
-	&.is-open {
-		display: block;
-	}
-
-	.menu_modal-bg {
+	.modal_bg {
 		width: 100%;
 		height: 100%;
 	}
 
-	.menu_modal_wrapper {
+	.modal_wrapper {
 		position: fixed;
 		top: var.$header-height;
 		left: 0;
 		width: 100%;
 	}
 
-	.menu_modal-item {
-		border-bottom: 1px solid #eae5e2;
-
-		&:last-child {
-			border-bottom-color: #ccc;
-		}
-	}
-
-	.menu_modal-list {
+	.modal_list {
 		background-color: var.$white-color;
 		box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .4);
 	}
 
-	.menu_modal-link {
+	.modal_item {
 		position: relative;
-		display: block;
-		padding: 14px 10px 11px 46px;
-		color: var.$main-color;
+		border-bottom: 1px solid #eae5e2;
 
 		&::before {
 			position: absolute;
 			top: 12px;
-			left: 11px;
 			display: inline-block;
-			width: 29px;
 			height: 23px;
 			content: "";
 			background-image: url(icon_menu.png);
-			background-position: -19px -1px;
 			background-size: 63px 23px;
 			background-repeat: no-repeat;
 			vertical-align: baseline;
+			pointer-events: none;
 		}
 
-		&.menu_modal-link--buy {
+		&:nth-child(1) {
+			&::before {
+				left: 11px;
+				width: 29px;
+				background-position: -19px -1px;
+			}
+		}
+
+		&:nth-child(2) {
 			&::before {
 				left: 16px;
 				width: 20px;
@@ -114,12 +105,19 @@
 			}
 		}
 
-		&.menu_modal-link--rank {
+		&:nth-child(3) {
+			border-bottom-color: #ccc;
 			&::before {
 				left: 16px;
 				width: 19px;
 				background-position: -46px -1px;
 			}
 		}
+	}
+
+	.modal_link {
+		display: block;
+		padding: 14px 10px 11px 46px;
+		color: var.$main-color;
 	}
 }

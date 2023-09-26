@@ -9,14 +9,14 @@
 	height: var.$footer-height;
 	background-color: #a79e9a;
 
-	.footer-wrapper {
+	.footer_wrapper {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 3px 8px;
 	}
 
-	.footer-text {
+	.footer_text {
 		font-size: 10px;
 		color: var.$white-color;
 		white-space: nowrap;
