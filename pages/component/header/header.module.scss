@@ -33,8 +33,8 @@
 		top: 50%;
 		right: 4px;
 		display: inline-block;
-		width: 36px;
-		height: 30px;
+		width: var.$header-height;
+		height: var.$header-height;
 		background-image: url(icon_hamburger.png);
 		background-size: 23px;
 		background-repeat: no-repeat;
