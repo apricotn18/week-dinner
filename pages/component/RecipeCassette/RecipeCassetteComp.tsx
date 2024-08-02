@@ -5,14 +5,12 @@ import { Recipe } from "../../../assets/js/type";
 type Props = {
 	item: Recipe;
 	index: number;
+	handleOpenModal: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function recipeCassette (props: Props) {
-	const item = props.item;
-	const index = props.index;
-
+export default function recipeCassette ({ item, index, handleOpenModal }: Props) {
 	return (
-		<button type="button" className={style.wrapper} data-date-num={index}>
+		<button type="button" className={style.wrapper} data-date-num={index} onClick={handleOpenModal}>
 			<div className={style.image} style={{backgroundImage: `url(${item.foodImageUrl})`}}></div>
 			<div className={style.info}>
 				<div className={style.head}>
