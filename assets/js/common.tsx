@@ -79,29 +79,29 @@ export class RakutenRecipeAPI {
 	 * @param {number} index
 	 * @return {Promise} Recipe
 	*/
-	fetch (index: number): Promise<Recipe[]> {
-		return new Promise((resolve, reject) => {
-			const storage: string|null = localStorage.getItem('week-dinner');
-			if (storage === null) {
-				reject(null);
-				return;
-			}
+	// fetch (index: number): Promise<Recipe[]> {
+	// 	return new Promise((resolve, reject) => {
+	// 		const storage: string|null = localStorage.getItem('week-dinner');
+	// 		if (storage === null) {
+	// 			reject(null);
+	// 			return;
+	// 		}
 
-			const data: Data = JSON.parse(storage);
-			const newRecipe = data.recipe;
+	// 		const data: Data = JSON.parse(storage);
+	// 		const newRecipe = data.recipe;
 
-			this.ajax()
-				.then((res) => {
-					newRecipe[index] = res[this.getRandomNum(4)];
-					data.recipe = newRecipe;
+	// 		this.ajax()
+	// 			.then((res) => {
+	// 				newRecipe[index] = res[this.getRandomNum(4)];
+	// 				data.recipe = newRecipe;
 
-					localStorage.setItem('week-dinner', JSON.stringify(data));
-					resolve(newRecipe);
-				}).catch(() => {
-					reject();
-				});
-		});
-	}
+	// 				localStorage.setItem('week-dinner', JSON.stringify(data));
+	// 				resolve(newRecipe);
+	// 			}).catch(() => {
+	// 				reject();
+	// 			});
+	// 	});
+	// }
 
 	/**
 	 * レシピ非同期通信

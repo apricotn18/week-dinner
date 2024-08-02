@@ -1,0 +1,91 @@
+
+@use '../../../assets/css/variable.scss' as var;
+
+.wrapper {
+	width: 100%;
+}
+
+.image {
+	width: 100%;
+	height: 260px;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-color: #eee;
+
+	@include var.tab {
+		height: 400px;
+	}
+}
+
+.info {
+	display: block;
+	padding: 13px 13px 12px;
+	text-align: left;
+}
+
+.head {
+	display: flex;
+	padding-bottom: 5px;
+	font-size: 12px;
+}
+
+.division {
+	color: var.$gray-color;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+.time {
+	margin-left: 10px;
+	color: var.$gray-color;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+
+	&::before {
+		display: inline-block;
+		width: 11px;
+		height: 11px;
+		margin-right: 3px;
+		content: "";
+		background-image: url(icon_recipe.png);
+		background-size: 22px;
+		background-repeat: no-repeat;
+		background-position: 0 0;
+		overflow: hidden;
+		transform: translateY(1px);
+	}
+}
+
+.price {
+	margin-left: 8px;
+	color: var.$gray-color;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+
+	&::before {
+		display: inline-block;
+		width: 11px;
+		height: 11px;
+		margin-right: 3px;
+		content: "";
+		background-image: url(icon_recipe.png);
+		background-size: 22px;
+		background-repeat: no-repeat;
+		background-position: -11px 0;
+		overflow: hidden;
+		transform: translateY(1px);
+	}
+}
+
+.title {
+	font-weight: bold;
+	display: -webkit-box;
+	overflow: hidden;
+	font-size: 14px;
+	line-clamp: 2;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
