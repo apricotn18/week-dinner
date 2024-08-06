@@ -8,7 +8,7 @@ type Data = {
 /**
  * 楽天レシピAPIのデータを取得するクラス
  */
-export default class fetchRakutenRecipeAPI {
+export default class RakutenRecipe {
 	categoryIdList: number[];
 
 	constructor() {
@@ -104,11 +104,7 @@ export default class fetchRakutenRecipeAPI {
 	 * @return {Promise} Recipe
 	*/
 	ajax (id?: number): Promise<Recipe[]> {
-		const param: {
-			format: 'json',
-			categoryId: number,
-			applicationId: '1099641121016352250',
-		} = {
+		const param: {} = {
 			format: 'json',
 			// idがない場合、ランダムなカテゴリIDを返却
 			categoryId: id ? id : this.categoryIdList[this.getRandomNum(this.categoryIdList.length)],

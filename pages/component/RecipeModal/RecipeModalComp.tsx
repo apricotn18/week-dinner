@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import style from "./recipeModal.module.scss";
 import { Recipe } from "../../../assets/js/type";
 
@@ -8,9 +9,15 @@ type Props = {
 };
 
 export default function recipeModal ({ item, isOpen, handleModalClick }: Props) {
+	const ref = useRef<HTMLDivElement>(null!);
+
+	useEffect(() => {
+		ref.current.scrollTo(0, 0);
+	}, [item]);
+
 	return (
 		<div className={`${style.wrapper} ${isOpen && style.isOpen}`}>
-			<div className={style.content}>
+			<div className={style.content} ref={ref}>
 				<div className={style.head}>
 					<p className={style.title}>{item.recipeTitle}</p>
 					<button className={style.close} onClick={handleModalClick}></button>
