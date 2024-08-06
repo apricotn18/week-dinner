@@ -1,8 +1,8 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import FetchAPI from "./rakutenAPI";
+import RakutenRecipe from "./RakutenRecipe";
 import { Recipe } from "../../../assets/js/type";
 
-const fetchAPI = new FetchAPI();
+const rakutenRecipe = new RakutenRecipe();
 
 export default function useRecipe (): [
 	recipe: Recipe[],
@@ -12,8 +12,8 @@ export default function useRecipe (): [
 
 	useEffect(() => {
 		let ignore = false;
-		if (fetchAPI) {
-			fetchAPI.init().then((result) => {
+		if (rakutenRecipe) {
+			rakutenRecipe.init().then((result) => {
 				if (result && !ignore) {
 					setRecipe(result);
 				}

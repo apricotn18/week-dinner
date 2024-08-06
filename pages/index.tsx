@@ -6,16 +6,16 @@ import { Recipe } from "../assets/js/type";
 
 export default function Index () {
 	const [recipe] = useRecipe();
-	const [currentIndex, setCurrentIndex] = useState<number>(0);
+	const [currentModalIndex, setCurrentModalIndex] = useState<number>(0);
 	const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
 	const handleModalClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		const shouldOpened = !isOpenModal;
-		if (shouldOpened) {
-			setCurrentIndex(Number(e.currentTarget.dataset.index));
+		const shouldOpen = !isOpenModal;
+		if (shouldOpen) {
+			setCurrentModalIndex(Number(e.currentTarget.dataset.index));
 		}
-		setIsOpenModal(shouldOpened);
-		document.body.style.overflow = shouldOpened ? 'hidden' : '';
+		setIsOpenModal(shouldOpen);
+		document.body.style.overflow = shouldOpen ? 'hidden' : '';
 	}
 
 	return (
@@ -37,7 +37,7 @@ export default function Index () {
 				))}
 			</ul>
 			<RecipeModal
-				item={recipe[currentIndex]}
+				item={recipe[currentModalIndex]}
 				isOpen={isOpenModal}
 				handleModalClick={handleModalClick}
 			/>
