@@ -1,5 +1,5 @@
 import style from "./recipeCassette.module.scss";
-import { division } from "../../../assets/js/common";
+import { division } from "../../../assets/js/options";;
 import { Recipe } from "../../../assets/js/type";
 
 type Props = {

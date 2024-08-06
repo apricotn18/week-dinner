@@ -1,4 +1,4 @@
-import { Recipe } from "./type";
+import { Recipe } from "../../../assets/js/type";
 
 type Data = {
 	date: [number, number, number];
@@ -6,14 +6,9 @@ type Data = {
 }
 
 /**
- * 日付区分
- */
-export const division = ["今日","明日","明後日","3日後","4日後","5日後","6日後"];
-
-/**
  * 楽天レシピAPIのデータを取得するクラス
  */
-export class RakutenRecipeAPI {
+export default class fetchRakutenRecipeAPI {
 	categoryIdList: number[];
 
 	constructor() {
