@@ -81,7 +81,7 @@
 	padding: 20px 13px;
 }
 
-.info_head {
+.infoHead {
 	display: flex;
 }
 
@@ -143,4 +143,47 @@
 	text-align: center;
 	line-height: 47px;
 	border-radius: var.$radius;
+}
+
+.table {
+	table-layout: fixed;
+	width: 100%;
+
+	th {
+		padding: 9px 10px 7px;
+		color: var.$white-color;
+		font-weight: bold;
+		background-color: var.$bg-color;
+		border-radius: var.$radius var.$radius 0 0;
+	}
+
+	td {
+		padding: 10px;
+		font-size: 1.2rem;
+		background-color: #f9f6f5;
+	}
+
+	tr:nth-child(2n-1) {
+		td {
+			background-color: #efeae8;
+		}
+	}
+
+	&.table--no_background {
+		tr td {
+			background-color: #f5f5f5;
+		}
+
+		th.recipe_link {
+			.recipe_link-item {
+				color: var.$main-color;
+				background-color: #dad5d3;
+
+				&::before,
+				&::after {
+					background-color: var.$main-color;
+				}
+			}
+		}
+	}
 }

@@ -11,7 +11,7 @@ export default function Index () {
 	const [currentIndex, setCurrentIndex] = useState<number>(0);
 	const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
-	const handleOpenModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+	const handleModalClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		const shouldOpened = !isOpenModal;
 		if (shouldOpened) {
 			setCurrentIndex(Number(e.currentTarget.dataset.index));
@@ -44,7 +44,7 @@ export default function Index () {
 						<RecipeCassette
 							item={item}
 							index={i}
-							handleOpenModal={handleOpenModal}
+							handleModalClick={handleModalClick}
 						/>
 						{/* {item.foodImageUrl && // TODO: ボタン追加
 							<div className={style.recipe_update}>
@@ -57,7 +57,7 @@ export default function Index () {
 			<RecipeModal
 				item={recipe[currentIndex]}
 				isOpen={isOpenModal}
-				handleOpenModal={handleOpenModal}
+				handleModalClick={handleModalClick}
 			/>
 		</>
 	)
