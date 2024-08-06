@@ -10,7 +10,7 @@ type Props = {
 
 export default function recipeCassette ({ item, index, handleOpenModal }: Props) {
 	return (
-		<button type="button" className={style.wrapper} data-date-num={index} onClick={handleOpenModal}>
+		<button type="button" className={style.wrapper} data-index={index} onClick={handleOpenModal}>
 			<div className={style.image} style={{backgroundImage: `url(${item.foodImageUrl})`}}></div>
 			<div className={style.info}>
 				<div className={style.head}>

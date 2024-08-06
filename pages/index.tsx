@@ -8,11 +8,16 @@ const rakutenRecipeAPI = new RakutenRecipeAPI();
 
 export default function Index () {
 	const [recipe, setRecipe] = useState<Recipe[]>([{},{},{},{},{},{},{}]);
-	const [isOpenModal, setIsOpenModal] = useState<boolean>(true);
+	const [currentIndex, setCurrentIndex] = useState<number>(0);
+	const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
 	const handleOpenModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		setIsOpenModal(!isOpenModal);
-		document.body.style.overflow = isOpenModal ? '' : 'hidden';
+		const shouldOpened = !isOpenModal;
+		if (shouldOpened) {
+			setCurrentIndex(Number(e.currentTarget.dataset.index));
+		}
+		setIsOpenModal(shouldOpened);
+		document.body.style.overflow = shouldOpened ? 'hidden' : '';
 	}
 
 	useEffect(() => { // TODO: カスタムフックに
@@ -41,7 +46,7 @@ export default function Index () {
 							index={i}
 							handleOpenModal={handleOpenModal}
 						/>
-						{/* {item.foodImageUrl &&
+						{/* {item.foodImageUrl && // TODO: ボタン追加
 							<div className={style.recipe_update}>
 								<button type="button" data-date-num={i}></button>
 							</div>
@@ -50,7 +55,7 @@ export default function Index () {
 				))}
 			</ul>
 			<RecipeModal
-				item={recipe[0]}
+				item={recipe[currentIndex]}
 				isOpen={isOpenModal}
 				handleOpenModal={handleOpenModal}
 			/>
