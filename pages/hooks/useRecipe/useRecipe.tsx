@@ -4,10 +4,10 @@ import { Recipe } from "../../../assets/js/type";
 
 const rakutenRecipe = new RakutenRecipe();
 
-export default function useRecipe (): [
+const useRecipe = (): [
 	recipe: Recipe[],
 	setRecipe: { setRecipe: Dispatch<SetStateAction<Recipe[]>> }
-] {
+] => {
 	const [recipe, setRecipe] = useState<Recipe[]>([{},{},{},{},{},{},{}]);
 
 	useEffect(() => {
@@ -27,3 +27,5 @@ export default function useRecipe (): [
 
 	return [recipe, { setRecipe }]
 };
+
+export default useRecipe;

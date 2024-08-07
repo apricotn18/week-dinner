@@ -8,7 +8,7 @@ type Data = {
 /**
  * 楽天レシピAPIのデータを取得するクラス
  */
-export default class RakutenRecipe {
+class RakutenRecipe {
 	categoryIdList: number[];
 
 	constructor() {
@@ -150,3 +150,5 @@ export default class RakutenRecipe {
 		});
 	}
 }
+
+export default RakutenRecipe;

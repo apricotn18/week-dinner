@@ -1,7 +1,9 @@
-export default function List() {
+const List = () => {
 	return (
 		<>
-			list
+			List
 		</>
 	);
-}
+};
+
+export default List;

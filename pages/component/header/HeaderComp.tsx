@@ -4,7 +4,7 @@ import Image from 'next/image';
 import image_logo from './logo.png';
 import style from './header.module.scss';
 
-export default function Header () {
+const Header = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	return (
@@ -60,4 +60,6 @@ export default function Header () {
 			</div>
 		</header>
 	);
-}
+};
+
+export default Header;

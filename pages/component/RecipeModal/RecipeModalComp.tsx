@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useEffect, useRef } from 'react';
 import style from "./recipeModal.module.scss";
 import { Recipe } from "../../../assets/js/type";
@@ -8,8 +9,9 @@ type Props = {
 	handleModalClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function recipeModal ({ item, isOpen, handleModalClick }: Props) {
+const recipeModal = memo(({ item, isOpen, handleModalClick }: Props) => {
 	const ref = useRef<HTMLDivElement>(null!);
+	console.log('recipeModal');
 
 	useEffect(() => {
 		ref.current.scrollTo(0, 0);
@@ -30,7 +32,9 @@ export default function recipeModal ({ item, isOpen, handleModalClick }: Props) 
 						<p className={style.time}>{item.recipeIndication}</p>
 						<p className={style.price}>{item.recipeCost}</p>
 					</div>
-					<p className={style.description}>{item.recipeDescription}</p>
+					<p className={style.description}>
+						{item.recipeDescription}
+					</p>
 					{item.recipeMaterial &&
 						<table className={style.table}>
 							<thead>
@@ -43,13 +47,15 @@ export default function recipeModal ({ item, isOpen, handleModalClick }: Props) 
 							</tbody>
 						</table>
 					}
-					<div>
-						<a href={item.recipeUrl} className={style.button} target="_blank">
-							もっと詳しいレシピを見る
-						</a>
-					</div>
+				</div>
+				<div className={style.button_wrapper}>
+					<a href={item.recipeUrl} className={style.button} target="_blank">
+						もっと詳しいレシピを見る
+					</a>
 				</div>
 			</div>
 		</div>
 	)
-}
+});
+
+export default recipeModal;

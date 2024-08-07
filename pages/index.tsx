@@ -1,46 +1,52 @@
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import RecipeCassette from "./component/RecipeCassette/RecipeCassetteComp";
 import RecipeModal from "./component/RecipeModal/RecipeModalComp";
 import useRecipe from "./hooks/useRecipe/useRecipe";
 import { Recipe } from "../assets/js/type";
 
-export default function Index () {
+const Index = () => {
 	const [recipe] = useRecipe();
-	const [currentModalIndex, setCurrentModalIndex] = useState<number>(0);
-	const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+	const [currentIndex, setCurrentIndex] = useState<number>(0);
+	const [isOpen, setIsOpen] = useState<boolean>(false);
 
-	const handleModalClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		const shouldOpen = !isOpenModal;
+	const handleModalClick = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		const shouldOpen = !isOpen;
 		if (shouldOpen) {
-			setCurrentModalIndex(Number(e.currentTarget.dataset.index));
+			setCurrentIndex(Number(e.currentTarget.dataset.index));
 		}
-		setIsOpenModal(shouldOpen);
-		document.body.style.overflow = shouldOpen ? 'hidden' : '';
-	}
+		setIsOpen(shouldOpen);
+	}, [isOpen]);
+
+	useEffect(() => {
+		document.body.style.overflow = isOpen ? 'hidden' : '';
+	}, [isOpen]);
 
 	return (
 		<>
 			<ul>
 				{recipe.map((item: Recipe, i: number) => (
 					<li key={i}>
-						<RecipeCassette
-							item={item}
-							index={i}
-							handleModalClick={handleModalClick}
-						/>
-						{/* {item.foodImageUrl && // TODO: ボタン追加
-							<div className={style.recipe_update}>
-								<button type="button" data-date-num={i}></button>
-							</div>
-						} */}
+						<button
+							type="button"
+							data-index={i}
+							onClick={handleModalClick}
+							style={{width: '100%'}}
+						>
+							<RecipeCassette
+								item={item}
+								index={i}
+							/>
+						</button>
 					</li>
 				))}
 			</ul>
 			<RecipeModal
-				item={recipe[currentModalIndex]}
-				isOpen={isOpenModal}
+				item={recipe[currentIndex]}
+				isOpen={isOpen}
 				handleModalClick={handleModalClick}
 			/>
 		</>
 	)
 };
+
+export default Index;
