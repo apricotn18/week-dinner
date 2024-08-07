@@ -3,7 +3,7 @@ import Footer from './component/Footer/FooterComp';
 import '../assets/css/reset.scss';
 import '../assets/css/common.scss';
 
-export default function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }) => {
 	return (
 		<>
 			<Header></Header>
@@ -16,3 +16,5 @@ export default function MyApp({ Component, pageProps }) {
 		</>
 	);
 }
+
+export default MyApp;

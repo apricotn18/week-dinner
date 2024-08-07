@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import style from "./recipeCassette.module.scss";
 import { division } from "../../../assets/js/options";;
 import { Recipe } from "../../../assets/js/type";
@@ -5,12 +6,11 @@ import { Recipe } from "../../../assets/js/type";
 type Props = {
 	item: Recipe;
 	index: number;
-	handleModalClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function recipeCassette ({ item, index, handleModalClick }: Props) {
+const recipeCassette = memo(({ item, index }: Props) => {
 	return (
-		<button type="button" className={style.wrapper} data-index={index} onClick={handleModalClick}>
+		<>
 			<div className={style.image} style={{backgroundImage: `url(${item.foodImageUrl})`}}></div>
 			<div className={style.info}>
 				<div className={style.head}>
@@ -20,6 +20,8 @@ export default function recipeCassette ({ item, index, handleModalClick }: Props
 				</div>
 				<p className={style.title}>{item.recipeTitle}</p>
 			</div>
-		</button>
+		</>
 	)
-}
+});
+
+export default recipeCassette;

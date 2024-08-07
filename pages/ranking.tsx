@@ -1,7 +1,9 @@
-export default function Ranking() {
+const Ranking = () => {
 	return (
 		<>
-			ranking
+			Ranking
 		</>
 	);
-}
+};
+
+export default Ranking;
