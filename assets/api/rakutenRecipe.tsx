@@ -1,4 +1,4 @@
-import { Recipe } from "../../../assets/js/type";
+import { Recipe } from "../type";
 
 type Data = {
 	date: [number, number, number];

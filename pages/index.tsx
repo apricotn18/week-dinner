@@ -1,11 +1,14 @@
-import { useState, useCallback, useEffect } from 'react';
-import RecipeCassette from "./component/RecipeCassette/RecipeCassetteComp";
-import RecipeModal from "./component/RecipeModal/RecipeModalComp";
-import useRecipe from "./hooks/useRecipe/useRecipe";
-import { Recipe } from "../assets/js/type";
+import { useState, useCallback, useEffect } from "react";
+import RecipeWrapperButtonComponent from "./component/RecipeWrapperButton/RecipeWrapperButtonComp";
+import RecipeCassetteComponent from "./component/RecipeCassette/RecipeCassetteComp";
+import RecipeModalComponent from "./component/RecipeModal/RecipeModalComp";
+import { Recipe } from "../assets/type";
 
-const Index = () => {
-	const [recipe] = useRecipe();
+type Props = {
+	recipe: Recipe[];
+}
+
+const IndexComponent = ({ recipe }: Props) => {
 	const [currentIndex, setCurrentIndex] = useState<number>(0);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -26,21 +29,19 @@ const Index = () => {
 			<ul>
 				{recipe.map((item: Recipe, i: number) => (
 					<li key={i}>
-						<button
-							type="button"
-							data-index={i}
-							onClick={handleModalClick}
-							style={{width: '100%'}}
+						<RecipeWrapperButtonComponent
+							index={i}
+							handleModalClick={handleModalClick}
 						>
-							<RecipeCassette
+							<RecipeCassetteComponent
 								item={item}
 								index={i}
 							/>
-						</button>
+						</RecipeWrapperButtonComponent>
 					</li>
 				))}
 			</ul>
-			<RecipeModal
+			<RecipeModalComponent
 				item={recipe[currentIndex]}
 				isOpen={isOpen}
 				handleModalClick={handleModalClick}
@@ -49,4 +50,4 @@ const Index = () => {
 	)
 };
 
-export default Index;
+export default IndexComponent;

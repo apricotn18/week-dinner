@@ -1,14 +1,16 @@
-import { memo } from 'react';
+import { memo } from "react";
 import style from "./recipeCassette.module.scss";
-import { division } from "../../../assets/js/options";;
-import { Recipe } from "../../../assets/js/type";
+import { division } from "../../../assets/options";;
+import { Recipe } from "../../../assets/type";
 
 type Props = {
 	item: Recipe;
 	index: number;
 };
 
-const recipeCassette = memo(({ item, index }: Props) => {
+const RecipeCassetteComponent = memo(({ item, index }: Props) => {
+	if (!item) return;
+
 	return (
 		<>
 			<div className={style.image} style={{backgroundImage: `url(${item.foodImageUrl})`}}></div>
@@ -24,4 +26,4 @@ const recipeCassette = memo(({ item, index }: Props) => {
 	)
 });
 
-export default recipeCassette;
+export default RecipeCassetteComponent;

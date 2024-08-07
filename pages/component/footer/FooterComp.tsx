@@ -1,6 +1,6 @@
-import style from './footer.module.scss';
+import style from "./footer.module.scss";
 
-const Footer = () => {
+const FooterComponent = () => {
 	return (
 		<footer className={style.footer}>
 			<div className={style.footer_wrapper}>
@@ -15,4 +15,4 @@ const Footer = () => {
 	)
 };
 
-export default Footer;
+export default FooterComponent;
