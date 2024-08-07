@@ -1,12 +1,12 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import RakutenRecipe from "./RakutenRecipe";
-import { Recipe } from "../../../assets/js/type";
+import { useState, useEffect } from "react";
+import RakutenRecipe from "../assets/api/rakutenRecipe";
+import { Recipe } from "../assets/type";
 
 const rakutenRecipe = new RakutenRecipe();
 
-const useRecipe = (): [
+export const useRecipe = (): [
 	recipe: Recipe[],
-	setRecipe: { setRecipe: Dispatch<SetStateAction<Recipe[]>> }
+	// { setRecipe: Dispatch<SetStateAction<Recipe[]>> }
 ] => {
 	const [recipe, setRecipe] = useState<Recipe[]>([{},{},{},{},{},{},{}]);
 
@@ -25,7 +25,5 @@ const useRecipe = (): [
 		};
 	}, []);
 
-	return [recipe, { setRecipe }]
+	return [recipe]
 };
-
-export default useRecipe;

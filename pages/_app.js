@@ -1,18 +1,21 @@
-import Header from './component/Header/HeaderComp';
-import Footer from './component/Footer/FooterComp';
-import '../assets/css/reset.scss';
-import '../assets/css/common.scss';
+import { useRecipe } from "../hooks/useRecipe";
+import HeaderComponent from "./component/Header/HeaderComp";
+import FooterComponent from "./component/Footer/FooterComp";
+import "../assets/style/reset.scss";
+import "../assets/style/common.scss";
 
 const MyApp = ({ Component, pageProps }) => {
+	const [recipe] = useRecipe();
+
 	return (
 		<>
-			<Header></Header>
+			<HeaderComponent></HeaderComponent>
 			<main>
 				<section className="wrapper">
-					<Component {...pageProps} />
+					<Component {...pageProps} recipe={recipe} />
 				</section>
 			</main>
-			<Footer></Footer>
+			<FooterComponent></FooterComponent>
 		</>
 	);
 }

@@ -1,7 +1,6 @@
-import { memo } from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 import style from "./recipeModal.module.scss";
-import { Recipe } from "../../../assets/js/type";
+import { Recipe } from "../../../assets/type";
 
 type Props = {
 	item: Recipe;
@@ -9,9 +8,10 @@ type Props = {
 	handleModalClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const recipeModal = memo(({ item, isOpen, handleModalClick }: Props) => {
+const RecipeModalComponent = ({ item, isOpen, handleModalClick }: Props) => {
+	if (!item) return;
+
 	const ref = useRef<HTMLDivElement>(null!);
-	console.log('recipeModal');
 
 	useEffect(() => {
 		ref.current.scrollTo(0, 0);
@@ -56,6 +56,6 @@ const recipeModal = memo(({ item, isOpen, handleModalClick }: Props) => {
 			</div>
 		</div>
 	)
-});
+};
 
-export default recipeModal;
+export default RecipeModalComponent;

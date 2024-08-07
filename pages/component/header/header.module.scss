@@ -1,4 +1,4 @@
-@use '../../../assets/css/variable.scss' as var;
+@use '/assets/style/variable.scss' as var;
 
 .header {
 	position: fixed;
@@ -89,7 +89,7 @@
 			pointer-events: none;
 		}
 
-		&:nth-child(1) {
+		&#index {
 			&::before {
 				left: 11px;
 				width: 29px;
@@ -97,7 +97,7 @@
 			}
 		}
 
-		&:nth-child(2) {
+		&#list {
 			&::before {
 				left: 16px;
 				width: 20px;
@@ -105,7 +105,7 @@
 			}
 		}
 
-		&:nth-child(3) {
+		&#ranking {
 			border-bottom-color: #ccc;
 			&::before {
 				left: 16px;
