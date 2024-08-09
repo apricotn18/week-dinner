@@ -6,7 +6,7 @@ const rakutenRecipe = new RakutenRecipe();
 
 export const useRecipe = (): [
 	recipe: Recipe[],
-	// { setRecipe: Dispatch<SetStateAction<Recipe[]>> }
+	// { setRecipe: React.Dispatch<React.SetStateAction<Recipe[]>> }
 ] => {
 	const [recipe, setRecipe] = useState<Recipe[]>([{},{},{},{},{},{},{}]);
 

@@ -1,14 +1,16 @@
+import ButtonComponent from "../Button/ButtonComp";
 import { useEffect, useRef } from "react";
 import style from "./recipeModal.module.scss";
 import { Recipe } from "../../../assets/type";
 
 type Props = {
 	item: Recipe;
+	index: number;
 	isOpen: boolean;
 	handleModalClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const RecipeModalComponent = ({ item, isOpen, handleModalClick }: Props) => {
+const RecipeModalComponent = ({ item, index, isOpen, handleModalClick }: Props) => {
 	if (!item) return;
 
 	const ref = useRef<HTMLDivElement>(null!);
@@ -47,11 +49,16 @@ const RecipeModalComponent = ({ item, isOpen, handleModalClick }: Props) => {
 							</tbody>
 						</table>
 					}
-				</div>
-				<div className={style.button_wrapper}>
-					<a href={item.recipeUrl} className={style.button} target="_blank">
-						もっと詳しいレシピを見る
-					</a>
+					<div className={style.button_recipe_wrapper}>
+						<ButtonComponent href={item.recipeUrl||''} hasTarget={true}>
+							もっと詳しいレシピを見る
+						</ButtonComponent>
+					</div>
+					<div className={style.button_change_wrapper}>
+						<ButtonComponent href={'change?' + index}>
+							レシピ入れ替え
+						</ButtonComponent>
+					</div>
 				</div>
 			</div>
 		</div>
