@@ -43,6 +43,7 @@ const IndexComponent = ({ recipe }: Props) => {
 			</ul>
 			<RecipeModalComponent
 				item={recipe[currentIndex]}
+				index={currentIndex}
 				isOpen={isOpen}
 				handleModalClick={handleModalClick}
 			/>

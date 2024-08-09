@@ -4,7 +4,7 @@ import style from "./RecipeWrapperButton.module.scss";
 type Props = {
 	index: number;
 	handleModalClick: React.MouseEventHandler<HTMLButtonElement>;
-	children: any;
+	children: React.ReactNode;
 };
 
 const RecipeWrapperButtonComponent = memo(({ index, handleModalClick, children }: Props) => {

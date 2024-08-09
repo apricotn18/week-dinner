@@ -78,7 +78,7 @@
 }
 
 .info {
-	padding: 20px 13px 0;
+	padding: 20px 13px;
 }
 
 .infoHead {
@@ -129,23 +129,7 @@
 }
 
 .description {
-	padding: 8px 0 16px;
-}
-
-.button_wrapper {
-	padding: 20px 13px;
-}
-
-.button {
-	display: block;
-	height: 45px;
-	width: 100%;
-	color: var.$white-color;
-	background-color: var.$yellow-color;
-	font-weight: bold;
-	text-align: center;
-	line-height: 47px;
-	border-radius: var.$radius;
+	padding: 8px 0 18px;
 }
 
 .table {
@@ -153,7 +137,7 @@
 	width: 100%;
 
 	th {
-		padding: 9px 10px 7px;
+		padding: 10px 10px 7px;
 		color: var.$white-color;
 		font-weight: bold;
 		background-color: var.$bg-color;
@@ -161,7 +145,7 @@
 	}
 
 	td {
-		padding: 10px;
+		padding: 9px 10px;
 		font-size: 1.2rem;
 		background-color: #f9f6f5;
 	}
@@ -189,4 +173,11 @@
 			}
 		}
 	}
+}
+.button_recipe_wrapper {
+	padding: 20px 0 0;
+}
+
+.button_change_wrapper {
+	padding: 12px 0 0;
 }

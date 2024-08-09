@@ -104,10 +104,11 @@ class RakutenRecipe {
 	 * @return {Promise} Recipe
 	*/
 	ajax (id?: number): Promise<Recipe[]> {
+		// idがない場合、ランダムなカテゴリIDを返却
+		const categoryId = id ? id : this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
 		const param: {} = {
 			format: 'json',
-			// idがない場合、ランダムなカテゴリIDを返却
-			categoryId: id ? id : this.categoryIdList[this.getRandomNum(this.categoryIdList.length)],
+			categoryId: categoryId,
 			applicationId: '1099641121016352250',
 		};
 		const query = new URLSearchParams(param);

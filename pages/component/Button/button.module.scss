@@ -1,0 +1,22 @@
+
+@use '/assets/style/variable.scss' as var;
+
+.inside, .outside {
+	display: block;
+	height: 45px;
+	width: 100%;
+	color: var.$white-color;
+	background-color: var.$main-color;
+	font-weight: bold;
+	text-align: center;
+	line-height: 47px;
+	border-radius: var.$radius;
+}
+
+.inside {
+	background-color: #8c7d77;
+}
+
+.outside {
+	background-color: #f0bd33;
+}
