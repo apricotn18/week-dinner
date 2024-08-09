@@ -1,7 +1,7 @@
-import { useState, useCallback, useEffect } from "react";
-import RecipeWrapperButtonComponent from "./component/RecipeWrapperButton/RecipeWrapperButtonComp";
-import RecipeCassetteComponent from "./component/RecipeCassette/RecipeCassetteComp";
-import RecipeModalComponent from "./component/RecipeModal/RecipeModalComp";
+import { useState, useEffect } from "react";
+import CassetteButtonComponent from "./component/CassetteButton/CassetteButtonComp";
+import ModalComponent from "./component/Modal/ModalComp";
+import RecipeComponent from "./component/Recipe/RecipeComp";
 import { Recipe } from "../assets/type";
 
 type Props = {
@@ -12,14 +12,6 @@ const IndexComponent = ({ recipe }: Props) => {
 	const [currentIndex, setCurrentIndex] = useState<number>(0);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
-	const handleModalClick = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		const shouldOpen = !isOpen;
-		if (shouldOpen) {
-			setCurrentIndex(Number(e.currentTarget.dataset.index));
-		}
-		setIsOpen(shouldOpen);
-	}, [isOpen]);
-
 	useEffect(() => {
 		document.body.style.overflow = isOpen ? 'hidden' : '';
 	}, [isOpen]);
@@ -29,24 +21,31 @@ const IndexComponent = ({ recipe }: Props) => {
 			<ul>
 				{recipe.map((item: Recipe, i: number) => (
 					<li key={i}>
-						<RecipeWrapperButtonComponent
+						<CassetteButtonComponent
 							index={i}
-							handleModalClick={handleModalClick}
+							setCurrentIndex={setCurrentIndex}
+							openModal={() => setIsOpen(true)}
 						>
-							<RecipeCassetteComponent
-								item={item}
+							<RecipeComponent
 								index={i}
+								item={item}
+								insert={'cassette'}
 							/>
-						</RecipeWrapperButtonComponent>
+						</CassetteButtonComponent>
 					</li>
 				))}
 			</ul>
-			<RecipeModalComponent
-				item={recipe[currentIndex]}
-				index={currentIndex}
+			<ModalComponent
+				title={recipe[currentIndex].recipeTitle}
 				isOpen={isOpen}
-				handleModalClick={handleModalClick}
-			/>
+				closeModal={() => setIsOpen(false)}
+			>
+				<RecipeComponent
+					index={currentIndex}
+					item={recipe[currentIndex]}
+					insert={'modal'}
+				/>
+			</ModalComponent>
 		</>
 	)
 };
