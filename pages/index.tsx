@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import CassetteButtonComponent from "./component/CassetteButton/CassetteButtonComp";
-import ModalComponent from "./component/Modal/ModalComp";
-import RecipeComponent from "./component/Recipe/RecipeComp";
+import CassetteButtonComponent from "./component/Index/CassetteButton/CassetteButtonComp";
+import ModalComponent from "./component/Index/Modal/ModalComp";
+import RecipeComponent from "./component/Index/Recipe/RecipeComp";
 import { Recipe } from "../assets/type";
 
 type Props = {

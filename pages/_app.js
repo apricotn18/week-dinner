@@ -1,6 +1,6 @@
 import { useRecipe } from "../hooks/useRecipe";
-import HeaderComponent from "./component/Header/HeaderComp";
-import FooterComponent from "./component/Footer/FooterComp";
+import HeaderComponent from "./component/Common/Header/HeaderComp";
+import FooterComponent from "./component/Common/Footer/FooterComp";
 import "../assets/style/reset.scss";
 import "../assets/style/common.scss";
 

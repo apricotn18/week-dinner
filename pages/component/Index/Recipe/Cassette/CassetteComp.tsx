@@ -1,7 +1,7 @@
 import { memo } from "react";
 import style from "./cassette.module.scss";
-import { divisions } from "../../../../assets/options";;
-import { Recipe } from "../../../../assets/type";
+import { divisions } from "../../../../../assets/options";;
+import { Recipe } from "../../../../../assets/type";
 
 type Props = {
 	index: number;

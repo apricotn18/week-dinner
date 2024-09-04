@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import style from "./modal.module.scss";
-import { Recipe } from "../../../assets/type";
+import { Recipe } from "../../../../assets/type";
 
 type Props = {
 	title: Recipe['recipeTitle'];
