@@ -1,4 +1,4 @@
-import { Recipe } from "../type";
+import { Recipe, Category } from "../type";
 
 type Data = {
 	date: [number, number, number];
@@ -23,45 +23,47 @@ class RakutenRecipe {
 	init (): Promise<Recipe[]|null> {
 		return new Promise((resolve, reject) => {
 			const storage: string|null = localStorage.getItem('week-dinner');
-			const oldData: Data = storage !== null ? JSON.parse(storage) : {};
+			const prevDate: Data = storage !== null ? JSON.parse(storage) : {};
 			const date = new Date();
 			const today: [number, number, number] = [date.getFullYear(), date.getMonth(), date.getDate()];
-			let newRecipe: Recipe[] = [];
+			let nextRecipe: Recipe[] = [];
 
-			if (oldData.date) {
+			if (prevDate.date) {
 				const CALC_DATE = 1000 * 60 * 60 * 24;
-				const originalDate: number = new Date(...(oldData.date)).getTime(); // ローカルストレージから日付を生成
-				const newDate: number = new Date(...today).getTime(); // 今日
-				const elapsedDays = Math.floor((newDate - originalDate) / CALC_DATE);
+				const originalDate: number = new Date(...(prevDate.date)).getTime(); // ローカルストレージから日付を生成
+				const nextDate: number = new Date(...today).getTime(); // 今日
+				const elapsedDays = Math.floor((nextDate - originalDate) / CALC_DATE);
 				// 経過日数分のレシピを削除
-				newRecipe = oldData.recipe.slice(elapsedDays);
+				nextRecipe = prevDate.recipe.slice(elapsedDays);
 			}
 
-			// 新しいレシピを取得
-			if (newRecipe.length > 6) {
-				return resolve(newRecipe);
+			if (nextRecipe.length > 6) {
+				return resolve(nextRecipe);
 			}
 
 			let array: Recipe[] = [];
-			this.ajax()
+			const categoryId1 = this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
+			const categoryId2 = this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
+
+			this.fetchItems(categoryId1)
 				.then((res) => {
 					array = res;
 					// 短時間に複数回通信するとエラーとなるので少し時間を空ける
 					return this.sleep(1000);
 				}).then(() => {
-					return this.ajax();
+					return this.fetchItems(categoryId2);
 				}).then((res: Recipe[]) => {
 					array = array.concat(res);
 					array.map((item) => {
-						if (newRecipe.length > 6) return false;
-						newRecipe.push(item);
+						if (nextRecipe.length > 6) return false;
+						nextRecipe.push(item);
 					});
 
 					localStorage.setItem('week-dinner', JSON.stringify({
 						date: today,
-						recipe: newRecipe,
+						recipe: nextRecipe,
 					}));
-					resolve(newRecipe);
+					resolve(nextRecipe);
 				}).catch(() => {
 					reject();
 				});
@@ -69,46 +71,14 @@ class RakutenRecipe {
 	}
 
 	/**
-	 * 非同期でランダムなレシピを1つ取得
-	 * 更新ボタンclick
-	 * @param {number} index
+	 * カテゴリ別ランキング 取得
+	 * @param {number} id
 	 * @return {Promise} Recipe
 	*/
-	// fetch (index: number): Promise<Recipe[]> {
-	// 	return new Promise((resolve, reject) => {
-	// 		const storage: string|null = localStorage.getItem('week-dinner');
-	// 		if (storage === null) {
-	// 			reject(null);
-	// 			return;
-	// 		}
-
-	// 		const data: Data = JSON.parse(storage);
-	// 		const newRecipe = data.recipe;
-
-	// 		this.ajax()
-	// 			.then((res) => {
-	// 				newRecipe[index] = res[this.getRandomNum(4)];
-	// 				data.recipe = newRecipe;
-
-	// 				localStorage.setItem('week-dinner', JSON.stringify(data));
-	// 				resolve(newRecipe);
-	// 			}).catch(() => {
-	// 				reject();
-	// 			});
-	// 	});
-	// }
-
-	/**
-	 * レシピ非同期通信
-	 * @param {string|undefined} id
-	 * @return {Promise} Recipe
-	*/
-	ajax (id?: number): Promise<Recipe[]> {
-		// idがない場合、ランダムなカテゴリIDを返却
-		const categoryId = id ? id : this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
+	fetchItems (id: number): Promise<Recipe[]> {
 		const param: {} = {
 			format: 'json',
-			categoryId: categoryId,
+			categoryId: id,
 			applicationId: '1099641121016352250',
 		};
 		const query = new URLSearchParams(param);
@@ -121,6 +91,34 @@ class RakutenRecipe {
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState === 4 && xhr.status === 200) {
 					resolve(JSON.parse(xhr.response).result);
+				}
+				if (xhr.status !== 200) {
+					reject();
+				}
+			};
+		});
+	}
+
+	/**
+	 * カテゴリ一覧 取得
+	 * @return {Promise} Category
+	*/
+	fetchCategory (): Promise<Category[]> {
+		const param: {} = {
+			format: 'json',
+			categoryType: 'large',
+			applicationId: '1099641121016352250',
+		};
+		const query = new URLSearchParams(param);
+		const requestUrl = 'https://app.rakuten.co.jp/services/api/Recipe/CategoryList/20170426?' + query.toString();
+
+		return new Promise((resolve, reject) => {
+			const xhr = new XMLHttpRequest();
+			xhr.open('GET', requestUrl);
+			xhr.send();
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					resolve(JSON.parse(xhr.response).result.large);
 				}
 				if (xhr.status !== 200) {
 					reject();

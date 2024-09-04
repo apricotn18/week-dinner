@@ -1,7 +1,7 @@
 import { memo } from "react";
 import CassetteComponent from "./Cassette/CassetteComp";
 import ModalComponent from "./Modal/ModalComp";
-import { Recipe } from "../../../assets/type";
+import { Recipe } from "../../../../assets/type";
 
 type Props = {
 	index: number;

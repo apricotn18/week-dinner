@@ -1,7 +1,7 @@
 import { memo } from "react";
-import ButtonComponent from "../../Button/ButtonComp";
+import ButtonComponent from "../../../Common/Button/ButtonComp";
 import style from "./modal.module.scss";
-import { Recipe } from "../../../../assets/type";
+import { Recipe } from "../../../../../assets/type";
 
 type Props = {
 	index: number;
@@ -40,7 +40,7 @@ const ModalComponent = memo(({ item, index }: Props) => {
 					</ButtonComponent>
 				</div>
 				<div className={style.button_change_wrapper}>
-					<ButtonComponent href={'change?' + index}>
+					<ButtonComponent href={'change?id=' + index}>
 						レシピ入れ替え
 					</ButtonComponent>
 				</div>

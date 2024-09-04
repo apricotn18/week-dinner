@@ -7,3 +7,8 @@ export type Recipe = {
 	foodImageUrl?: string;
 	recipeMaterial?: string[];
 }
+
+export type Category = {
+	categoryId?: string;
+	categoryName?: string;
+}
