@@ -45,12 +45,6 @@ button {
 }
 
 .wrapper {
-	position: relative;
-	padding: 0 0 var.$footer-height;
-	width: 100%;
-	margin: auto;
-	background-color: var.$white-color;
-
 	&::before {
 		content: "";
 		display: block;
