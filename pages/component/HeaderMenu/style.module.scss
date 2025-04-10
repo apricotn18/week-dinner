@@ -1,0 +1,78 @@
+@use "/public/css/variable.scss" as var;
+
+.wrapper {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 101;
+}
+
+.background {
+	width: 100%;
+	height: 100%;
+}
+
+.inner {
+	position: fixed;
+	top: var.$header-height;
+	left: 0;
+	width: 100%;
+}
+
+.list {
+	background-color: var.$white-color;
+	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .4);
+}
+
+.item {
+	position: relative;
+	border-bottom: 1px solid #eae5e2;
+
+	&::before {
+		position: absolute;
+		top: 12px;
+		left: 0;
+		display: inline-block;
+		width: 23px;
+		height: 23px;
+		content: "";
+		background-image: url("./icon_menu.png");
+		background-size: 63px 23px;
+		background-repeat: no-repeat;
+		pointer-events: none;
+	}
+
+	&:nth-child(1) {
+		&::before {
+			left: 11px;
+			width: 29px;
+			background-position: -19px -2px;
+		}
+	}
+
+	&:nth-child(2) {
+		&::before {
+			left: 16px;
+			width: 20px;
+			background-position: 0 -1px;
+		}
+	}
+
+	// &:nth-child(3) {
+	// 	border-bottom-color: #ccc;
+	// 	&::before {
+	// 		left: 16px;
+	// 		width: 19px;
+	// 		background-position: -46px -1px;
+	// 	}
+	// }
+}
+
+.link {
+	display: block;
+	padding: 14px 10px 11px 46px;
+	color: var.$main-color;
+}

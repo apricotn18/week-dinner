@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
-import RakutenRecipe from "../assets/api/rakutenRecipe";
-import { Recipe } from "../assets/type";
+import { useState, useEffect } from 'react';
+import RakutenRecipe from '../api/rakutenRecipe';
+import { Recipe } from '../../public/type';
 
 const rakutenRecipe = new RakutenRecipe();
+
+export const divisions = ['今日', '明日', '明後日', '3日後', '4日後', '5日後', '6日後'];
 
 export const useRecipe = (): [
 	recipe: Recipe[],

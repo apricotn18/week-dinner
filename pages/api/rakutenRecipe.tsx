@@ -1,4 +1,4 @@
-import { Recipe, Category } from "../type";
+import { Recipe, Category } from '../../public/type';
 
 type Data = {
 	date: [number, number, number];

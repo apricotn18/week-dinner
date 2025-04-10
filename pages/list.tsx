@@ -1,9 +1,16 @@
-const List = () => {
+import HeaderComp from './component/Header/HeaderComp';
+import FooterComp from './component/Footer/FooterComp';
+
+export default function List() {
 	return (
 		<>
-			List
+			<HeaderComp></HeaderComp>
+			<main>
+				<section className='wrapper'>
+					List
+				</section>
+			</main>
+			<FooterComp></FooterComp>
 		</>
-	);
-};
-
-export default List;
+	)
+}

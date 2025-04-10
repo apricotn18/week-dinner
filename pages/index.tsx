@@ -1,53 +1,17 @@
-import { useState, useEffect } from "react";
-import CassetteButtonComponent from "./component/Index/CassetteButton/CassetteButtonComp";
-import ModalComponent from "./component/Index/Modal/ModalComp";
-import RecipeComponent from "./component/Index/Recipe/RecipeComp";
-import { Recipe } from "../assets/type";
+import HeaderComp from './component/Header/HeaderComp';
+import FooterComp from './component/Footer/FooterComp';
+import RecipeListComp from './component/RecipeList/RecipeComp';
 
-type Props = {
-	recipe: Recipe[];
-}
-
-const IndexComponent = ({ recipe }: Props) => {
-	const [currentIndex, setCurrentIndex] = useState<number>(0);
-	const [isOpen, setIsOpen] = useState<boolean>(false);
-
-	useEffect(() => {
-		document.body.style.overflow = isOpen ? 'hidden' : '';
-	}, [isOpen]);
-
+export default function Index() {
 	return (
 		<>
-			<ul>
-				{recipe.map((item: Recipe, i: number) => (
-					<li key={i}>
-						<CassetteButtonComponent
-							index={i}
-							setCurrentIndex={setCurrentIndex}
-							openModal={() => setIsOpen(true)}
-						>
-							<RecipeComponent
-								index={i}
-								item={item}
-								insert={'cassette'}
-							/>
-						</CassetteButtonComponent>
-					</li>
-				))}
-			</ul>
-			<ModalComponent
-				title={recipe[currentIndex].recipeTitle}
-				isOpen={isOpen}
-				closeModal={() => setIsOpen(false)}
-			>
-				<RecipeComponent
-					index={currentIndex}
-					item={recipe[currentIndex]}
-					insert={'modal'}
-				/>
-			</ModalComponent>
+			<HeaderComp></HeaderComp>
+			<main>
+				<section className="wrapper">
+					<RecipeListComp />
+				</section>
+			</main>
+			<FooterComp></FooterComp>
 		</>
 	)
-};
-
-export default IndexComponent;
+}
