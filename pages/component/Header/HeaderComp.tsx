@@ -14,12 +14,11 @@ export default function Header() {
 				<Link
 					href="/"
 					className={style.image}
-					// onClick={() => setIsOpen(false)}
 				>
 					<h1>
 						<Image
 							src={image_logo}
-							width="144"
+							width={144}
 							alt="week dinner"
 						/>
 					</h1>

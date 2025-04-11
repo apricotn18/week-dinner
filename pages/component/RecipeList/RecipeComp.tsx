@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useRecipe, divisions } from '../../hooks/useRecipe';
+import { useRecipe } from '../../../hooks/useRecipe';
 import RecipeItemComp from '../RecipeItem/RecipeItemComp';
 import RecipeModalComp from '../RecipeModal/RecipeModalComp';
+
+const divisions = ['今日', '明日', '明後日', '3日後', '4日後', '5日後', '6日後'];
 
 export default function RecipeList() {
 	const [modalIndex, setModalIndex] = useState<number>(0);
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const [recipe] = useRecipe();
+	const [recipe, setRecipe] = useRecipe();
 
 	const handleClickItem = (index: number) => {
 		setModalIndex(index);
