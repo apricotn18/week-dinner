@@ -1,6 +1,5 @@
 # week-dinner
-https://apricotn18-org.github.io/
-
+https://week-dinner.vercel.app/
 ```
-$ npm run dev
+$ npm start
 ```
