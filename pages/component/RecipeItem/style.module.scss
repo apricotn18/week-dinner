@@ -21,72 +21,66 @@
 
 .textWrapper {
 	display: block;
-	padding: 13px 10px 10px;
+	padding: 18px 10px 14px;
 	text-align: left;
 }
 
 .header {
 	display: flex;
-	padding-bottom: 5px;
-	font-size: 12px;
+	padding-bottom: 10px;
 }
 
 .division {
 	margin-right: 10px;
 	color: var.$gray-color;
+	font-size: 13px;
 	font-weight: bold;
 	white-space: nowrap;
 }
 
 .time {
+	display: flex;
 	margin-right: 8px;
 	color: var.$gray-color;
+	font-size: 13px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
 
 	&::before {
-		display: inline-block;
-		width: 11px;
-		height: 11px;
+		width: 12px;
+		height: 12px;
 		margin-right: 3px;
 		content: "";
 		background-image: url("icon_recipe.png");
-		background-size: 22px;
+		background-size: 24px;
 		background-repeat: no-repeat;
 		background-position: 0 0;
 		overflow: hidden;
-		transform: translateY(1px);
 	}
 }
 
 .price {
+	display: flex;
 	color: var.$gray-color;
+	font-size: 13px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
 
 	&::before {
-		display: inline-block;
-		width: 11px;
-		height: 11px;
+		width: 12px;
+		height: 12px;
 		margin-right: 3px;
 		content: "";
 		background-image: url("icon_recipe.png");
-		background-size: 22px;
+		background-size: 24px;
 		background-repeat: no-repeat;
-		background-position: -11px 0;
+		background-position: -12px 0;
 		overflow: hidden;
-		transform: translateY(1px);
 	}
 }
 
 .title {
 	font-weight: bold;
-	display: -webkit-box;
-	overflow: hidden;
-	font-size: 14px;
-	line-clamp: 2;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
 }

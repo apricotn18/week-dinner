@@ -22,15 +22,15 @@ export default function RecipeItem(props: Props) {
 			></div>
 			<div className={style.textWrapper}>
 				<div className={style.header}>
-					<p className={style.division}>
+					<div className={style.division}>
 						{props.divisions}のレシピ
-					</p>
-					<p className={style.time}>
+					</div>
+					<div className={style.time}>
 						{props.item.recipeIndication}
-					</p>
-					<p className={style.price}>
+					</div>
+					<div className={style.price}>
 						{props.item.recipeCost}
-					</p>
+					</div>
 				</div>
 				<p className={style.title}>
 					{props.item.recipeTitle}

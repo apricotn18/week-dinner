@@ -37,10 +37,13 @@
 }
 
 .title {
+	display: flex;
+	align-items: center;
 	width: 100%;
-	padding: 16px 0 13px 13px;
-	font-size: 16px;
+	padding: 14px 0 12px 13px;
+	font-size: 18px;
 	font-weight: bold;
+	box-sizing: border-box;
 }
 
 .close_button {

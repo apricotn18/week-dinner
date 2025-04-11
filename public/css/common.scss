@@ -3,11 +3,11 @@
 * {
 	font-family: "游ゴシック体", YuGothic, "游ゴシック", "Yu Gothic", "メイリオ", "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
 	word-break: break-all;
+	font-size: 16px;
 }
 
 body {
 	position: relative;
-	font-size: 1.3rem;
 	font-weight: normal;
 	color: var.$main-color;
 	text-align: left;
@@ -28,6 +28,10 @@ a {
 	&:active {
 		-webkit-tap-highlight-color:rgba(0,0,0,0);
 	}
+}
+
+p {
+	line-height: 1.4;
 }
 
 button {

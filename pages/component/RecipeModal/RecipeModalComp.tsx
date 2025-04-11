@@ -13,6 +13,10 @@ export default function RecipeModal(props: Props) {
 	const ref = useRef<HTMLDivElement>(null!);
 
 	useEffect(() => {
+		ref.current.style.height = window.innerHeight + 'px';
+	}, [props.isOpen]);
+
+	useEffect(() => {
 		ref.current.scrollTo(0, 0);
 	}, [props.item]);
 
@@ -55,12 +59,12 @@ function Contents({ item }: {
 			</div>
 			<div className={style.wrapper}>
 				<div className={style.header}>
-					<p className={style.time}>
+					<div className={style.time}>
 						{item.recipeIndication}
-					</p>
-					<p className={style.price}>
+					</div>
+					<div className={style.price}>
 						{item.recipeCost}
-					</p>
+					</div>
 				</div>
 				<p className={style.description}>
 					{item.recipeDescription}
