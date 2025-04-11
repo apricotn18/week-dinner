@@ -9,6 +9,8 @@ type Props = {
 };
 
 export default function RecipeItem(props: Props) {
+	if (!props.item) return;
+
 	return (
 		<button
 			onClick={() => props.handleClick(props.index)}

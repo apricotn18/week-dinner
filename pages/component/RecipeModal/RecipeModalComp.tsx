@@ -16,6 +16,8 @@ export default function RecipeModal(props: Props) {
 		ref.current.scrollTo(0, 0);
 	}, [props.item]);
 
+	if (!props.item) return;
+
 	return (
 		<div className={`${style.wrapper} ${props.isOpen && style.isOpen}`}>
 			<div className={style.background}></div>
