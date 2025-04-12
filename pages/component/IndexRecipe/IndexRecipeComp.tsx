@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useRecipe } from '../../../hooks/useRecipe';
-import RecipeItemComp from '../RecipeItem/RecipeItemComp';
-import RecipeModalComp from '../RecipeModal/RecipeModalComp';
+import { useDivisions } from '../../../hooks/useDivisions';
+import RecipeCassetteComp from '../RecipeCassette/RecipeCassetteComp';
+import FullModalComp from '../FullModal/FullModalComp';
 
-const divisions = ['今日', '明日', '明後日', '3日後', '4日後', '5日後', '6日後'];
-
-export default function RecipeList() {
+export default function IndexRecipe() {
 	const [modalIndex, setModalIndex] = useState<number>(0);
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [recipe, setRecipe] = useRecipe();
+	const [divisions] = useDivisions();
 
 	const handleClickItem = (index: number) => {
 		setModalIndex(index);
@@ -19,23 +19,27 @@ export default function RecipeList() {
 		document.body.style.overflow = isModalOpen ? 'hidden' : '';
 	}, [isModalOpen]);
 
-
 	return (
 		<>
 			<ul>
 				{recipe.map((item, index) => (
 					<li key={index}>
-						<RecipeItemComp
+						<RecipeCassetteComp
 							index={index}
-							item={item}
-							divisions={divisions[index]}
+							item={{
+								divisions: divisions[index],
+								image: item.foodImageUrl,
+								title: item.recipeTitle,
+								time: item.recipeIndication,
+								price: item.recipeCost,
+							}}
 							handleClick={handleClickItem}
 						/>
 					</li>
 				))}
 			</ul>
 			<div>
-				<RecipeModalComp
+				<FullModalComp
 					item={recipe[modalIndex]}
 					isOpen={isModalOpen}
 					setIsOpen={setIsModalOpen}

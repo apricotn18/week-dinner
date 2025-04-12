@@ -1,6 +1,6 @@
 import HeaderComp from './component/Header/HeaderComp';
 import FooterComp from './component/Footer/FooterComp';
-import RecipeListComp from './component/RecipeList/RecipeComp';
+import IndexRecipeComp from './component/IndexRecipe/IndexRecipeComp';
 
 export default function Index() {
 	return (
@@ -8,7 +8,7 @@ export default function Index() {
 			<HeaderComp></HeaderComp>
 			<main>
 				<section className="wrapper">
-					<RecipeListComp />
+					<IndexRecipeComp />
 				</section>
 			</main>
 			<FooterComp></FooterComp>
