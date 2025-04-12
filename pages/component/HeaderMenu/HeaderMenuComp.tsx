@@ -17,6 +17,10 @@ const meun: {
 	{
 		href: '/list',
 		text: '材料リスト',
+	},
+	{
+		href: '/change',
+		text: 'ランキングからレシピ変更',
 	}
 ];
 

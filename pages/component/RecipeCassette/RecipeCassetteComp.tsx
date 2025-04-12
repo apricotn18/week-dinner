@@ -2,7 +2,6 @@ import style from './style.module.scss';
 import { Recipe, Divisions } from '../../../public/type';
 
 type Props = {
-	index: number;
 	item: {
 		divisions?: Divisions[number];
 		image: Recipe['foodImageUrl']
@@ -10,7 +9,7 @@ type Props = {
 		time: Recipe['recipeIndication'];
 		price: Recipe['recipeCost'];
 	}
-	handleClick: (index: number) => void;
+	handleClick: () => void;
 };
 
 export default function RecipeCassette(props: Props) {
@@ -18,7 +17,7 @@ export default function RecipeCassette(props: Props) {
 
 	return (
 		<button
-			onClick={() => props.handleClick(props.index)}
+			onClick={() => props.handleClick()}
 			className={style.wrapper}
 		>
 			<div

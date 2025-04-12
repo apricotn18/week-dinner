@@ -1,4 +1,4 @@
-import { Recipe, Category } from '../../public/type';
+import { Recipe, Category } from '../public/type';
 
 type Data = {
 	date: [number, number, number];
@@ -6,7 +6,7 @@ type Data = {
 }
 
 /**
- * 楽天レシピAPIのデータを取得するクラス
+ * 楽天レシピAPI
  */
 class RakutenRecipe {
 	categoryIdList: number[];
@@ -20,7 +20,7 @@ class RakutenRecipe {
 	 * 初期表示
 	 * @return {Promise} Recipe
 	*/
-	init (): Promise<Recipe[]|null> {
+	init (): Promise<Recipe[] | null> {
 		return new Promise((resolve, reject) => {
 			const storage: string|null = localStorage.getItem('week-dinner');
 			const prevDate: Data = storage !== null ? JSON.parse(storage) : {};
@@ -103,18 +103,18 @@ class RakutenRecipe {
 	 * カテゴリ一覧 取得
 	 * @return {Promise} Category
 	*/
-	fetchCategory (): Promise<Category[]> {
+	getCategory (): Promise<Category[]> {
 		const param: {} = {
 			format: 'json',
 			categoryType: 'large',
 			applicationId: '1099641121016352250',
 		};
 		const query = new URLSearchParams(param);
-		const requestUrl = 'https://app.rakuten.co.jp/services/api/Recipe/CategoryList/20170426?' + query.toString();
+		const url = 'https://app.rakuten.co.jp/services/api/Recipe/CategoryList/20170426?' + query.toString();
 
 		return new Promise((resolve, reject) => {
 			const xhr = new XMLHttpRequest();
-			xhr.open('GET', requestUrl);
+			xhr.open('GET', url);
 			xhr.send();
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState === 4 && xhr.status === 200) {

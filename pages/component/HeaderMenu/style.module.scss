@@ -61,14 +61,15 @@
 		}
 	}
 
-	// &:nth-child(3) {
-	// 	border-bottom-color: #ccc;
-	// 	&::before {
-	// 		left: 16px;
-	// 		width: 19px;
-	// 		background-position: -46px -1px;
-	// 	}
-	// }
+	&:nth-child(3) {
+		border-bottom-color: #ccc;
+
+		&::before {
+			left: 16px;
+			width: 19px;
+			background-position: -46px -1px;
+		}
+	}
 }
 
 .link {
