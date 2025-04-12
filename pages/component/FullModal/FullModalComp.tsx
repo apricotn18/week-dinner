@@ -4,13 +4,22 @@ import style from './style.module.scss';
 import { Recipe } from '../../../public/type';
 
 type Props = {
-	item: Recipe;
+	item?: Recipe;
 	isOpen: boolean;
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function FullModal(props: Props) {
 	const ref = useRef<HTMLDivElement>(null!);
+	const recipe = props.item || {
+		recipeTitle: '',
+		recipeCost: '',
+		recipeDescription: '',
+		recipeIndication: '',
+		recipeUrl: '',
+		foodImageUrl: '',
+		recipeMaterial: [],
+	};
 
 	useEffect(() => {
 		ref.current.style.height = window.innerHeight + 'px';
@@ -20,15 +29,13 @@ export default function FullModal(props: Props) {
 		ref.current.scrollTo(0, 0);
 	}, [props.item]);
 
-	if (!props.item) return;
-
 	return (
 		<div className={`${style.wrapper} ${props.isOpen && style.isOpen}`}>
 			<div className={style.background}></div>
 			<div className={style.inner} ref={ref}>
 				<div className={style.header}>
 					<p className={style.title}>
-						{props.item.recipeTitle}
+						{recipe.recipeTitle}
 					</p>
 					<button
 						className={style.close_button}
@@ -36,7 +43,7 @@ export default function FullModal(props: Props) {
 					></button>
 				</div>
 				<div>
-					<RecipeDetailComp item={props.item} />
+					<RecipeDetailComp item={recipe} />
 				</div>
 			</div>
 		</div>

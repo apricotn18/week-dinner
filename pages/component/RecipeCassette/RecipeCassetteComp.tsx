@@ -31,12 +31,16 @@ export default function RecipeCassette(props: Props) {
 							{props.item.divisions}のレシピ
 						</div>
 					: ''}
-					<div className={style.time}>
-						{props.item.time}
-					</div>
-					<div className={style.price}>
-						{props.item.price}
-					</div>
+					{props.item.time ?
+						<div className={style.time}>
+							{props.item.time}
+						</div>
+					: ''}
+					{props.item.price ?
+						<div className={style.price}>
+							{props.item.price}
+						</div>
+					: ''}
 				</div>
 				<p className={style.title}>
 					{props.item.title}

@@ -6,6 +6,7 @@ const rakutenRecipe = new RakutenRecipe();
 
 export function useCategory (): [
 	category: Category[],
+	getCategoryRecipe: (id: string) => Category[]
 ] {
 	const [category, setCategory] = useState<Category[]>([]);
 
@@ -24,5 +25,29 @@ export function useCategory (): [
 		};
 	}, []);
 
-	return [category]
+	const getCategoryRecipe = (id: string) => {
+		const shouldFetch = category.some((item) => {
+			if (item.categoryId === id) {
+				return !item['recipes'];
+			};
+		});
+
+		if (shouldFetch && rakutenRecipe) {
+			rakutenRecipe.fetch(id).then((result) => {
+				if (result) {
+					const nextCategory = [...category];
+					nextCategory.map((item) => {
+						if (item.categoryId === id) {
+							item['recipes'] = result;
+						}
+					});
+					setCategory(nextCategory);
+				}
+			});
+		}
+
+		return category;
+	}
+
+	return [category, getCategoryRecipe]
 };

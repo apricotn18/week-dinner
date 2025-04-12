@@ -7,11 +7,3 @@ $favorite-color: #f0bd33;
 
 /* height */
 $header-height: 48px;
-
-/* tab */
-$tab: 680px;
-@mixin tab {
-	@media (min-width: ($tab)) {
-		@content;
-	}
-}

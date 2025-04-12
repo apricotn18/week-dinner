@@ -1,0 +1,29 @@
+
+@use "/public/css/variable.scss" as var;
+
+.wrapper {
+	overflow: hidden;
+	width: 100vw;
+}
+
+.cassetteWrapper {
+	display: flex;
+	overflow: auto;
+	padding: 10px 8px 13px 0;
+	background-color: #eee;
+
+	&::-webkit-scrollbar{
+		display: none;
+	}
+}
+
+.cassette {
+	width: 220px;
+	min-width: 220px;
+	margin-left: 10px;
+	border-radius: 6px;
+	overflow: hidden;
+	background-color: #fff;
+	box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.3);
+	font-size: 15px;
+}

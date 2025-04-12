@@ -9,11 +9,11 @@ type Data = {
  * 楽天レシピAPI
  */
 class RakutenRecipe {
-	categoryIdList: number[];
+	categoryIdList: string[];
 
 	constructor() {
 		// カテゴリID一覧
-		this.categoryIdList = [30, 31, 32, 14, 15, 16, 23, 41, 42, 43, 44, 25, 46, 47, 48];
+		this.categoryIdList = ['30', '31', '32', '14', '15', '16', '23', '41', '42', '43', '44', '25', '46', '47', '48'];
 	}
 
 	/**
@@ -45,13 +45,13 @@ class RakutenRecipe {
 			const categoryId1 = this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
 			const categoryId2 = this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
 
-			this.fetchItems(categoryId1)
+			this.fetch(categoryId1)
 				.then((res) => {
 					array = res;
 					// 短時間に複数回通信するとエラーとなるので少し時間を空ける
 					return this.sleep(1000);
 				}).then(() => {
-					return this.fetchItems(categoryId2);
+					return this.fetch(categoryId2);
 				}).then((res: Recipe[]) => {
 					array = array.concat(res);
 					array.map((item) => {
@@ -75,7 +75,7 @@ class RakutenRecipe {
 	 * @param {number} id
 	 * @return {Promise} Recipe
 	*/
-	fetchItems (id: number): Promise<Recipe[]> {
+	fetch (id: string): Promise<Recipe[]> {
 		const param: {} = {
 			format: 'json',
 			categoryId: id,

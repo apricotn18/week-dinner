@@ -3,11 +3,12 @@ import { useRecipe } from '../../../hooks/useRecipe';
 import { useDivisions } from '../../../hooks/useDivisions';
 import RecipeCassetteComp from '../RecipeCassette/RecipeCassetteComp';
 import FullModalComp from '../FullModal/FullModalComp';
+import { Recipe } from '../../../public/type';
 
 export default function IndexRecipe() {
-	const [modalIndex, setModalIndex] = useState<number>(0);
+	const [modalItem, setModalItem] = useState<Recipe>();
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const [recipe, setRecipe] = useRecipe();
+	const [recipe] = useRecipe();
 	const [divisions] = useDivisions();
 
 	useEffect(() => {
@@ -28,7 +29,7 @@ export default function IndexRecipe() {
 								price: item.recipeCost,
 							}}
 							handleClick={() => {
-								setModalIndex(index);
+								setModalItem(item);
 								setIsModalOpen(true);
 							}}
 						/>
@@ -37,7 +38,7 @@ export default function IndexRecipe() {
 			</ul>
 			<div>
 				<FullModalComp
-					item={recipe[modalIndex]}
+					item={modalItem}
 					isOpen={isModalOpen}
 					setIsOpen={setIsModalOpen}
 				/>
