@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useCategory } from '../../../hooks/useCategory';
+import AccordionComp from '../Accordion/AccordionComp';
 import RecipeCassetteComp from '../RecipeCassette/RecipeCassetteComp';
 import FullModalComp from '../FullModal/FullModalComp';
 import style from './style.module.scss';
@@ -20,38 +21,39 @@ export default function ChangeRecipe() {
 			<ul>
 				{category.map((item) => (
 					<li key={item.categoryId} className={style.wrapper}>
-						<button
-							onClick={() => {
+						<AccordionComp
+							style={style.button}
+							text={item.categoryName}
+							handleClick={async () => {
 								if (item.categoryId) {
 									setDisabled(true);
-									getCategoryRecipe(item.categoryId);
-									setTimeout(() => setDisabled(false), 1000);
+									await getCategoryRecipe(item.categoryId);
+									setDisabled(false);
 								}
 							}}
 							disabled={disabled}
 						>
-							{item.categoryName}
-						</button>
-						{item.recipes ?
-							<ul className={style.cassetteWrapper}>
-								{item.recipes.map((recipe, index) => (
-									<li key={index} className={style.cassette}>
-										<RecipeCassetteComp
-											item={{
-												image: recipe.foodImageUrl,
-												title: recipe.recipeTitle,
-												time: recipe.recipeIndication,
-												price: recipe.recipeCost,
-											}}
-											handleClick={() => {
-												setModalItem(recipe);
-												setIsModalOpen(true);
-											}}
-										/>
-									</li>
-								))}
-							</ul>
-						: ''}
+							{item.recipes ?
+								<ul className={style.cassetteWrapper}>
+									{item.recipes.map((recipe, index) => (
+										<li key={index} className={style.cassette}>
+											<RecipeCassetteComp
+												item={{
+													image: recipe.foodImageUrl,
+													title: recipe.recipeTitle,
+													time: recipe.recipeIndication,
+													price: recipe.recipeCost,
+												}}
+												handleClick={() => {
+													setModalItem(recipe);
+													setIsModalOpen(true);
+												}}
+											/>
+										</li>
+									))}
+								</ul>
+							: ''}
+						</AccordionComp>
 					</li>
 				))}
 			</ul>

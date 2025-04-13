@@ -71,12 +71,12 @@
 
 	td {
 		padding: 12px 10px 10px;
-		background-color: #f9f6f5;
+		background-color: var.$td-color1;
 	}
 
 	tr:nth-child(2n-1) {
 		td {
-			background-color: #efeae8;
+			background-color: var.$td-color2;
 		}
 	}
 }

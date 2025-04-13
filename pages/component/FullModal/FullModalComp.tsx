@@ -31,7 +31,6 @@ export default function FullModal(props: Props) {
 
 	return (
 		<div className={`${style.wrapper} ${props.isOpen && style.isOpen}`}>
-			<div className={style.background}></div>
 			<div className={style.inner} ref={ref}>
 				<div className={style.header}>
 					<p className={style.title}>
