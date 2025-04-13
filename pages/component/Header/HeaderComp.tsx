@@ -24,6 +24,7 @@ export default function Header() {
 					</h1>
 				</Link>
 				<button
+					type="button"
 					className={style.button}
 					onClick={() => setIsOpen(!isOpen)}
 				></button>

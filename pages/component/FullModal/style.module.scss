@@ -7,7 +7,7 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	z-index: 100;
+	z-index: var.$full-modal-index;
 	overflow: hidden;
 	transition: .3s;
 
@@ -51,7 +51,7 @@
 	box-sizing: border-box;
 }
 
-.close_button {
+.closeButton {
 	position: relative;
 	width: 44px;
 	min-width: 44px;

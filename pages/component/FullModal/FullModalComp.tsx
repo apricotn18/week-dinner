@@ -37,7 +37,8 @@ export default function FullModal(props: Props) {
 						{recipe.recipeTitle}
 					</p>
 					<button
-						className={style.close_button}
+						type="button"
+						className={style.closeButton}
 						onClick={() => props.setIsOpen(false)}
 					></button>
 				</div>

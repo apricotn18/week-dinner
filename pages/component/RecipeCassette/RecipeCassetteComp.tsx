@@ -6,8 +6,8 @@ type Props = {
 		divisions?: Divisions[number];
 		image: Recipe['foodImageUrl']
 		title: Recipe['recipeTitle'];
-		time: Recipe['recipeIndication'];
-		price: Recipe['recipeCost'];
+		time?: Recipe['recipeIndication'];
+		price?: Recipe['recipeCost'];
 	}
 	handleClick: () => void;
 };
@@ -17,6 +17,7 @@ export default function RecipeCassette(props: Props) {
 
 	return (
 		<button
+			type="button"
 			onClick={() => props.handleClick()}
 			className={style.wrapper}
 		>

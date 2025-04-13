@@ -2,19 +2,18 @@ import { useState, useEffect } from 'react';
 import { useCategory } from '../../../hooks/useCategory';
 import AccordionComp from '../Accordion/AccordionComp';
 import RecipeCassetteComp from '../RecipeCassette/RecipeCassetteComp';
-import FullModalComp from '../FullModal/FullModalComp';
+import ChangeModalComp from '../ChangeModal/ChangeModalomp';
 import style from './style.module.scss';
 import { Recipe } from '../../../public/type';
 
 export default function ChangeRecipe() {
-	const [modalItem, setModalItem] = useState<Recipe>();
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const [modalItem, setModalItem] = useState<Recipe | null>(null);
 	const [disabled, setDisabled] = useState<boolean>(false);
 	const [category, getCategoryRecipe] = useCategory();
 
 	useEffect(() => {
-		document.body.style.overflow = isModalOpen ? 'hidden' : '';
-	}, [isModalOpen]);
+		document.body.style.overflow = !!modalItem ? 'hidden' : '';
+	}, [modalItem]);
 
 	return (
 		<>
@@ -34,7 +33,7 @@ export default function ChangeRecipe() {
 							disabled={disabled}
 						>
 							{item.recipes ?
-								<ul className={style.cassetteWrapper}>
+								<ul className={style.cassetteList}>
 									{item.recipes.map((recipe, index) => (
 										<li key={index} className={style.cassette}>
 											<RecipeCassetteComp
@@ -44,10 +43,7 @@ export default function ChangeRecipe() {
 													time: recipe.recipeIndication,
 													price: recipe.recipeCost,
 												}}
-												handleClick={() => {
-													setModalItem(recipe);
-													setIsModalOpen(true);
-												}}
+												handleClick={() => setModalItem(recipe)}
 											/>
 										</li>
 									))}
@@ -57,13 +53,12 @@ export default function ChangeRecipe() {
 					</li>
 				))}
 			</ul>
-			<div>
-				<FullModalComp
-					item={modalItem}
-					isOpen={isModalOpen}
-					setIsOpen={setIsModalOpen}
+			{modalItem ?
+				<ChangeModalComp
+					nextItem={modalItem}
+					setItem={setModalItem}
 				/>
-			</div>
+			: ''}
 		</>
 	)
 }

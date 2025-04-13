@@ -6,10 +6,10 @@ import FullModalComp from '../FullModal/FullModalComp';
 import { Recipe } from '../../../public/type';
 
 export default function IndexRecipe() {
-	const [modalItem, setModalItem] = useState<Recipe>();
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [recipe] = useRecipe();
 	const [divisions] = useDivisions();
+	const [modalItem, setModalItem] = useState<Recipe>();
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		document.body.style.overflow = isModalOpen ? 'hidden' : '';
@@ -36,13 +36,11 @@ export default function IndexRecipe() {
 					</li>
 				))}
 			</ul>
-			<div>
-				<FullModalComp
-					item={modalItem}
-					isOpen={isModalOpen}
-					setIsOpen={setIsModalOpen}
-				/>
-			</div>
+			<FullModalComp
+				item={modalItem}
+				isOpen={isModalOpen}
+				setIsOpen={setIsModalOpen}
+			/>
 		</>
 	)
 }

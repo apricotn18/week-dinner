@@ -16,6 +16,7 @@ export default function Accordion(props: Props) {
 	return (
 		<>
 			<button
+				type="button"
 				className={`${props.style} ${style.button} ${isOpen && style.isOpen}`}
 				onClick={() => {
 					props.handleClick();
