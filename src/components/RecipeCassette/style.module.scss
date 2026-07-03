@@ -1,0 +1,84 @@
+
+@use "/src/styles/variable.scss" as var;
+
+.wrapper {
+	display: block;
+	width: 100%;
+}
+
+.image {
+	width: 100%;
+	aspect-ratio: 3 / 2;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-color: #eee;
+}
+
+.textWrapper {
+	margin: 1.2em 0.7em 0;
+	padding-bottom: .9em;
+	text-align: left;
+}
+
+.header {
+	display: flex;
+}
+
+.division {
+	margin-right: .8em;
+	color: var.$gray-color;
+	font-size: .8em;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+.time {
+	display: flex;
+	align-items: center;
+	margin-right: .6em;
+	color: var.$gray-color;
+	font-size: .8em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+
+	&::before {
+		width: 12px;
+		height: 12px;
+		margin-right: 3px;
+		content: "";
+		background-image: url("/images/icon_recipe.png");
+		background-size: 24px;
+		background-repeat: no-repeat;
+		background-position: 0 0;
+		overflow: hidden;
+	}
+}
+
+.price {
+	display: flex;
+	align-items: center;
+	color: var.$gray-color;
+	font-size: .8em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+
+	&::before {
+		width: 12px;
+		height: 12px;
+		margin-right: 3px;
+		content: "";
+		background-image: url("/images/icon_recipe.png");
+		background-size: 24px;
+		background-repeat: no-repeat;
+		background-position: -12px 0;
+		overflow: hidden;
+	}
+}
+
+.title {
+	margin-top: .65em;
+	font-weight: bold;
+}

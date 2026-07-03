@@ -1,0 +1,172 @@
+
+@use "/src/styles/variable.scss" as var;
+
+.wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	z-index: var.$change-modal-index;
+}
+
+.background {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .5);
+}
+
+.inner {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 300px;
+	max-height: 80vh;
+	overflow-x: hidden;
+	overflow-y: auto;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	background-color: #fff;
+	border-radius: 10px;
+	transform: translate(-50%, -50%);
+}
+
+.header {
+	position: sticky;
+	top: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 60px;
+	background-color: #fff;
+	z-index: 1;
+}
+
+.selectWrapper {
+	position: relative;
+	padding-right: 10px;
+	font-weight: bold;
+	font-size: 15px;
+
+	&::before {
+		content: "";
+		position: absolute;
+		top: calc(50% - 1px);
+		left: 9px;
+		display: block;
+		width: 5px;
+		height: 5px;
+		border-right: 2px solid var.$sub-color;
+		border-bottom: 2px solid var.$sub-color;
+		transform: translate(0, calc(-50%)) rotate(45deg);
+		user-select: none;
+	}
+}
+
+.select {
+	display: inline-block;
+	margin-right: 4px;
+	padding: 8px 7px 6px 22px;
+	font: inherit;
+	text-align: center;
+	background-color:#ebe4e2;
+	border-radius: 3px;
+}
+
+.closeButtonWrapper {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%);
+}
+
+.closeButton {
+	position: relative;
+	width: 44px;
+	height: 50px;
+	margin: 0 0 0 auto;
+	margin-top: 1px;
+	border-radius: 50%;
+
+	&::before,
+	&::after {
+		content: "";
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		display: block;
+		width: 2px;
+		height: 18px;
+		background-color: var.$main-color;
+		border-radius: 2px;
+	}
+
+	&::before {
+		transform: translate(-50%, -50%) rotate(45deg);
+	}
+
+	&::after {
+		transform: translate(-50%, -50%) rotate(-45deg);
+	}
+}
+
+.contents {
+	padding: 6px 10px 20px;
+}
+
+.cassette {
+	position: relative;
+	width: 190px;
+	margin: 0 auto;
+	overflow: hidden;
+	font-size: 14px;
+	border-radius: 4px;
+	background-color: #fff;
+	box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.arrow {
+	position: relative;
+	width: 100%;
+	height: 39px;
+
+	&::before,
+	&::after {
+		content: "";
+		position: absolute;
+		left: 49%;
+		display: block;
+		width: 8px;
+		height: 8px;
+		border-right: 2px solid var.$sub-color;
+		border-bottom: 2px solid var.$sub-color;
+		transform: translate(0, calc(-50%)) rotate(45deg);
+		user-select: none;
+	}
+	&::before {
+		top: 12px;
+	}
+
+	&::after {
+		bottom: 9px;
+	}
+}
+
+.buttonWrapper {
+	margin-top: 20px;
+}
+
+
+.button {
+	display: block;
+	height: 45px;
+	width: 100%;
+	color: #fff;
+	background-color: #8c7d77;
+	font-weight: bold;
+	text-align: center;
+	line-height: 47px;
+	border-radius: 4px;
+}
