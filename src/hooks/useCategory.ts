@@ -33,7 +33,7 @@ export function useCategory (): [
 		});
 
 		if (shouldFetch && rakutenRecipe) {
-			rakutenRecipe.fetch(id).then((result) => {
+			rakutenRecipe.fetchRanking(id).then((result) => {
 				if (result) {
 					const nextCategory = [...category];
 					nextCategory.map((item) => {

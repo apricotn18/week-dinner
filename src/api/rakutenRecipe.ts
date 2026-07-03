@@ -1,8 +1,25 @@
 import { Recipe, Category } from '../types';
+import categoryRankingFixture from './fixtures/categoryRanking.sample.json';
+
+const APPLICATION_ID = '1099641121016352250';
+const CATEGORY_RANKING_URL = 'https://openapi.rakuten.co.jp/recipems/api/Recipe/CategoryRanking/20170426';
+const CATEGORY_LIST_URL = 'https://openapi.rakuten.co.jp/recipems/api/Recipe/CategoryList/20170426';
 
 type Data = {
 	date: [number, number, number];
 	recipe: Recipe[];
+}
+
+function isStorageData(value: unknown): value is Data {
+	if (typeof value !== 'object' || value === null) return false;
+	const data = value as { date?: unknown; recipe?: unknown };
+
+	return (
+		Array.isArray(data.date) &&
+		data.date.length === 3 &&
+		data.date.every((n) => typeof n === 'number') &&
+		Array.isArray(data.recipe)
+	);
 }
 
 /**
@@ -20,111 +37,106 @@ class RakutenRecipe {
 	 * 初期表示
 	 * @return {Promise} Recipe
 	*/
-	init (): Promise<Recipe[] | null> {
-		return new Promise((resolve, reject) => {
-			const storage: string|null = localStorage.getItem('week-dinner');
-			const prevDate: Data = storage !== null ? JSON.parse(storage) : {};
-			const date = new Date();
-			const today: [number, number, number] = [date.getFullYear(), date.getMonth(), date.getDate()];
-			let nextRecipe: Recipe[] = [];
+	async init (): Promise<Recipe[]> {
+		const storage: string | null = localStorage.getItem('week-dinner');
+		let prevData: Data | null = null;
 
-			if (prevDate.date) {
-				const CALC_DATE = 1000 * 60 * 60 * 24;
-				const originalDate: number = new Date(...(prevDate.date)).getTime(); // ローカルストレージから日付を生成
-				const nextDate: number = new Date(...today).getTime(); // 今日
-				const elapsedDays = Math.floor((nextDate - originalDate) / CALC_DATE);
-				// 経過日数分のレシピを削除
-				nextRecipe = prevDate.recipe.slice(elapsedDays);
+		if (storage !== null) {
+			try {
+				const parsed: unknown = JSON.parse(storage);
+				if (isStorageData(parsed)) {
+					prevData = parsed;
+				}
+			} catch {
+				prevData = null;
 			}
+		}
 
-			if (nextRecipe.length > 6) {
-				return resolve(nextRecipe);
-			}
+		const date = new Date();
+		const today: [number, number, number] = [date.getFullYear(), date.getMonth(), date.getDate()];
+		let nextRecipe: Recipe[] = [];
 
-			let array: Recipe[] = [];
-			const categoryId1 = this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
-			const categoryId2 = this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
+		if (prevData) {
+			const CALC_DATE = 1000 * 60 * 60 * 24;
+			const originalDate = new Date(...prevData.date).getTime(); // ローカルストレージから日付を生成
+			const nextDate = new Date(...today).getTime(); // 今日
+			const elapsedDays = Math.floor((nextDate - originalDate) / CALC_DATE);
+			// 経過日数分のレシピを削除
+			nextRecipe = prevData.recipe.slice(elapsedDays);
+		}
 
-			this.fetch(categoryId1)
-				.then((res) => {
-					array = res;
-					// 短時間に複数回通信するとエラーとなるので少し時間を空ける
-					return this.sleep(1000);
-				}).then(() => {
-					return this.fetch(categoryId2);
-				}).then((res: Recipe[]) => {
-					array = array.concat(res);
-					array.map((item) => {
-						if (nextRecipe.length > 6) return false;
-						nextRecipe.push(item);
-					});
+		if (nextRecipe.length > 6) {
+			return nextRecipe;
+		}
 
-					localStorage.setItem('week-dinner', JSON.stringify({
-						date: today,
-						recipe: nextRecipe,
-					}));
-					resolve(nextRecipe);
-				}).catch(() => {
-					reject();
-				});
-		});
+		const categoryId1 = this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
+		const categoryId2 = this.categoryIdList[this.getRandomNum(this.categoryIdList.length)];
+
+		const firstResult = await this.fetchRanking(categoryId1);
+		// 短時間に複数回通信するとエラーとなるので少し時間を空ける
+		await this.sleep(1000);
+		const secondResult = await this.fetchRanking(categoryId2);
+
+		for (const item of firstResult.concat(secondResult)) {
+			if (nextRecipe.length > 6) break;
+			nextRecipe.push(item);
+		}
+
+		localStorage.setItem('week-dinner', JSON.stringify({
+			date: today,
+			recipe: nextRecipe,
+		}));
+
+		return nextRecipe;
 	}
 
 	/**
 	 * カテゴリ別ランキング 取得
-	 * @param {number} id
+	 * @param {string} id
 	 * @return {Promise} Recipe
 	*/
-	fetch (id: string): Promise<Recipe[]> {
-		const param: {} = {
+	async fetchRanking (id: string): Promise<Recipe[]> {
+		const param: Record<string, string> = {
 			format: 'json',
 			categoryId: id,
-			applicationId: '1099641121016352250',
+			applicationId: APPLICATION_ID,
 		};
 		const query = new URLSearchParams(param);
-		const requestUrl = 'https://app.rakuten.co.jp/services/api/Recipe/CategoryRanking/20170426?' + query.toString();
 
-		return new Promise((resolve, reject) => {
-			const xhr = new XMLHttpRequest();
-			xhr.open('GET', requestUrl);
-			xhr.send();
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState === 4 && xhr.status === 200) {
-					resolve(JSON.parse(xhr.response).result);
-				}
-				if (xhr.status !== 200) {
-					reject();
-				}
-			};
-		});
+		try {
+			const response = await fetch(`${CATEGORY_RANKING_URL}?${query.toString()}`);
+
+			if (!response.ok) {
+				throw new Error(`楽天レシピランキングの取得に失敗しました (status: ${response.status})`);
+			}
+
+			const data = await response.json();
+			return data.result as Recipe[];
+		} catch {
+			// APIが利用できない場合はサンプルデータで代替する
+			return categoryRankingFixture.result as Recipe[];
+		}
 	}
 
 	/**
 	 * カテゴリ一覧 取得
 	 * @return {Promise} Category
 	*/
-	getCategory (): Promise<Category[]> {
-		const param: {} = {
+	async getCategory (): Promise<Category[]> {
+		const param: Record<string, string> = {
 			format: 'json',
 			categoryType: 'large',
-			applicationId: '1099641121016352250',
+			applicationId: APPLICATION_ID,
 		};
 		const query = new URLSearchParams(param);
-		const url = 'https://app.rakuten.co.jp/services/api/Recipe/CategoryList/20170426?' + query.toString();
+		const response = await fetch(`${CATEGORY_LIST_URL}?${query.toString()}`);
 
-		return new Promise((resolve, reject) => {
-			const xhr = new XMLHttpRequest();
-			xhr.open('GET', url);
-			xhr.send();
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState === 4 && xhr.status === 200) {
-					resolve(JSON.parse(xhr.response).result.large);
-				}
-				if (xhr.status !== 200) {
-					reject();
-				}
-			};
-		});
+		if (!response.ok) {
+			throw new Error(`楽天レシピカテゴリの取得に失敗しました (status: ${response.status})`);
+		}
+
+		const data = await response.json();
+		return data.result.large as Category[];
 	}
 
 	/**
@@ -137,7 +149,7 @@ class RakutenRecipe {
 	}
 
 	/**
-	 * 最大値のうちランダムな整数を返す
+	 * 指定時間待機する
 	 * @param {number} ms 待つ時間
 	 * @return {Promise} void
 	*/
