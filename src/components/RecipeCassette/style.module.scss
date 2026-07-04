@@ -4,6 +4,9 @@
 .wrapper {
 	display: block;
 	width: 100%;
+	background-color: #fff;
+	overflow: hidden;
+	transition:.2s ease;
 }
 
 .image {
@@ -12,23 +15,24 @@
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
-	background-color: #eee;
+	background-color: var.$td-color2;
 }
 
 .textWrapper {
-	margin: 1.2em 0.7em 0;
-	padding-bottom: .9em;
+	margin: 0;
+	padding: 1.1em .85em 1em;
 	text-align: left;
 }
 
 .header {
 	display: flex;
+	align-items: center;
+	gap: .4em;
 }
 
 .division {
-	margin-right: .8em;
-	color: var.$gray-color;
-	font-size: .8em;
+	color: var.$sub-color;
+	font-size: .75em;
 	font-weight: bold;
 	white-space: nowrap;
 }
@@ -36,23 +40,14 @@
 .time {
 	display: flex;
 	align-items: center;
-	margin-right: .6em;
 	color: var.$gray-color;
-	font-size: .8em;
-	text-overflow: ellipsis;
+	font-size: .75em;
 	white-space: nowrap;
-	overflow: hidden;
 
 	&::before {
-		width: 12px;
-		height: 12px;
-		margin-right: 3px;
-		content: "";
-		background-image: url("/images/icon_recipe.png");
-		background-size: 24px;
-		background-repeat: no-repeat;
-		background-position: 0 0;
-		overflow: hidden;
+		content: "⏱";
+		margin-right: 2px;
+		font-size: .9em;
 	}
 }
 
@@ -60,25 +55,19 @@
 	display: flex;
 	align-items: center;
 	color: var.$gray-color;
-	font-size: .8em;
-	text-overflow: ellipsis;
+	font-size: .75em;
 	white-space: nowrap;
-	overflow: hidden;
 
 	&::before {
-		width: 12px;
-		height: 12px;
-		margin-right: 3px;
-		content: "";
-		background-image: url("/images/icon_recipe.png");
-		background-size: 24px;
-		background-repeat: no-repeat;
-		background-position: -12px 0;
-		overflow: hidden;
+		content: "¥";
+		margin-right: 1px;
+		font-size: .85em;
 	}
 }
 
 .title {
-	margin-top: .65em;
+	margin-top: .5em;
 	font-weight: bold;
+	font-size: .95em;
+	line-height: 1.4;
 }

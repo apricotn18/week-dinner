@@ -27,7 +27,9 @@ export default function Header() {
 					type="button"
 					className={style.button}
 					onClick={() => setIsOpen(!isOpen)}
-				></button>
+				>
+					<span></span>
+				</button>
 			</div>
 			<HeaderMenu
 				isOpen={isOpen}

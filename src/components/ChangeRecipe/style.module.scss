@@ -3,26 +3,35 @@
 
 .wrapper {
 	overflow: hidden;
-	background-color: var.$td-color1;
-
-	&:nth-child(2n-1) {
-		background-color: var.$td-color2;
-	}
+	background-color: #fff;
+	border-bottom: 1px solid var.$border-color;
 }
 
 .button {
-	display: block;
+	display: flex;
+	align-items: center;
 	width: 100%;
-	padding: 16px 10px 14px 30px;
-	font-size: 18px;
+	padding: 16px 14px;
+	font-size: 16px;
+	font-weight: 600;
 	text-align: left;
-	box-sizing: border-box;
+	letter-spacing: .02em;
+	gap: 8px;
+
+	&::after {
+		content: "›";
+		margin-left: auto;
+		color: var.$gray-color;
+		font-size: 1.2em;
+		transition: transform .2s ease;
+	}
 }
 
 .cassetteList {
 	display: flex;
 	overflow: auto;
-	padding: 0 10px 15px 0;
+	padding: 0 14px 16px;
+	gap: 10px;
 
 	&::-webkit-scrollbar {
 		display: none;
@@ -32,10 +41,15 @@
 .cassette {
 	width: 220px;
 	min-width: 220px;
-	margin-left: 10px;
 	overflow: hidden;
 	font-size: 15px;
-	border-radius: 6px;
+	border-radius: var.$radius-md;
 	background-color: #fff;
-	box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.3);
+	box-shadow: var.$shadow-md;
+	transition: transform .2s ease, box-shadow .2s ease;
+
+	&:hover {
+		transform: translateY(-2px);
+		box-shadow: var.$shadow-lg;
+	}
 }
