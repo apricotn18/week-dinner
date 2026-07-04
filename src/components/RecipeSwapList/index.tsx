@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useCategory } from '../../hooks/useCategory';
-import Accordion from '../Accordion/Accordion';
-import RecipeCassette from '../RecipeCassette/RecipeCassette';
-import ChangeModal from '../ChangeModal/ChangeModal';
+import Accordion from '../Accordion';
+import RecipeCard from '../RecipeCard';
+import RecipeSwapModal from '../RecipeSwapModal';
 import style from './style.module.scss';
 import { Recipe } from '../../types';
 
-export default function ChangeRecipe() {
+export default function RecipeSwapList() {
 	const [modalItem, setModalItem] = useState<Recipe | null>(null);
 	const [disabled, setDisabled] = useState<boolean>(false);
 	const [category, getCategoryRecipe] = useCategory();
@@ -36,7 +36,7 @@ export default function ChangeRecipe() {
 								<ul className={style.cassetteList}>
 									{item.recipes.map((recipe, index) => (
 										<li key={index} className={style.cassette}>
-											<RecipeCassette
+											<RecipeCard
 												item={{
 													image: recipe.foodImageUrl,
 													title: recipe.recipeTitle,
@@ -54,7 +54,7 @@ export default function ChangeRecipe() {
 				))}
 			</ul>
 			{modalItem ?
-				<ChangeModal
+				<RecipeSwapModal
 					nextItem={modalItem}
 					setItem={setModalItem}
 				/>

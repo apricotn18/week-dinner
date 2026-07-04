@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useRecipe } from '../../hooks/useRecipe';
 import { useDivisions } from '../../hooks/useDivisions';
-import RecipeCassette from '../RecipeCassette/RecipeCassette';
-import FullModal from '../FullModal/FullModal';
+import RecipeCard from '../RecipeCard';
+import RecipeDetailModal from '../RecipeDetailModal';
 import { Recipe } from '../../types';
 
-export default function IndexRecipe() {
+export default function WeeklyMenu() {
 	const [recipe] = useRecipe();
 	const [divisions] = useDivisions();
 	const [modalItem, setModalItem] = useState<Recipe>();
@@ -20,7 +20,7 @@ export default function IndexRecipe() {
 			<ul>
 				{recipe.map((item, index) => (
 					<li key={index}>
-						<RecipeCassette
+						<RecipeCard
 							item={{
 								divisions: divisions[index],
 								image: item.foodImageUrl,
@@ -36,7 +36,7 @@ export default function IndexRecipe() {
 					</li>
 				))}
 			</ul>
-			<FullModal
+			<RecipeDetailModal
 				item={modalItem}
 				isOpen={isModalOpen}
 				setIsOpen={setIsModalOpen}

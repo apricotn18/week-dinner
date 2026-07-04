@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRecipe } from '../../hooks/useRecipe';
 import { useDivisions } from '../../hooks/useDivisions';
-import RecipeCassette from '../RecipeCassette/RecipeCassette';
-import FullModal from '../FullModal/FullModal';
+import RecipeCard from '../RecipeCard';
+import RecipeDetailModal from '../RecipeDetailModal';
 import style from './style.module.scss';
 import { Recipe } from '../../types';
 
@@ -11,7 +11,7 @@ type Props = {
 	setItem: React.Dispatch<React.SetStateAction<Recipe | null>>;
 };
 
-export default function ChangeModal(props: Props) {
+export default function RecipeSwapModal(props: Props) {
 	const [recipe] = useRecipe();
 	const [divisions] = useDivisions();
 	const [index, setIndex] = useState<number>(0);
@@ -63,7 +63,7 @@ export default function ChangeModal(props: Props) {
 					</div>
 					<div className={style.contents}>
 						<div className={style.cassette}>
-							<RecipeCassette
+							<RecipeCard
 								item={{
 									image: prevItem.foodImageUrl,
 									title: prevItem.recipeTitle,
@@ -78,7 +78,7 @@ export default function ChangeModal(props: Props) {
 						</div>
 						<div className={style.arrow}></div>
 						<div className={style.cassette}>
-							<RecipeCassette
+							<RecipeCard
 								item={{
 									image: nextItem.foodImageUrl,
 									title: nextItem.recipeTitle,
@@ -102,7 +102,7 @@ export default function ChangeModal(props: Props) {
 					</div>
 				</div>
 			</div>
-			<FullModal
+			<RecipeDetailModal
 				item={fullModalItem}
 				isOpen={isFullModalOpen}
 				setIsOpen={setIsFullModalOpen}

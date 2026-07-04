@@ -1,6 +1,6 @@
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
-import ChangeRecipe from '../components/ChangeRecipe/ChangeRecipe';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import RecipeSwapList from '../components/RecipeSwapList';
 
 export default function List() {
 	return (
@@ -8,7 +8,7 @@ export default function List() {
 			<Header></Header>
 			<main>
 				<section className='wrapper'>
-					<ChangeRecipe />
+					<RecipeSwapList />
 				</section>
 			</main>
 			<Footer></Footer>
