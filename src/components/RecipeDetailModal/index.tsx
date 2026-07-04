@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import RecipeDetail from '../RecipeDetail/RecipeDetail';
+import RecipeDetail from '../RecipeDetail';
 import style from './style.module.scss';
 import { Recipe } from '../../types';
 
@@ -9,7 +9,7 @@ type Props = {
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function FullModal(props: Props) {
+export default function RecipeDetailModal(props: Props) {
 	const ref = useRef<HTMLDivElement>(null!);
 	const recipe = props.item || {
 		recipeTitle: '',

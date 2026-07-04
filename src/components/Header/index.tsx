@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import HeaderMenu from '../HeaderMenu/HeaderMenu';
+import NavMenu from '../NavMenu';
 import style from './style.module.scss';
 import image_logo from '../../../public/images/logo.png';
 
@@ -27,9 +27,11 @@ export default function Header() {
 					type="button"
 					className={style.button}
 					onClick={() => setIsOpen(!isOpen)}
-				></button>
+				>
+					<span></span>
+				</button>
 			</div>
-			<HeaderMenu
+			<NavMenu
 				isOpen={isOpen}
 				setIsOpen={setIsOpen}
 			/>

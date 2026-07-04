@@ -1,6 +1,6 @@
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
-import IndexRecipe from '../components/IndexRecipe/IndexRecipe';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import WeeklyMenu from '../components/WeeklyMenu';
 
 export default function Index() {
 	return (
@@ -8,7 +8,7 @@ export default function Index() {
 			<Header></Header>
 			<main>
 				<section className="wrapper">
-					<IndexRecipe />
+					<WeeklyMenu />
 				</section>
 			</main>
 			<Footer></Footer>

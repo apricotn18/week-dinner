@@ -12,7 +12,7 @@ type Props = {
 	handleClick: () => void;
 };
 
-export default function RecipeCassette(props: Props) {
+export default function RecipeCard(props: Props) {
 	if (!props.item) return;
 
 	return (

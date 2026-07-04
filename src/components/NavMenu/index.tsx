@@ -24,7 +24,7 @@ const meun: {
 	}
 ];
 
-export default function HeaderMenu(props: Props) {
+export default function NavMenu(props: Props) {
 	return (
 		<div
 			className={style.wrapper}
