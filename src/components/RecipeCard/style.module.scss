@@ -6,7 +6,6 @@
 	width: 100%;
 	background-color: #fff;
 	overflow: hidden;
-	transition:.2s ease;
 }
 
 .image {
@@ -27,7 +26,7 @@
 .header {
 	display: flex;
 	align-items: center;
-	gap: .4em;
+	gap: .6em;
 }
 
 .division {
@@ -47,7 +46,7 @@
 	&::before {
 		content: "⏱";
 		margin-right: 2px;
-		font-size: .9em;
+		font-size: 1em;
 	}
 }
 
@@ -60,8 +59,8 @@
 
 	&::before {
 		content: "¥";
-		margin-right: 1px;
-		font-size: .85em;
+		margin-right: 1.5px;
+		font-size: 1em;
 	}
 }
 

@@ -171,10 +171,4 @@
 	letter-spacing: .04em;
 	border-radius: var.$radius-full;
 	box-shadow: 0 4px 12px rgba(93, 72, 62, .25);
-	transition: transform .15s ease, box-shadow .15s ease;
-
-	&:hover {
-		opacity: 1;
-		box-shadow: 0 6px 16px rgba(93, 72, 62, .35);
-	}
 }

@@ -23,7 +23,6 @@
 		margin-left: auto;
 		color: var.$gray-color;
 		font-size: 1.2em;
-		transition: transform .2s ease;
 	}
 }
 
@@ -46,9 +45,4 @@
 	border-radius: var.$radius-md;
 	background-color: #fff;
 	box-shadow: var.$shadow-md;
-	transition: transform .2s ease, box-shadow .2s ease;
-
-	&:hover {
-		box-shadow: var.$shadow-lg;
-	}
 }

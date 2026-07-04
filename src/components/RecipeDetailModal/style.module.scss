@@ -9,7 +9,7 @@
 	height: 100%;
 	z-index: var.$full-modal-index;
 	overflow: hidden;
-	transition: top .35s cubic-bezier(0.32, 0.72, 0, 1);
+	transition: top .35s;
 
 	&.isOpen {
 		top: 0;

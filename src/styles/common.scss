@@ -48,7 +48,7 @@ button, select {
 	font: inherit;
 	color: inherit;
 	cursor: pointer;
-	transition: opacity .2s ease, transform .15s ease;
+	transition: opacity .2s ease;
 	&:hover {
 		opacity: .8;
 	}

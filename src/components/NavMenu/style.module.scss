@@ -18,8 +18,7 @@
 .inner {
 	position: fixed;
 	top: var.$header-height;
-	left: 0;
-	width: 100%;
+	right: 0;
 	padding: 8px 12px;
 }
 
@@ -41,7 +40,7 @@
 
 .link {
 	display: block;
-	padding: 16px 16px 14px;
+	padding: 16px 20px 14px;
 	font-size: 14px;
 	font-weight: 500;
 	color: var.$main-color;
