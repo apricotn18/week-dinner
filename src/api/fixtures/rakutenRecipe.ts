@@ -114,7 +114,9 @@ class RakutenRecipe {
 			const data = await response.json();
 			return data.result as Recipe[];
 		} catch {
-			return FIXTURE.result as Recipe[];
+			const all = FIXTURE.result as Recipe[];
+			const shuffled = [...all].sort(() => Math.random() - 0.5);
+			return shuffled.slice(0, 8);
 		}
 	}
 
