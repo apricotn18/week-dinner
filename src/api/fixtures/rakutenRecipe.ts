@@ -1,9 +1,9 @@
-import { Recipe, Category } from '../types';
-import categoryRankingFixture from './fixtures/categoryRanking.sample.json';
+import { Recipe, Category } from '../../types';
 
 const APPLICATION_ID = '1099641121016352250';
 const CATEGORY_RANKING_URL = 'https://openapi.rakuten.co.jp/recipems/api/Recipe/CategoryRanking/20170426';
 const CATEGORY_LIST_URL = 'https://openapi.rakuten.co.jp/recipems/api/Recipe/CategoryList/20170426';
+const FIXTURE = process.env.NEXT_PUBLIC_SAMPLE_DATA ? JSON.parse(process.env.NEXT_PUBLIC_SAMPLE_DATA) : null;
 
 type Data = {
 	date: [number, number, number];
@@ -58,7 +58,8 @@ class RakutenRecipe {
 
 		if (prevData) {
 			const CALC_DATE = 1000 * 60 * 60 * 24;
-			const originalDate = new Date(...prevData.date).getTime(); // ローカルストレージから日付を生成
+			// ローカルストレージから日付を生成
+			const originalDate = new Date(...prevData.date).getTime();
 			const nextDate = new Date(...today).getTime(); // 今日
 			const elapsedDays = Math.floor((nextDate - originalDate) / CALC_DATE);
 			// 経過日数分のレシピを削除
@@ -113,15 +114,10 @@ class RakutenRecipe {
 			const data = await response.json();
 			return data.result as Recipe[];
 		} catch {
-			// APIが利用できない場合はサンプルデータで代替する
-			return categoryRankingFixture.result as Recipe[];
+			return FIXTURE.result as Recipe[];
 		}
 	}
 
-	/**
-	 * カテゴリ一覧 取得
-	 * @return {Promise} Category
-	*/
 	async getCategory (): Promise<Category[]> {
 		const param: Record<string, string> = {
 			format: 'json',
@@ -129,14 +125,19 @@ class RakutenRecipe {
 			applicationId: APPLICATION_ID,
 		};
 		const query = new URLSearchParams(param);
-		const response = await fetch(`${CATEGORY_LIST_URL}?${query.toString()}`);
 
-		if (!response.ok) {
-			throw new Error(`楽天レシピカテゴリの取得に失敗しました (status: ${response.status})`);
+		try {
+			const response = await fetch(`${CATEGORY_LIST_URL}?${query.toString()}`);
+
+			if (!response.ok) {
+				throw new Error(`楽天レシピカテゴリの取得に失敗しました (status: ${response.status})`);
+			}
+
+			const data = await response.json();
+			return data.result.large as Category[];
+		} catch {
+			return [];
 		}
-
-		const data = await response.json();
-		return data.result.large as Category[];
 	}
 
 	/**

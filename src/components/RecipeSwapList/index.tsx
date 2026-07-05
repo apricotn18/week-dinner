@@ -1,15 +1,41 @@
 import { useState, useEffect } from 'react';
-import { useCategory } from '../../hooks/useCategory';
-import Accordion from '../Accordion';
+import RakutenRecipe from '../../api/fixtures/rakutenRecipe';
 import RecipeCard from '../RecipeCard';
 import RecipeSwapModal from '../RecipeSwapModal';
 import style from './style.module.scss';
-import { Recipe } from '../../types';
+import { Recipe, Divisions } from '../../types';
 
-export default function RecipeSwapList() {
+const rakutenRecipe = new RakutenRecipe();
+
+type Props = {
+	recipe: Recipe[];
+	divisions: Divisions;
+	onSwap: (targetIndex: number, newRecipe: Recipe) => void;
+};
+
+export default function RecipeSwapList(props: Props) {
+	const [recipes, setRecipes] = useState<Recipe[]>([]);
 	const [modalItem, setModalItem] = useState<Recipe | null>(null);
-	const [disabled, setDisabled] = useState<boolean>(false);
-	const [category, getCategoryRecipe] = useCategory();
+
+	useEffect(() => {
+		const ids = rakutenRecipe.categoryIdList;
+		const id1 = ids[Math.floor(Math.random() * ids.length)];
+		const id2 = ids[Math.floor(Math.random() * ids.length)];
+
+		Promise.all([
+			rakutenRecipe.fetchRanking(id1),
+			rakutenRecipe.fetchRanking(id2),
+		]).then(([r1, r2]) => {
+			const indexIds = new Set(props.recipe.map(r => r.recipeId));
+			const seen = new Set<string>();
+			const merged = [...r1, ...r2].filter(r => {
+				if (seen.has(r.recipeId) || indexIds.has(r.recipeId)) return false;
+				seen.add(r.recipeId);
+				return true;
+			});
+			setRecipes(merged);
+		});
+	}, []);
 
 	useEffect(() => {
 		document.body.style.overflow = !!modalItem ? 'hidden' : '';
@@ -18,47 +44,29 @@ export default function RecipeSwapList() {
 	return (
 		<>
 			<ul>
-				{category.map((item) => (
-					<li key={item.categoryId} className={style.wrapper}>
-						<Accordion
-							style={style.button}
-							text={item.categoryName}
-							handleClick={async () => {
-								if (item.categoryId) {
-									setDisabled(true);
-									await getCategoryRecipe(item.categoryId);
-									setDisabled(false);
-								}
+				{recipes.map((item, index) => (
+					<li key={index} className={style.cassette}>
+						<RecipeCard
+							item={{
+								image: item.foodImageUrl,
+								title: item.recipeTitle,
+								time: item.recipeIndication,
+								price: item.recipeCost,
 							}}
-							disabled={disabled}
-						>
-							{item.recipes ?
-								<ul className={style.cassetteList}>
-									{item.recipes.map((recipe, index) => (
-										<li key={index} className={style.cassette}>
-											<RecipeCard
-												item={{
-													image: recipe.foodImageUrl,
-													title: recipe.recipeTitle,
-													time: recipe.recipeIndication,
-													price: recipe.recipeCost,
-												}}
-												handleClick={() => setModalItem(recipe)}
-											/>
-										</li>
-									))}
-								</ul>
-							: ''}
-						</Accordion>
+							handleClick={() => setModalItem(item)}
+						/>
 					</li>
 				))}
 			</ul>
-			{modalItem ?
+			{modalItem &&
 				<RecipeSwapModal
+					recipe={props.recipe}
+					divisions={props.divisions}
 					nextItem={modalItem}
 					setItem={setModalItem}
+					onSwap={props.onSwap}
 				/>
-			: ''}
+			}
 		</>
 	)
 }

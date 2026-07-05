@@ -1,26 +1,24 @@
-import { useState, useEffect, useRef } from 'react';
-import { useRecipe } from '../../hooks/useRecipe';
-import { useDivisions } from '../../hooks/useDivisions';
+import { useState, useRef } from 'react';
 import RecipeCard from '../RecipeCard';
 import RecipeDetailModal from '../RecipeDetailModal';
 import style from './style.module.scss';
-import { Recipe } from '../../types';
+import { Recipe, Divisions } from '../../types';
 
 type Props = {
+	recipe: Recipe[];
+	divisions: Divisions;
 	nextItem?: Recipe;
 	setItem: React.Dispatch<React.SetStateAction<Recipe | null>>;
+	onSwap: (targetIndex: number, newRecipe: Recipe) => void;
 };
 
 export default function RecipeSwapModal(props: Props) {
-	const [recipe] = useRecipe();
-	const [divisions] = useDivisions();
 	const [index, setIndex] = useState<number>(0);
 	const [fullModalItem, setFullModalItem] = useState<Recipe>();
 	const [isFullModalOpen, setIsFullModalOpen] = useState<boolean>(false);
-	const ref = useRef<HTMLDivElement>(null!);
 	const selectbox = useRef<HTMLSelectElement>(null!);
 
-	const prevItem = recipe[index];
+	const prevItem = props.recipe[index];
 	const nextItem = props.nextItem || {
 		recipeTitle: '',
 		recipeCost: '',
@@ -31,6 +29,12 @@ export default function RecipeSwapModal(props: Props) {
 		recipeMaterial: [],
 	};
 
+	const handleSwap = () => {
+		if (!props.nextItem) return;
+		props.onSwap(index, props.nextItem);
+		props.setItem(null);
+	};
+
 	return (
 		<>
 			<div className={style.wrapper}>
@@ -39,7 +43,7 @@ export default function RecipeSwapModal(props: Props) {
 					className={style.background}
 					onClick={() => props.setItem(null)}
 				></button>
-				<div className={style.inner} ref={ref}>
+				<div className={style.inner}>
 					<div className={style.header}>
 						<div className={style.selectWrapper}>
 							<select
@@ -47,8 +51,8 @@ export default function RecipeSwapModal(props: Props) {
 								onChange={() => setIndex(parseInt(selectbox.current.value))}
 								ref={selectbox}
 							>
-								{divisions.map((item, index) => (
-									<option value={index}>{item}</option>
+								{props.divisions.map((item, i) => (
+									<option key={i} value={i}>{item}</option>
 								))}
 							</select>
 							のレシピと入れ替え
@@ -65,10 +69,10 @@ export default function RecipeSwapModal(props: Props) {
 						<div className={style.cassette}>
 							<RecipeCard
 								item={{
-									image: prevItem.foodImageUrl,
-									title: prevItem.recipeTitle,
-									time: prevItem.recipeIndication,
-									price: prevItem.recipeCost,
+									image: prevItem?.foodImageUrl,
+									title: prevItem?.recipeTitle,
+									time: prevItem?.recipeIndication,
+									price: prevItem?.recipeCost,
 								}}
 								handleClick={() => {
 									setFullModalItem(prevItem);
@@ -95,6 +99,7 @@ export default function RecipeSwapModal(props: Props) {
 							<button
 								type="button"
 								className={style.button}
+								onClick={handleSwap}
 							>
 								登録する
 							</button>

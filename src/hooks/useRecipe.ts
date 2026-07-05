@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import RakutenRecipe from '../api/rakutenRecipe';
+import RakutenRecipe from '../api/fixtures/rakutenRecipe';
 import { Recipe } from '../types';
 
 const rakutenRecipe = new RakutenRecipe();
