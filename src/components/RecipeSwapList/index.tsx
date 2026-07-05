@@ -48,6 +48,7 @@ export default function RecipeSwapList(props: Props) {
 
 	return (
 		<>
+			<p className={style.lead}>入れ替えたいレシピを選んでください</p>
 			<ul className={style.list}>
 				{recipes.map((item, index) => (
 					<li key={index} className={style.cassette}>

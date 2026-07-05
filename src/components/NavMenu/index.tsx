@@ -15,8 +15,8 @@ const meun: {
 		text: 'トップ',
 	},
 	{
-		href: '/list',
-		text: '材料リスト',
+		href: '/chat',
+		text: 'チャットからレシピ変更',
 	},
 	{
 		href: '/change',
