@@ -1,5 +1,4 @@
-import { useState, useRef } from 'react';
-import RecipeCard from '../RecipeCard';
+import { useState } from 'react';
 import RecipeDetailModal from '../RecipeDetailModal';
 import style from './style.module.scss';
 import { Recipe, Divisions } from '../../types';
@@ -14,24 +13,14 @@ type Props = {
 
 export default function RecipeSwapModal(props: Props) {
 	const [index, setIndex] = useState<number>(0);
-	const [fullModalItem, setFullModalItem] = useState<Recipe>();
-	const [isFullModalOpen, setIsFullModalOpen] = useState<boolean>(false);
-	const selectbox = useRef<HTMLSelectElement>(null!);
+	const [detailItem, setDetailItem] = useState<Recipe | undefined>(undefined);
 
 	const prevItem = props.recipe[index];
-	const nextItem = props.nextItem || {
-		recipeTitle: '',
-		recipeCost: '',
-		recipeDescription: '',
-		recipeIndication: '',
-		recipeUrl: '',
-		foodImageUrl: '',
-		recipeMaterial: [],
-	};
+	const nextItem = props.nextItem;
 
 	const handleSwap = () => {
-		if (!props.nextItem) return;
-		props.onSwap(index, props.nextItem);
+		if (!nextItem) return;
+		props.onSwap(index, nextItem);
 		props.setItem(null);
 	};
 
@@ -40,78 +29,91 @@ export default function RecipeSwapModal(props: Props) {
 			<div className={style.wrapper}>
 				<button
 					type="button"
-					className={style.background}
+					className={style.backdrop}
 					onClick={() => props.setItem(null)}
-				></button>
-				<div className={style.inner}>
-					<div className={style.header}>
-						<div className={style.selectWrapper}>
-							<select
-								className={style.select}
-								onChange={() => setIndex(parseInt(selectbox.current.value))}
-								ref={selectbox}
-							>
-								{props.divisions.map((item, i) => (
-									<option key={i} value={i}>{item}</option>
-								))}
-							</select>
-							のレシピと入れ替え
-						</div>
-						<div className={style.closeButtonWrapper}>
-							<button
-								type="button"
-								className={style.closeButton}
-								onClick={() => props.setItem(null)}
-							></button>
-						</div>
+				/>
+				<div className={style.modal}>
+					<div className={style.modalHeader}>
+						<span className={style.modalTitle}>レシピを入れ替える</span>
+						<button
+							type="button"
+							className={style.closeButton}
+							onClick={() => props.setItem(null)}
+						/>
 					</div>
-					<div className={style.contents}>
-						<div className={style.cassette}>
-							<RecipeCard
-								item={{
-									image: prevItem?.foodImageUrl,
-									title: prevItem?.recipeTitle,
-									time: prevItem?.recipeIndication,
-									price: prevItem?.recipeCost,
-								}}
-								handleClick={() => {
-									setFullModalItem(prevItem);
-									setIsFullModalOpen(true);
-								}}
-							/>
+
+					<div className={style.body}>
+						<button
+							type="button"
+							className={style.nextCard}
+							onClick={() => setDetailItem(nextItem)}
+						>
+							{nextItem?.foodImageUrl && (
+								<div
+									className={style.nextThumb}
+									style={{ backgroundImage: `url(${nextItem.foodImageUrl})` }}
+								/>
+							)}
+							<div className={style.nextInfo}>
+								<div className={style.titleRow}>
+									<span className={style.title}>{nextItem?.recipeTitle}</span>
+								</div>
+								<div className={style.meta}>
+									{nextItem?.recipeIndication && (
+										<span className={style.metaItem}>⏱ {nextItem.recipeIndication}</span>
+									)}
+									{nextItem?.recipeCost && (
+										<span className={style.metaItem}>¥ {nextItem.recipeCost}</span>
+									)}
+								</div>
+							</div>
+						</button>
+
+						{/* 曜日ピル */}
+						<p className={style.sectionLabel}>入れ替えるレシピ</p>
+						<div className={style.pills}>
+							{props.divisions.map((label, i) => (
+								<button
+									key={i}
+									type="button"
+									className={`${style.pill} ${i === index ? style.pillActive : ''}`}
+									onClick={() => setIndex(i)}
+								>
+									{label}
+								</button>
+							))}
 						</div>
-						<div className={style.arrow}></div>
-						<div className={style.cassette}>
-							<RecipeCard
-								item={{
-									image: nextItem.foodImageUrl,
-									title: nextItem.recipeTitle,
-									time: nextItem.recipeIndication,
-									price: nextItem.recipeCost,
-								}}
-								handleClick={() => {
-									setFullModalItem(nextItem);
-									setIsFullModalOpen(true);
-								}}
-							/>
-						</div>
-						<div className={style.buttonWrapper}>
-							<button
-								type="button"
-								className={style.button}
-								onClick={handleSwap}
-							>
-								登録する
-							</button>
-						</div>
+						<p className={style.sectionLabel}>現在のレシピ</p>
+						<button
+							type="button"
+							className={style.currentRow}
+							onClick={() => setDetailItem(prevItem)}
+						>
+							{prevItem?.foodImageUrl && (
+								<div
+									className={style.currentThumb}
+									style={{ backgroundImage: `url(${prevItem.foodImageUrl})` }}
+								/>
+							)}
+							<span className={style.currentTitle}>{prevItem?.recipeTitle}</span>
+						</button>
+
+						<button
+							type="button"
+							className={style.swapButton}
+							onClick={handleSwap}
+						>
+							登録する
+						</button>
 					</div>
 				</div>
 			</div>
+
 			<RecipeDetailModal
-				item={fullModalItem}
-				isOpen={isFullModalOpen}
-				setIsOpen={setIsFullModalOpen}
+				item={detailItem}
+				isOpen={!!detailItem}
+				setIsOpen={(open) => { if (!open) setDetailItem(undefined); }}
 			/>
 		</>
-	)
+	);
 }

@@ -26,20 +26,15 @@
 	}
 }
 
-.cassetteList {
+.list {
 	display: flex;
-	overflow: auto;
-	padding: 0 14px 16px;
-	gap: 10px;
-
-	&::-webkit-scrollbar {
-		display: none;
-	}
+	flex-wrap: wrap;
+	padding: 20px 14px;
+	gap: 14px;
 }
 
 .cassette {
-	width: 220px;
-	min-width: 220px;
+	width: calc(50% - 7px);
 	overflow: hidden;
 	font-size: 15px;
 	border-radius: var.$radius-md;

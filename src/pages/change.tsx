@@ -4,6 +4,7 @@ import RecipeSwapList from '../components/RecipeSwapList';
 import { useRecipe } from '../hooks/useRecipe';
 import { useDivisions } from '../hooks/useDivisions';
 import { Recipe } from '../types';
+import style from './change.module.scss';
 
 export default function Change() {
 	const [recipe, setRecipe] = useRecipe();
@@ -30,7 +31,8 @@ export default function Change() {
 		<>
 			<Header></Header>
 			<main>
-				<section className='wrapper'>
+				<section className="wrapper">
+					<p className={style.lead}>入れ替えたいレシピを選んでください</p>
 					<RecipeSwapList
 						recipe={recipe}
 						divisions={divisions}

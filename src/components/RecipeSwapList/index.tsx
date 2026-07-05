@@ -14,6 +14,7 @@ type Props = {
 };
 
 export default function RecipeSwapList(props: Props) {
+	const [rawRecipes, setRawRecipes] = useState<Recipe[]>([]);
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 	const [modalItem, setModalItem] = useState<Recipe | null>(null);
 
@@ -26,16 +27,20 @@ export default function RecipeSwapList(props: Props) {
 			rakutenRecipe.fetchRanking(id1),
 			rakutenRecipe.fetchRanking(id2),
 		]).then(([r1, r2]) => {
-			const indexIds = new Set(props.recipe.map(r => r.recipeId));
-			const seen = new Set<string>();
-			const merged = [...r1, ...r2].filter(r => {
-				if (seen.has(r.recipeId) || indexIds.has(r.recipeId)) return false;
-				seen.add(r.recipeId);
-				return true;
-			});
-			setRecipes(merged);
+			setRawRecipes([...r1, ...r2]);
 		});
 	}, []);
+
+	useEffect(() => {
+		const indexIds = new Set(props.recipe.map(r => r.recipeId));
+		const seen = new Set<string>();
+		const merged = rawRecipes.filter(r => {
+			if (seen.has(r.recipeId) || indexIds.has(r.recipeId)) return false;
+			seen.add(r.recipeId);
+			return true;
+		});
+		setRecipes(merged);
+	}, [rawRecipes, props.recipe]);
 
 	useEffect(() => {
 		document.body.style.overflow = !!modalItem ? 'hidden' : '';
@@ -43,7 +48,7 @@ export default function RecipeSwapList(props: Props) {
 
 	return (
 		<>
-			<ul>
+			<ul className={style.list}>
 				{recipes.map((item, index) => (
 					<li key={index} className={style.cassette}>
 						<RecipeCard
